@@ -5,5 +5,8 @@ pragma solidity ^0.8.28;
 // import "hardhat/console.sol";
 
 contract MyERC20{
+     function mint() public payable{
+
+    }
     
 }
