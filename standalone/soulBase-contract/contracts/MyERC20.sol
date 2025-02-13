@@ -19,6 +19,7 @@ contract MyERC20 is ERC20{
     }
 
     event MyERC20Minted(address indexed account, uint256 amount);
+    event OwnerAction();
 
     constructor(address payable treasury) ERC20("My ERC20 Token", "MyERC20"){
         MAX_SUPPLY = 1000000 * 10**decimals();
@@ -35,6 +36,7 @@ contract MyERC20 is ERC20{
     //Tax 유무
     function toggleTax() external onlyOwner{
         isTaxOn = !isTaxOn;
+        emit OwnerAction();
     }
 
     function _update(address from, address to, uint256 value) internal override {
