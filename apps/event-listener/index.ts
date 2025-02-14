@@ -4,21 +4,27 @@ import { MyERC20__factory } from '../../standalone/soulBase-contract/typechain-t
 
 import 'dotenv/config';
 
-const main = () => {
-  const infuraWssUrl = `wss://polygon-amoy.infura.io/v3/${process.env.INFURA_KEY}`;
+const main = async () => {
+  const infuraWssUrl = `wss://polygon-amoy.infura.io/ws/v3/${process.env.INFURA_KEY}`;
+  console.log(`Connecting to WebSocket: ${infuraWssUrl}`);
 
   const provider = new ethers.WebSocketProvider(infuraWssUrl);
 
+  try {
+    await provider.ready;
+    console.log('WebSocket connected');
+  } catch (error) {
+    console.error('Error connecting to WebSocket:', error);
+    return;
+  }
   const contract = MyERC20__factory.connect(contractAddress, provider);
 
-  try {
-    contract.on(contract.filters['MyERC20Minted'], () => {
-      console.log(`Event: MyERC20 Token Minted 🪙`);
-    });
+  contract.on(contract.filters['MyERC20Minted'], (account, amount) => {
+    console.log(
+      `Event:  ${amount.toString()} MyERC20 Token Minted for ${account}🪙`,
+    );
+  });
 
-    console.log('Event: MyERC20Minted Listening...');
-  } catch (error) {
-    console.error('Event: MyERC20Minted: Listener setup failed', error);
-  }
+  console.log('Event: MyERC20Minted Listening...');
 };
 main();
