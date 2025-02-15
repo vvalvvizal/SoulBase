@@ -7,9 +7,13 @@
     "hardhat": "^2.22.18"
   },
   "scripts": {
-    "deploy": "npx hardhat ignition deploy ./ignition/modules/MyERC20.ts"
+    "deploy:baseball": "npx hardhat ignition deploy ./ignition/modules/BaseballToken.ts",
+    "deploy:sbt": "npx hardhat ignition deploy ./ignition/modules/AchievementSBT.ts",
+    "deploy:sbtminter": "npx hardhat ignition deploy ./ignition/modules/SBTMinter.ts",
+    "deploy": "npm run deploy:baseball && npm run deploy:sbt && npm run deploy:sbtminter"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.2.0"
+    "@openzeppelin/contracts": "4.9",
+    "erc5192": "^0.0.1"
   }
 }
