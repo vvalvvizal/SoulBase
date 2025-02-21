@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import { contractAddress } from './util';
-import { MyERC20__factory } from '../../standalone/soulBase-contract/typechain-types';
+import { BBTcontractAddress } from './util';
+import { BaseballToken__factory } from '../../standalone/soulBase-contract/typechain-types';
 
 import 'dotenv/config';
 
@@ -17,14 +17,18 @@ const main = async () => {
     console.error('Error connecting to WebSocket:', error);
     return;
   }
-  const contract = MyERC20__factory.connect(contractAddress, provider);
+  const contract = BaseballToken__factory.connect(BBTcontractAddress, provider);
 
-  contract.on(contract.filters['MyERC20Minted'], (account, amount) => {
-    console.log(
-      `Event:  ${amount.toString()} MyERC20 Token Minted for ${account}🪙`,
-    );
-  });
+  try {
+    contract.on(contract.filters['BaseballTokenMinted'], (account, amount) => {
+      console.log(
+        `Event:  ${amount.toString()} Baseball Token Minted for ${account}🪙`,
+      );
+    });
 
-  console.log('Event: MyERC20Minted Listening...');
+    console.log('Event: BaseballTokenMinted Listening...');
+  } catch (error) {
+    console.log('BaseballMinted event error', error);
+  }
 };
 main();

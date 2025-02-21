@@ -10,6 +10,8 @@ contract AchievementSBT is ERC5192{
   uint256 private _tokenIds;
   mapping(uint256 => string) private _tokenURIs;
 
+  event SBTMinted(address to, string _tokenURI);
+
   constructor(string memory _name, string memory _symbol, bool _isLocked)
     ERC5192(_name, _symbol, _isLocked)
   {
@@ -22,6 +24,8 @@ contract AchievementSBT is ERC5192{
 
     _mint(to, newTokenId);
     _tokenURIs[newTokenId] = _tokenURI;
+
+    emit SBTMinted(to, _tokenURI); //이벤트 발생
 
   //   if(isLocked){
   //     emit Locked(tokenId);

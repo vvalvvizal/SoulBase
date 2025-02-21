@@ -13,6 +13,5 @@ contract SBTMinter{
     function sbtMinter() public {
         address minter = address(this);
         sbt.Mint(minter, "ipfs://QmbJHzd3NyGA5cVw4iJN8VffXLH2eBojYGzeztkRzg1jca");
-
     }
 }
