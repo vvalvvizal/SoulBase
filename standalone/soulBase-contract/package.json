@@ -7,7 +7,9 @@
     "hardhat": "^2.22.18"
   },
   "scripts": {
-    "deploy:baseball": "npx hardhat ignition deploy ./ignition/modules/BaseballToken.ts",
+    "deploy:bbt": "npx hardhat ignition deploy ./ignition/modules/BaseballToken.ts",
+    "deploy:liquidityPool": "npx hardhat ignition deploy ./ignition/modules/LiquidityPool.ts",
+    "deploy:bbtRouter": "npx hardhat ignition deploy ./ignition/modules/BaseballTokenRouter.ts",
     "deploy:sbt": "npx hardhat ignition deploy ./ignition/modules/AchievementSBT.ts",
     "deploy:sbtminter": "npx hardhat ignition deploy ./ignition/modules/SBTMinter.ts",
     "deploy": "npm run deploy:baseball && npm run deploy:sbt && npm run deploy:sbtminter"

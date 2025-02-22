@@ -5,7 +5,7 @@ import { buildModule } from '@nomicfoundation/hardhat-ignition/modules';
 import { ethers } from 'hardhat';
 
 const SBTMinterModule = buildModule('SBTMinterModule', (m) => {
-  const SBTAddress = '0x0A976b28321370e4e207584D4F4A9A1c9Fa93bC1';
+  const SBTAddress = '0x5F0228D87d9DA668d121b4D17BE90f2740B8c6aB';
   const SBTMinter = m.contract('SBTMinter', [SBTAddress]);
 
   return { SBTMinter };

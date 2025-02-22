@@ -12,6 +12,7 @@ contract BaseballToken is ERC20, Ownable {
     event TokensBought(address indexed _account, uint256 amount);
     event BaseballTokenMinted(address indexed account, uint256 amount);
     event OwnerAction();
+    event FundsMoved();
 
     enum Phase{
         SEED,
@@ -22,8 +23,11 @@ contract BaseballToken is ERC20, Ownable {
 
     uint public MAX_SUPPLY;//토큰 발행량 
     uint public constant TAX = 2;// 0.02, 2% tx 
+    uint public constant EXCHANGE = 5;//1 ETH에 해당하는 BBT 토큰 수
     bool public isTaxOn = true;
     uint256 public totalContributed;
+    bool public isContractPaused;
+    bool public fundsAlreadyMoved;
     address payable public treasuryWallet; //비상금 주소
     address public bbtRouter;
 
@@ -46,6 +50,18 @@ contract BaseballToken is ERC20, Ownable {
         require(msg.sender == bbtRouter,"ONLY_ROUTER");
         _;
     }
+
+    modifier areFundsMoved(){
+        require(!fundsAlreadyMoved, "FUNDS_MOVED_TO_LP");
+        _;
+    }
+    modifier isPaused(){
+        require(!isContractPaused, "CONTRACT_PAUSED");
+        _;
+    }
+
+
+
     //배포된 라우터 계약 주소 
     function setRouterAddress(address _bbtRouter) external onlyOwner{
         require(address(bbtRouter)==address(0),"WRITE_ONCE");
@@ -56,7 +72,7 @@ contract BaseballToken is ERC20, Ownable {
         _mint(account, amount);
         emit BaseballTokenMinted(account, amount);
     }
-    function burn(address account, uint256 amount) external onlyOwner(){
+    function burn(address account, uint256 amount) external onlyOwner{
         _burn(account, amount * 10**decimals());
     }
     //교환 비율 반영된 금액 저장
@@ -65,7 +81,7 @@ contract BaseballToken is ERC20, Ownable {
         require(contributionsOf[msg.sender]+msg.value <= getIndividualLimit(), "ABOVE_MAX_INDIVIDUAL_CONTRUBUTION");
         require(totalContributed+msg.value <= getPhaseLimit(), "ABOVE_MAX_CONTRIBUTION");
 
-        uint256 tokenAmount = msg.value * 5; //1 ETH = 5 BBT
+        uint256 tokenAmount = msg.value * EXCHANGE; //1 ETH = 5 BBT
         balancesToClaim[msg.sender] += tokenAmount;
         contributionsOf[msg.sender] += msg.value;
         totalContributed += msg.value;
@@ -80,9 +96,20 @@ contract BaseballToken is ERC20, Ownable {
 
         super._transfer(address(this), msg.sender, tokensToClaim);
     }
+    //Phase 상태 업그레이드 SEED -> GENERAL -> OPEN
+    function advancePhase() external onlyOwner {
+        require(currentPhase != Phase.OPEN, "LAST_PHASE");
+        currentPhase = Phase(uint256(currentPhase) + 1);
+        emit OwnerAction();
+    }
     //Tax 유무
     function toggleTax() external onlyOwner{
         isTaxOn = !isTaxOn;
+        emit OwnerAction();
+    }
+    //컨트랙트 pause
+    function togglePauseContract() external onlyOwner{
+        isContractPaused = !isContractPaused;
         emit OwnerAction();
     }
     function canUserContribute(address account) public view returns (bool){
@@ -96,7 +123,7 @@ contract BaseballToken is ERC20, Ownable {
         else if(currentPhase==Phase.GENERAL){
             return 1000 ether;
         }
-        else {
+        else { //제한 없음
             return msg.value;
         }
     }
@@ -132,8 +159,10 @@ contract BaseballToken is ERC20, Ownable {
         return true;
     }
     //유동성 공급
-    function provideLiquidity(LiquidityPool liquidityPool) external onlyOwner{
+    function provideLiquidity(LiquidityPool liquidityPool) external onlyOwner areFundsMoved(){
         require(currentPhase == Phase.OPEN,"NOT_LAST_PHASE");
+
+        fundsAlreadyMoved = true;
         uint256 TokenAmountToTransfer = totalContributed * 5; //TokenAmountToTransfer의 maximum은 30k eth*5=150,000 tokens
         
         super._transfer(address(this),address(liquidityPool),TokenAmountToTransfer);
@@ -148,6 +177,7 @@ contract BaseballToken is ERC20, Ownable {
         uint256 remainingToken = balanceOf(address(this));
 
         super._transfer(address(this), address(treasuryWallet),remainingToken);
+        emit FundsMoved();
     }
 
 }

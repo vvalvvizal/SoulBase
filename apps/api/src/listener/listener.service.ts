@@ -1,7 +1,8 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { ethers } from 'ethers';
 import {
-  AchievementSBT,AchievementSBT__factory
+  AchievementSBT,
+  AchievementSBT__factory,
 } from '../../../../standalone/soulBase-contract/typechain-types';
 import { SBTcontractAddress } from 'src/common/utils';
 import { PrismaService } from 'src/common/prisma/prisma.service';
@@ -10,9 +11,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
   private provider: ethers.WebSocketProvider;
   private contract: AchievementSBT;
 
-  constructor(private readonly prisma:PrismaService){
-
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   onModuleInit() {
     this.initializeWebSocketProvider();
@@ -27,31 +26,32 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
     this.provider = new ethers.WebSocketProvider(infuraWssUrl);
 
     this.contract = AchievementSBT__factory.connect(
-        SBTcontractAddress,
+      SBTcontractAddress,
       this.provider,
     );
   }
   subscribeToEvents() {
     try {
-      //contract 함수 사용
-      this.contract.on(
-        this.contract.filters[''],
-        (account, amount, event) => {
-           const blockNumber =  event.log.blockNumber
-           const timestamp = this.getBlockTimeStamp(blockNumber);
-
-           await this.prisma.user.
-        },
-      );
-      console.log('Event: BaseballTokenMinted Listening...')
-    } catch (error) {}
+      // //contract 함수 사용
+      // this.contract.on(
+      //   this.contract.filters[''],
+      //   (account, amount, event) => {
+      //      const blockNumber =  event.log.blockNumber
+      //      const timestamp = this.getBlockTimeStamp(blockNumber);
+      //      await this.prisma.user.
+      //   }
+      // );
+      // console.log('Event: BaseballTokenMinted Listening...')
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   cleanup() {
     this.provider.removeAllListeners();
   }
-  getBlockTimeStamp(blockNumber:number){
+  async getBlockTimeStamp(blockNumber: number) {
     const block = await this.provider.getBlock(blockNumber);
-    return new Date(block.timestamp)
+    return new Date(block.timestamp);
   }
 }

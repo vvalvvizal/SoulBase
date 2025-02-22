@@ -5,13 +5,19 @@ import "./AchievementSBT.sol";
 
 contract SBTMinter{
     AchievementSBT public sbt;
+    address public owner;
+
+    modifier onlyOwner (){
+        require(msg.sender == owner, "ONLY_OWNER");
+        _;
+    }
 
     constructor(address _sbtAddress){
+        owner = msg.sender;
         sbt = AchievementSBT(_sbtAddress);
     }
 
-    function sbtMinter() public {
-        address minter = address(this);
-        sbt.Mint(minter, "ipfs://QmbJHzd3NyGA5cVw4iJN8VffXLH2eBojYGzeztkRzg1jca");
+    function sbtMinter(address to, string memory CID) public onlyOwner {
+        sbt.Mint(to, CID);
     }
 }

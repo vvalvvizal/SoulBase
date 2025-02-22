@@ -17,12 +17,8 @@ contract BaseballTokenRouter {
     function addLiquidity(uint256 _tokenAmount) external payable {
         require(baseballToken.balanceOf(msg.sender) > 0, "NO_AVAILABLE_TOKENS");
 
-        bool success = baseballToken.increaseContractAllowance(msg.sender, address(this), _tokenAmount);(
-            msg.sender,
-            address(this),
-            _tokenAmount
-        );
-        require(success);
+        bool success = baseballToken.increaseContractAllowance(msg.sender, address(this), _tokenAmount); //msg.sender는 라우터
+        require(success,"Allowance increase failed");
 
         baseballToken.transferFrom(msg.sender, address(liquidityPool), _tokenAmount);
         liquidityPool.deposit{value: msg.value}(_tokenAmount, msg.sender);

@@ -11,6 +11,7 @@ contract AchievementSBT is ERC5192{
   mapping(uint256 => string) private _tokenURIs;
 
   event SBTMinted(address to, string _tokenURI);
+  event locked(uint256 tokenId);
 
   constructor(string memory _name, string memory _symbol, bool _isLocked)
     ERC5192(_name, _symbol, _isLocked)
@@ -25,16 +26,24 @@ contract AchievementSBT is ERC5192{
     _mint(to, newTokenId);
     _tokenURIs[newTokenId] = _tokenURI;
 
-    emit SBTMinted(to, _tokenURI); //이벤트 발생
+    emit SBTMinted(to, _tokenURI); 
 
-  //   if(isLocked){
-  //     emit Locked(tokenId);
-  // }
+    if(isLocked) {
+      emit locked(newTokenId);
+      //emit Locked(newTokenId);
+      }
+
   }
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+      require(_exists(tokenId), "AchievementSBT: URI query for nonexistent token");
+      return _tokenURIs[tokenId];
+  }
+
 
     //isLocked가 true인 상태에서 실행되면 안되는 Trnasfer 구문
   function safeTransfer(address from, address to, uint256 tokenId) public {
     require(!isLocked, "AchievementSBT: Token is locked and cannot be transferred.");
     transferFrom(from, to, tokenId); // Calls ERC721's transferFrom
 }
+
 }
