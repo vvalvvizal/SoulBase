@@ -16,11 +16,12 @@ contract BaseballTokenRouter {
     //유동성 추가 
     function addLiquidity(uint256 _tokenAmount) external payable {
         require(baseballToken.balanceOf(msg.sender) > 0, "NO_AVAILABLE_TOKENS");
+        //user->router approve 필요요
+        baseballToken.transferFrom(msg.sender, address(this), _tokenAmount); //Router get Token
 
-        bool success = baseballToken.increaseContractAllowance(msg.sender, address(this), _tokenAmount); //msg.sender는 라우터
-        require(success,"Allowance increase failed");
+        baseballToken.transfer(address(liquidityPool), _tokenAmount); //Router transfer to pool
 
-        baseballToken.transferFrom(msg.sender, address(liquidityPool), _tokenAmount);
+        //user->pool approve 필요
         liquidityPool.deposit{value: msg.value}(_tokenAmount, msg.sender);
     }
 
@@ -31,8 +32,7 @@ contract BaseballTokenRouter {
     }
     //토큰 교환 ETH -> BBT
     function swapTokens(uint256 _tokenAmount) external payable{
-       bool success = baseballToken.increaseContractAllowance(msg.sender, address(this), _tokenAmount);
-       require(success);
+        //user -> router approve 필요
        baseballToken.transferFrom(msg.sender, address(liquidityPool),_tokenAmount);
         liquidityPool.swap{value:msg.value}(_tokenAmount, msg.sender);
     }

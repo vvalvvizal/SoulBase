@@ -5,7 +5,7 @@ import { buildModule } from '@nomicfoundation/hardhat-ignition/modules';
 import { ethers } from 'hardhat';
 
 const LiquidityPoolModule = buildModule('LiquidityPoolModule', (m) => {
-  const BBTAddress = '0x96a78D45dAf135CB58CB04737061af35a3256930';
+  const BBTAddress = '0xE3fA7A2dFF3f9D5ede4adD2c82Bbd341B33b3bDD';
   const LiquidityPool = m.contract('LiquidityPool', [BBTAddress]);
 
   return { LiquidityPool };

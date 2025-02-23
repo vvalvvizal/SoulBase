@@ -84,9 +84,9 @@ contract LiquidityPool is Ownable, ERC20 {
 
         require(liquidity>0,"INSUFFICIENT_LIQUIDITY_MINTED");
 
-        ERC20(baseballToken).transferFrom(msg.sender, address(this),tokenAmount);
+        ERC20(baseballToken).transferFrom(account, address(this),tokenAmount);
         super._mint(account,liquidity);
-        liquidityProvided[msg.sender] += liquidity;
+        liquidityProvided[account] += liquidity;
         totalLiquidity += liquidity;
         _update();
         emit LiquidityAdded(account);

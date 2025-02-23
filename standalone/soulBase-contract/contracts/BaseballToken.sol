@@ -38,7 +38,6 @@ contract BaseballToken is ERC20, Ownable {
     constructor(address payable treasury) ERC20("Baseball Token", "BBT"){
         MAX_SUPPLY = 1000000 * 10**decimals(); //100만개 BBT토큰
         _mint(address(this), MAX_SUPPLY );//배포 시에 MAX_SUPPLY 만큼 발행
-         _transferOwnership(msg.sender); //owner 등록
         treasuryWallet = treasury;
     }
 
@@ -153,11 +152,7 @@ contract BaseballToken is ERC20, Ownable {
                 super._transfer(from, treasuryWallet, amountToTake);
             }
     }
-    //토큰 사용 한도 증가
-    function increaseContractAllowance(address _owner, address _spender, uint256 _amount) public onlyRouter returns(bool){
-        _approve(_owner, _spender,  allowance(msg.sender, address(this)) + _amount); //기존 allowance에 _amount 추가
-        return true;
-    }
+
     //유동성 공급
     function provideLiquidity(LiquidityPool liquidityPool) external onlyOwner areFundsMoved(){
         require(currentPhase == Phase.OPEN,"NOT_LAST_PHASE");
@@ -165,11 +160,14 @@ contract BaseballToken is ERC20, Ownable {
         fundsAlreadyMoved = true;
         uint256 TokenAmountToTransfer = totalContributed * 5; //TokenAmountToTransfer의 maximum은 30k eth*5=150,000 tokens
         
+         _approve(address(this), address(liquidityPool), TokenAmountToTransfer);
+         
         super._transfer(address(this),address(liquidityPool),TokenAmountToTransfer);
 
         liquidityPool.deposit{value: totalContributed}(
-            TokenAmountToTransfer, msg.sender
+            TokenAmountToTransfer, address(this)
         );
+
         sendRemainingFundsToTreasury();
     }
     //남은 금액 비상금 계좌로
@@ -179,5 +177,6 @@ contract BaseballToken is ERC20, Ownable {
         super._transfer(address(this), address(treasuryWallet),remainingToken);
         emit FundsMoved();
     }
+
 
 }
