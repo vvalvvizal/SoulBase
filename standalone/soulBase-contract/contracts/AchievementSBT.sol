@@ -34,12 +34,14 @@ contract AchievementSBT is ERC5192{
       }
 
   }
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+  function tokenURI(uint256 tokenId) public view override returns (string memory) {
       require(_exists(tokenId), "AchievementSBT: URI query for nonexistent token");
       return _tokenURIs[tokenId];
   }
-
-
+   function updateTokenURI(uint256 tokenId, string memory newTokenURI) external {
+    require(ownerOf(tokenId) == msg.sender, "AchievementSBT: Only the owner can update the token URI");
+    _tokenURIs[tokenId] = newTokenURI;
+  }
     //isLocked가 true인 상태에서 실행되면 안되는 Trnasfer 구문
   function safeTransfer(address from, address to, uint256 tokenId) public {
     require(!isLocked, "AchievementSBT: Token is locked and cannot be transferred.");

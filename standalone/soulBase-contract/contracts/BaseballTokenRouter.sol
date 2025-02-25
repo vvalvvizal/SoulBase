@@ -16,7 +16,7 @@ contract BaseballTokenRouter {
     //유동성 추가 
     function addLiquidity(uint256 _tokenAmount) external payable {
         require(baseballToken.balanceOf(msg.sender) > 0, "NO_AVAILABLE_TOKENS");
-        //user->router approve 필요요
+        //user->router approve 필요
         baseballToken.transferFrom(msg.sender, address(this), _tokenAmount); //Router get Token
 
         baseballToken.transfer(address(liquidityPool), _tokenAmount); //Router transfer to pool

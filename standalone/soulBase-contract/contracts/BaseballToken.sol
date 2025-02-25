@@ -154,7 +154,7 @@ contract BaseballToken is ERC20, Ownable {
         require(currentPhase == Phase.OPEN,"NOT_LAST_PHASE");
 
         fundsAlreadyMoved = true;
-        uint256 TokenAmountToTransfer = totalContributed * EXCHANGE; //TokenAmountToTransfer의 maximum은 30k eth*100= 30000 tokens
+        uint256 TokenAmountToTransfer = totalContributed * EXCHANGE; //TokenAmountToTransfer의 maximum은 30k eth*5= 150,000 tokens
         
          _approve(address(this), address(liquidityPool), TokenAmountToTransfer);//deposit 내부의 transferFrom
          
