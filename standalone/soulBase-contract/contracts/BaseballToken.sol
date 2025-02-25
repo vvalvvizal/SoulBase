@@ -41,10 +41,6 @@ contract BaseballToken is ERC20, Ownable {
         treasuryWallet = treasury;
     }
 
-    // modifier onlyOwner(){
-    //     require(msg.sender== owner, "ONLY_OWNER");
-    //     _;
-    // }
     modifier onlyRouter(){
         require(msg.sender == bbtRouter,"ONLY_ROUTER");
         _;
@@ -117,10 +113,10 @@ contract BaseballToken is ERC20, Ownable {
     //개별 기여 한도
     function getIndividualLimit() private view returns (uint256){
         if(currentPhase==Phase.SEED){
-            return 1500 ether;
+            return 1500 * 10**18;
         }
         else if(currentPhase==Phase.GENERAL){
-            return 1000 ether;
+            return 1000 * 10**18;
         }
         else { //제한 없음
             return msg.value;
@@ -129,10 +125,10 @@ contract BaseballToken is ERC20, Ownable {
     //전체 한도
     function getPhaseLimit() private view returns (uint256 limit){
         if(currentPhase==Phase.SEED){
-            limit = 15000 ether;
+            limit = 15000 * 10**18;
         }
         else if (currentPhase==Phase.GENERAL || currentPhase == Phase.OPEN){
-            limit = 30000 ether;
+            limit = 30000 * 10**18;
         }
     }
     //유저를 화리에 추가 
@@ -158,14 +154,14 @@ contract BaseballToken is ERC20, Ownable {
         require(currentPhase == Phase.OPEN,"NOT_LAST_PHASE");
 
         fundsAlreadyMoved = true;
-        uint256 TokenAmountToTransfer = totalContributed * 5; //TokenAmountToTransfer의 maximum은 30k eth*5=150,000 tokens
+        uint256 TokenAmountToTransfer = totalContributed * EXCHANGE; //TokenAmountToTransfer의 maximum은 30k eth*100= 30000 tokens
         
-         _approve(address(this), address(liquidityPool), TokenAmountToTransfer);
+         _approve(address(this), address(liquidityPool), TokenAmountToTransfer);//deposit 내부의 transferFrom
          
         super._transfer(address(this),address(liquidityPool),TokenAmountToTransfer);
 
         liquidityPool.deposit{value: totalContributed}(
-            TokenAmountToTransfer, address(this)
+            TokenAmountToTransfer, address(this), msg.sender
         );
 
         sendRemainingFundsToTreasury();
