@@ -14,7 +14,11 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
   constructor(private readonly prisma: PrismaService) {}
 
   onModuleInit() {
+    //  Initialie web socekt provider
     this.initializeWebSocketProvider();
+
+    //  Setup the event subscriber
+    this.subscribeToEvents();
   }
 
   onModuleDestroy() {
@@ -32,18 +36,40 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
   }
   subscribeToEvents() {
     try {
-      // //contract 함수 사용
-      // this.contract.on(
-      //   this.contract.filters[''],
-      //   (account, amount, event) => {
-      //      const blockNumber =  event.log.blockNumber
-      //      const timestamp = this.getBlockTimeStamp(blockNumber);
-      //      await this.prisma.user.
-      //   }
-      // );
-      // console.log('Event: BaseballTokenMinted Listening...')
+      //contract 함수 사용
+      this.contract.on(
+        this.contract.filters['SBTMinted'], //SBT 발생되었을 때 발생하는 이벤트
+        async (to, tokenId, metadataJSON_url) => {
+          const url = String(metadataJSON_url);
+          //세부 정보 JSON 가져오기
+          const metadata = await fetch(url).then((res) => res.json());
+
+          const player = await this.prisma.player.findFirst({
+            where: { user: { address: to } },
+          });
+
+          if (!player) {
+            console.log(`Event: Player not found for address: ${to}`);
+            return;
+          }
+
+          //Prisma DB에 저장
+          await this.prisma.sBT.create({
+            data: {
+              tokenId: BigInt(tokenId),
+              name: metadata.name,
+              description: metadata.description,
+              image_url: metadata.image,
+              metadataJSON_url: url,
+              playerId: player.id,
+            },
+          });
+          console.log(`Event: SBT ${tokenId} saved for player ${player.id}`);
+        },
+      );
+      console.log(`Event: SBTMinted Listening...`);
     } catch (error) {
-      console.log(error);
+      console.error(`Event: SBTCreated: Listener setup failed`, error);
     }
   }
 

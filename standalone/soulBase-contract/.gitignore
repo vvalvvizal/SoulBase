@@ -16,3 +16,5 @@ node_modules
 
 # 배포 후 생성되는 정보
 deployments/
+
+scripts/
