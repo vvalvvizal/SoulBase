@@ -8,10 +8,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
-  output   = "../ERD.svg"
-}
 
 datasource db {
   provider = "postgresql"
@@ -32,6 +28,8 @@ model SBT {
   metadataJSON_url String
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+  blockTimestamp   DateTime
+
 
   playerId Int
   player   Player @relation(fields: [playerId], references: [id])

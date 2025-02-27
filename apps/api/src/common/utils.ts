@@ -1,1 +1,1 @@
-export const SBTcontractAddress = '0xD258Eaaf65327b168cE354fD8e13Fc5d9Adf9888';
+export const SBTcontractAddress = '0x22e86C513905dfc55749004Af0d68E6D5eDBCC14';

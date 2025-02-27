@@ -2,11 +2,30 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './common/prisma/prisma.module';
-import { ListenerService } from './listener/listener.service';
+import { ListenerModule } from './listener/listener.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
+import { introspection } from '../../../standalone/soulBase-contract/typechain-types/@openzeppelin/contracts/utils';
+import { PlayersModule } from './models/players/players.module';
+import { UsersModule } from './models/users/users.module';
+import { SbtsModule } from './models/sbts/sbts.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      introspection: true,
+    }),
+    PrismaModule,
+    ListenerModule,
+
+    PlayersModule,
+    UsersModule,
+    SbtsModule,
+  ],
   controllers: [AppController],
-  providers: [AppService, ListenerService],
+  providers: [AppService],
 })
 export class AppModule {}

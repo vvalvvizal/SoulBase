@@ -13,7 +13,7 @@ contract AchievementSBT is ERC5192,Ownable{
   mapping(uint256 => string) private _tokenURIs;
 
   event SBTMinted(address to, uint256 tokenId, string metadataJSON_url);
-
+  event SBTUpdated(uint256 tokenId, string beforeURL, string afterURL );
   event locked(uint256 tokenId);
 
   modifier onlyRouter() {
@@ -52,7 +52,11 @@ contract AchievementSBT is ERC5192,Ownable{
   }
    function updateTokenURI(uint256 tokenId, string memory newTokenURI) external onlyRouter{
     require(_exists(tokenId), "AchievementSBT: URI for nonexistent token");
+
+    string memory oldTokenURI = _tokenURIs[tokenId]; 
     _tokenURIs[tokenId] = newTokenURI;
+
+    emit SBTUpdated(tokenId, oldTokenURI, newTokenURI); 
   }
     //isLocked가 true인 상태에서 실행되면 안되는 Trnasfer 구문
   function safeTransfer(address from, address to, uint256 tokenId) public {
