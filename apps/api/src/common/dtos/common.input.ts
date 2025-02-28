@@ -1,7 +1,6 @@
 import {
   ArgsType,
   Field,
-  Float,
   InputType,
   ObjectType,
   registerEnumType,
@@ -87,21 +86,6 @@ registerEnumType(Prisma.SortOrder, {
 @ObjectType()
 export class AggregateCountOutput {
   count: number;
-}
-
-@InputType()
-export class LocationFilterInput {
-  @Field(() => Float)
-  ne_lat: number;
-
-  @Field(() => Float)
-  ne_lng: number;
-
-  @Field(() => Float)
-  sw_lat: number;
-
-  @Field(() => Float)
-  sw_lng: number;
 }
 
 @ArgsType()

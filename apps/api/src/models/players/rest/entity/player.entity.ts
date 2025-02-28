@@ -1,8 +1,9 @@
-import { Player } from '@prisma/client'
-import { IsDate, IsString, IsInt } from 'class-validator'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import { Player } from '@prisma/client';
+import { RestrictProperties } from 'src/common/dtos/common.input';
 
 export class PlayerEntity implements RestrictProperties<PlayerEntity, Player> {
-
+  id: number;
+  name: string;
+  createdAt: Date;
+  userId: number;
 }
-

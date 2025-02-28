@@ -1,32 +1,40 @@
-import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
-import { SbtOrderByWithRelationInput } from './order-by.args'
-import { SbtWhereInput, SbtWhereUniqueInput } from './where.args'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import {
+  ArgsType,
+  Field,
+  registerEnumType,
+  PartialType,
+} from '@nestjs/graphql';
+import { Prisma } from '@prisma/client';
+import { SBTOrderByWithRelationInput } from './order-by.args';
+import { SBTWhereInput, SBTWhereUniqueInput } from './where.args';
+import { RestrictProperties } from 'src/common/dtos/common.input';
 
-registerEnumType(Prisma.SbtScalarFieldEnum, {
-  name: 'SbtScalarFieldEnum',
-})
+registerEnumType(Prisma.SBTScalarFieldEnum, {
+  name: 'SBTScalarFieldEnum',
+});
 
 @ArgsType()
-class FindManySbtArgsStrict
-  implements RestrictProperties<FindManySbtArgsStrict, Omit<Prisma.SbtFindManyArgs, 'include' | 'select'>>
+class FindManySBTArgsStrict
+  implements
+    RestrictProperties<
+      FindManySBTArgsStrict,
+      Omit<Prisma.SBTFindManyArgs, 'include' | 'select' | 'omit'>
+    >
 {
-  where: SbtWhereInput
-  orderBy: SbtOrderByWithRelationInput[]
-  cursor: SbtWhereUniqueInput
-  take: number
-  skip: number
-  @Field(() => [Prisma.SbtScalarFieldEnum])
-  distinct: Prisma.SbtScalarFieldEnum[]
+  where: SBTWhereInput;
+  orderBy: SBTOrderByWithRelationInput[];
+  cursor: SBTWhereUniqueInput;
+  take: number;
+  skip: number;
+
+  @Field(() => [Prisma.SBTScalarFieldEnum])
+  distinct: Prisma.SBTScalarFieldEnum[];
 }
 
 @ArgsType()
-export class FindManySbtArgs extends PartialType(
-  FindManySbtArgsStrict,
-) {}
+export class FindManySBTArgs extends PartialType(FindManySBTArgsStrict) {}
 
 @ArgsType()
-export class FindUniqueSbtArgs {
-  where: SbtWhereUniqueInput
+export class FindUniqueSBTArgs {
+  where: SBTWhereUniqueInput;
 }

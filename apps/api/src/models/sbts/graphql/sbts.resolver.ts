@@ -1,23 +1,23 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { SbtsService } from './sbts.service';
+import { SBTsService } from './sbts.service';
 import { SBT } from './entity/sbt.entity';
-import { FindManySbtArgs, FindUniqueSbtArgs } from './dtos/find.args';
+import { FindManySBTArgs, FindUniqueSBTArgs } from './dtos/find.args';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 
 @Resolver(() => SBT)
-export class SbtsResolver {
+export class SBTsResolver {
   constructor(
-    private readonly sbtsService: SbtsService,
+    private readonly sbtsService: SBTsService,
     private readonly prisma: PrismaService,
   ) {}
 
-  @Query(() => [SBT], { name: 'sbts' })
-  findAll(@Args() args: FindManySbtArgs) {
+  @Query(() => [SBT], { name: 'SBTs' })
+  findAll(@Args() args: FindManySBTArgs) {
     return this.sbtsService.findAll(args);
   }
 
-  @Query(() => SBT, { name: 'sbt' })
-  findOne(@Args() args: FindUniqueSbtArgs) {
+  @Query(() => SBT, { name: 'SBT' })
+  findOne(@Args() args: FindUniqueSBTArgs) {
     return this.sbtsService.findOne(args);
   }
 }

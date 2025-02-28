@@ -1,14 +1,13 @@
-import { IsIn, IsOptional } from 'class-validator'
-import { Prisma } from '@prisma/client'
-import { BaseQueryDto } from 'src/common/dtos/common.dto'
+import { IsIn, IsOptional } from 'class-validator';
+import { Prisma } from '@prisma/client';
+import { BaseQueryDto } from 'src/common/dtos/common.dto';
 
-export class SbtQueryDto extends BaseQueryDto {
+export class SBTQueryDto extends BaseQueryDto {
   @IsOptional()
-  @IsIn(Object.values(Prisma.SbtScalarFieldEnum))
-  sortBy?: string
+  @IsIn(Object.values(Prisma.SBTScalarFieldEnum))
+  sortBy?: string;
 
   @IsOptional()
-  @IsIn(Object.values(Prisma.SbtScalarFieldEnum))
-  searchBy?: string
+  @IsIn(Object.values(Prisma.SBTScalarFieldEnum))
+  searchBy?: string;
 }
-

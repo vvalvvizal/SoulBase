@@ -1,32 +1,39 @@
-import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
-import { PlayerOrderByWithRelationInput } from './order-by.args'
-import { PlayerWhereInput, PlayerWhereUniqueInput } from './where.args'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import {
+  ArgsType,
+  Field,
+  registerEnumType,
+  PartialType,
+} from '@nestjs/graphql';
+import { Prisma } from '@prisma/client';
+import { PlayerOrderByWithRelationInput } from './order-by.args';
+import { PlayerWhereInput, PlayerWhereUniqueInput } from './where.args';
+import { RestrictProperties } from 'src/common/dtos/common.input';
 
 registerEnumType(Prisma.PlayerScalarFieldEnum, {
   name: 'PlayerScalarFieldEnum',
-})
+});
 
 @ArgsType()
 class FindManyPlayerArgsStrict
-  implements RestrictProperties<FindManyPlayerArgsStrict, Omit<Prisma.PlayerFindManyArgs, 'include' | 'select'>>
+  implements
+    RestrictProperties<
+      FindManyPlayerArgsStrict,
+      Omit<Prisma.PlayerFindManyArgs, 'include' | 'select' | 'omit'>
+    >
 {
-  where: PlayerWhereInput
-  orderBy: PlayerOrderByWithRelationInput[]
-  cursor: PlayerWhereUniqueInput
-  take: number
-  skip: number
+  where: PlayerWhereInput;
+  orderBy: PlayerOrderByWithRelationInput[];
+  cursor: PlayerWhereUniqueInput;
+  take: number;
+  skip: number;
   @Field(() => [Prisma.PlayerScalarFieldEnum])
-  distinct: Prisma.PlayerScalarFieldEnum[]
+  distinct: Prisma.PlayerScalarFieldEnum[];
 }
 
 @ArgsType()
-export class FindManyPlayerArgs extends PartialType(
-  FindManyPlayerArgsStrict,
-) {}
+export class FindManyPlayerArgs extends PartialType(FindManyPlayerArgsStrict) {}
 
 @ArgsType()
 export class FindUniquePlayerArgs {
-  where: PlayerWhereUniqueInput
+  where: PlayerWhereUniqueInput;
 }

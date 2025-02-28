@@ -1,8 +1,16 @@
-import { Sbt } from '@prisma/client'
-import { IsDate, IsString, IsInt } from 'class-validator'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import { SBT } from '@prisma/client';
 
-export class SbtEntity implements RestrictProperties<SbtEntity, Sbt> {
+import { RestrictProperties } from 'src/common/dtos/common.input';
 
+export class SBTEntity implements RestrictProperties<SBTEntity, SBT> {
+  name: string;
+  id: number;
+  tokenId: bigint;
+  description: string;
+  image_url: string;
+  metadataJSON_url: string;
+  createdAt: Date;
+  updatedAt: Date;
+  blockTimestamp: Date;
+  playerId: number;
 }
-

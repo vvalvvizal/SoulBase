@@ -1,0 +1,187 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Player {
+  id: Int!
+  name: String!
+  createdAt: String!
+  userId: Int!
+}
+
+type User {
+  id: Int!
+  name: String!
+  address: String!
+  isPlayer: UserType!
+  createdAt: String!
+}
+
+enum UserType {
+  PLAYER
+  FAN
+}
+
+type SBT {
+  id: Int!
+  tokenId: Float!
+  name: String!
+  description: String!
+  image_url: String!
+  metadataJSON_url: String!
+  createdAt: String!
+  updatedAt: String!
+  blockTimestamp: String!
+  playerId: Int!
+}
+
+type Query {
+  players(
+    distinct: [PlayerScalarFieldEnum!]
+    where: PlayerWhereInput
+    orderBy: [PlayerOrderByWithRelationInput!]
+    cursor: PlayerWhereUniqueInput
+    take: Float
+    skip: Float
+  ): [Player!]!
+  player(where: PlayerWhereUniqueInput!): Player!
+  users(
+    distinct: [UserScalarFieldEnum!]
+    where: UserWhereInput
+    orderBy: [UserOrderByWithRelationInput!]
+    cursor: UserWhereUniqueInput
+    take: Float
+    skip: Float
+  ): [User!]!
+  user(where: UserWhereUniqueInput!): User!
+  SBTs(
+    distinct: [SBTScalarFieldEnum!]
+    where: SBTWhereInput
+    orderBy: [SBTOrderByWithRelationInput!]
+    cursor: SBTWhereUniqueInput
+    take: Float
+    skip: Float
+  ): [SBT!]!
+  SBT(where: SBTWhereUniqueInput!): SBT!
+}
+
+enum PlayerScalarFieldEnum {
+  id
+  name
+  createdAt
+  userId
+}
+
+input PlayerWhereInput {
+  id: Int
+  name: String
+  createdAt: String
+  userId: Int
+  user: UserWhereInput
+  sbts: SBTWhereInput
+  AND: [PlayerWhereInput!]
+  OR: [PlayerWhereInput!]
+  NOT: [PlayerWhereInput!]
+}
+
+input UserWhereInput {
+  isAdmin: Boolean
+  id: Int
+  name: String
+  address: String
+  isPlayer: UserType
+  createdAt: String
+  Player: PlayerWhereInput
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+}
+
+input SBTWhereInput {
+  id: Int
+  tokenId: Int
+  name: String
+  description: String
+  image_url: String
+  metadataJSON_url: String
+  createdAt: String
+  updatedAt: String
+  blockTimestamp: String
+  playerId: Int
+  player: PlayerWhereInput
+  AND: [SBTWhereInput!]
+  OR: [SBTWhereInput!]
+  NOT: [SBTWhereInput!]
+}
+
+input PlayerOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  createdAt: SortOrder
+  userId: SortOrder
+  user: SortOrder
+  sbts: SortOrder
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input PlayerWhereUniqueInput {
+  id: Int!
+}
+
+enum UserScalarFieldEnum {
+  id
+  name
+  address
+  isPlayer
+  isAdmin
+  createdAt
+}
+
+input UserOrderByWithRelationInput {
+  isAdmin: SortOrder
+  id: SortOrder
+  name: SortOrder
+  address: SortOrder
+  isPlayer: SortOrder
+  createdAt: SortOrder
+  Player: SortOrder
+}
+
+input UserWhereUniqueInput {
+  id: Int!
+}
+
+enum SBTScalarFieldEnum {
+  id
+  tokenId
+  name
+  description
+  image_url
+  metadataJSON_url
+  createdAt
+  updatedAt
+  blockTimestamp
+  playerId
+}
+
+input SBTOrderByWithRelationInput {
+  id: SortOrder
+  tokenId: SortOrder
+  name: SortOrder
+  description: SortOrder
+  image_url: SortOrder
+  metadataJSON_url: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  blockTimestamp: SortOrder
+  playerId: SortOrder
+  player: SortOrder
+}
+
+input SBTWhereUniqueInput {
+  id: Int!
+}
