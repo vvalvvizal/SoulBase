@@ -11,6 +11,12 @@ export class SBTsService {
   }
 
   findOne(args: FindUniqueSBTArgs) {
-    return this.prisma.sBT.findUnique(args);
+    if (!args.where) {
+      throw new Error("'id' is required");
+    }
+
+    return this.prisma.sBT.findUnique({
+      where: args.where,
+    });
   }
 }
