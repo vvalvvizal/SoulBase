@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { SBT as SBTtype } from '@prisma/client';
+import { GraphQLBigInt } from 'graphql-scalars';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 
 @ObjectType()
@@ -9,7 +10,7 @@ export class SBT implements RestrictProperties<SBT, SBTtype> {
   @Field(() => Int)
   id: number;
 
-  @Field()
+  @Field(() => GraphQLBigInt)
   tokenId: bigint;
 
   @Field(() => String)

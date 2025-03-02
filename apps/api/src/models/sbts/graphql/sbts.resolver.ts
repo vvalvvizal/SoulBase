@@ -16,7 +16,8 @@ export class SBTsResolver {
     return this.sbtsService.findAll(args);
   }
 
-  @Query(() => SBT, { name: 'SBT' })
+  @Query(() => SBT, { name: 'SBT', nullable: true })
+  //DB에 해당 id가 존재하지 않는 경우 방지 nullable
   findOne(@Args() args: FindUniqueSBTArgs) {
     return this.sbtsService.findOne(args);
   }

@@ -12,6 +12,7 @@ export class SBTsService {
 
   findOne(args: FindUniqueSBTArgs) {
     if (!args.where) {
+      //id가 요청에 포함되지 않은 경우
       throw new Error("'id' is required");
     }
 
