@@ -6,10 +6,10 @@ import { ListenerModule } from './listener/listener.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-//import { introspection } from '../../../standalone/soulBase-contract/typechain-types/@openzeppelin/contracts/utils';
 import { PlayersModule } from './models/players/players.module';
 import { UsersModule } from './models/users/users.module';
 import { SbtsModule } from './models/sbts/sbts.module';
+import { ResyncModule } from './resync/resync.module';
 
 @Module({
   imports: [
@@ -20,10 +20,10 @@ import { SbtsModule } from './models/sbts/sbts.module';
     }),
     PrismaModule,
     ListenerModule,
-
     PlayersModule,
     UsersModule,
     SbtsModule,
+    ResyncModule,
   ],
   controllers: [AppController],
   providers: [AppService],

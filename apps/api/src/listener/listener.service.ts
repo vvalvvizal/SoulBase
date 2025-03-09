@@ -35,6 +35,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.provider,
     );
   }
+
   subscribeToEvents() {
     try {
       //contract 함수 사용
@@ -104,7 +105,54 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       console.error(`Event: SBTUpdated: Listener setup failed`, error);
     }
   }
+  async resyncBlockchainData() {
+    if (!this.contract) {
+      throw new Error('Contract is not intialized');
+    }
+    const fromBlock = 0;
+    const toBlock = 'latest';
 
+    //Query and handle SBTMinted events
+    const SBTMintedEvents = await this.contract.queryFilter(
+      this.contract.filters['SBTMinted'],
+      fromBlock,
+      toBlock,
+    );
+
+    for (const event of SBTMintedEvents) {
+      const [to, tokenId, metadataJSON_url] = event.args;
+      const timestamp = await this.getBlockTimeStamp(event.blockNumber);
+
+      const url = String(metadataJSON_url);
+
+      let metadata;
+      try {
+        metadata = await fetch(url).then((res) => res.json());
+      } catch (err) {
+        console.error(`Event: Error fetching metadata from URL: ${url}`, err);
+        return;
+      }
+
+      const player = await this.prisma.player.findFirst({
+        where: { user: { address: to } },
+      });
+
+      if (!player) {
+        console.log(`Event: Player not found for address: ${to}`);
+        return;
+      }
+
+      await this.createSBT({
+        tokenId: BigInt(tokenId),
+        name: metadata.name,
+        description: metadata.description,
+        image_url: metadata.image,
+        metadataJSON_url: url,
+        blockTimestamp: timestamp,
+        playerId: player.id,
+      });
+    }
+  }
   cleanup() {
     this.provider.removeAllListeners();
   }

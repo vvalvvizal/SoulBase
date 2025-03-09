@@ -41,32 +41,11 @@ The `BigInt` scalar type represents non-fractional signed whole numeric values.
 scalar BigInt
 
 type Query {
-  players(
-    distinct: [PlayerScalarFieldEnum!]
-    where: PlayerWhereInput
-    orderBy: [PlayerOrderByWithRelationInput!]
-    cursor: PlayerWhereUniqueInput
-    take: Float
-    skip: Float
-  ): [Player!]!
+  players(distinct: [PlayerScalarFieldEnum!], where: PlayerWhereInput, orderBy: [PlayerOrderByWithRelationInput!], cursor: PlayerWhereUniqueInput, take: Float, skip: Float): [Player!]!
   player(where: PlayerWhereUniqueInput!): Player!
-  users(
-    distinct: [UserScalarFieldEnum!]
-    where: UserWhereInput
-    orderBy: [UserOrderByWithRelationInput!]
-    cursor: UserWhereUniqueInput
-    take: Float
-    skip: Float
-  ): [User!]!
+  users(distinct: [UserScalarFieldEnum!], where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Float, skip: Float): [User!]!
   user(where: UserWhereUniqueInput!): User!
-  SBTs(
-    distinct: [SBTScalarFieldEnum!]
-    where: SBTWhereInput
-    orderBy: [SBTOrderByWithRelationInput!]
-    cursor: SBTWhereUniqueInput
-    take: Float
-    skip: Float
-  ): [SBT!]!
+  SBTs(distinct: [SBTScalarFieldEnum!], where: SBTWhereInput, orderBy: [SBTOrderByWithRelationInput!], cursor: SBTWhereUniqueInput, take: Float, skip: Float): [SBT!]!
   SBT(where: SBTWhereUniqueInput!): SBT
 }
 

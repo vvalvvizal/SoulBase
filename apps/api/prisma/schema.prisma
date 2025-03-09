@@ -51,6 +51,6 @@ model Player {
   name      String
   createdAt DateTime @default(now())
   userId    Int      @unique
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete:Cascade)
   sbts      SBT[] // SBT와 1:N관계
 }
