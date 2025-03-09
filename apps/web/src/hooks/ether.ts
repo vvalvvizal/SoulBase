@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
-import { AchievementSBT } from '../../../../standalone/soulBase-contract/typechain-types';
+import {
+  AchievementSBT,
+  AchievementSBT__factory,
+} from '../../../../standalone/soulBase-contract/typechain-types';
+import { SBTcontractAddress } from '../../util/contract';
+
 import { ethers } from 'ethers';
 
 declare global {
@@ -22,7 +27,6 @@ export const useAccount = () => {
       alert(
         'Non-Ethereum browser detected. You should consider trying MetaMask',
       );
-
       return;
     }
 
@@ -40,7 +44,7 @@ export const useAccount = () => {
             },
             blockExplorerUrls: ['https://amoy.polygonscan.com/'],
             rpcUrls: [
-              `https://polygon-amoy.infura.io/v3/${import.meta.env.VITE_INFRA_KEY}`,
+              `https://polygon-amoy.infura.io/v3/${import.meta.env.VITE_INFURA_KEY}`,
             ],
           },
         ], //80002 -> hex로
@@ -53,14 +57,51 @@ export const useAccount = () => {
       );
     }
   };
-  useEffect(() => {
-    if (isConnected) {
-      console.log('web3 provider connected!');
+
+  const fetchBlockchainData = async () => {
+    if (!window?.ethereum) {
+      console.error('Ethereum object not found.');
+      return;
     }
 
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+
+      const signer = await provider.getSigner();
+      const contract = AchievementSBT__factory.connect(
+        SBTcontractAddress,
+        signer,
+      );
+      setContract(contract);
+
+      const accounts = await provider.send('eth_requestAccounts', []);
+      if (accounts && accounts.length > 0) {
+        const account = accounts[0];
+        setAccount(account); //useState
+
+        const balance = await provider.getBalance(account);
+        setBalance(ethers.formatEther(balance));
+
+        const contractOwner = await contract.owner();
+        setIsOwner(accounts.toLowerCase() === contractOwner.toLowerCase());
+      } else {
+        console.error('No accounts detected');
+        return;
+      }
+    } catch (error) {
+      /* empty */
+    }
+  };
+  useEffect(() => {
     //initializeWeb3Provider
+    if (isConnected) {
+      console.log('web3 provider connected!');
+    } else {
+      initializeWeb3Provider();
+    }
 
     //Fetch blockchain information
+    fetchBlockchainData();
   }, [isConnected]);
 
   return {
