@@ -12,9 +12,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "prettier": "^3.3.2",
+    "husky": "^8.0.0",
     "nx": "20.3.3",
-    "husky": "^8.0.0"
+    "prettier": "^3.3.2"
   },
   "scripts": {
     "format": "npx prettier --write . --no-cache",
@@ -22,5 +22,8 @@
     "lint": "npx nx run-many -t lint",
     "prepare": "husky install",
     "validate": "npm run format && npm run lint && npm run tsc"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
   }
 }
