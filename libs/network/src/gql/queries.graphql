@@ -1,0 +1,28 @@
+query SBT($where: SBTWhereUniqueInput!) {
+  SBT(where: $where) {
+    tokenId
+    name
+    id
+    description
+    image_url
+    metadataJSON_url
+    createdAt
+    updatedAt
+    blockTimestamp
+    playerId
+  }
+}
+query SBTs {
+  SBTs {
+    tokenId
+    name
+    id
+    description
+    image_url
+    metadataJSON_url
+    createdAt
+    updatedAt
+    blockTimestamp
+    playerId
+  }
+}

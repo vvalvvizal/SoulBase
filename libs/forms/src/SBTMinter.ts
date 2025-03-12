@@ -15,4 +15,4 @@ export const useFormSBTMinter = () =>
     resolver: zodResolver<FormTypeSBTMinter>(schemaSBTMinter),
   });
 
-const { handleSubmit } = useFormSBTMinter();
+const { register, handleSubmit } = useFormSBTMinter();
