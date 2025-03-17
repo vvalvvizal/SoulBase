@@ -1,5 +1,5 @@
 import './styles/App.css';
-
+import '@soulBase/ui/src/index.css';
 import { useAccount } from '@/hooks/ether';
 import { useQuery } from '@apollo/client';
 import { SbTsDocument } from '@soulBase/network/src/gql/generated';
@@ -28,6 +28,7 @@ function App() {
               </div>
             ))}
           </div>
+          <div className="w-8 h-8 bg-primary rounded"></div>
         </main>
       )}
     </>

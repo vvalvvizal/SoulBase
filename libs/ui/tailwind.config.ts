@@ -1,20 +1,18 @@
-// /** @type {import('tailwindcss').Config} */
-// module.exports = {
-//   content: [],
-//   theme: {
-//     extend: {},
-//   },
-//   plugins: [],
-// }
-
 import type { Config } from 'tailwindcss';
+import { colorsConfig } from './src/styles/config';
 
 const config: Config = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  important: true,
+  content: ['./src/components/**/*.{js,ts,jsx,tsx}'],
+
   theme: {
-    extend: {},
+    colors: colorsConfig,
+    extend: {
+      borderRadius: {
+        DEFAULT: '14px',
+      },
+    },
   },
-  plugins: [],
 };
 
 export default config;
