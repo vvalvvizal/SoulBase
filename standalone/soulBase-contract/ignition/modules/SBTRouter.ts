@@ -5,7 +5,7 @@ import { buildModule } from '@nomicfoundation/hardhat-ignition/modules';
 import { ethers } from 'hardhat';
 
 const SBTRouterModule = buildModule('SBTRouterModule', (m) => {
-  const SBTAddress = '0x22e86C513905dfc55749004Af0d68E6D5eDBCC14';
+  const SBTAddress = '0x1F006D6ae804ebE5cA917A3E2664df313FBf3e98';
   const SBTRouter = m.contract('SBTRouter', [SBTAddress]);
 
   return { SBTRouter };

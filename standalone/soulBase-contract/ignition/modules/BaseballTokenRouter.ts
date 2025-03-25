@@ -7,8 +7,8 @@ import { ethers } from 'hardhat';
 const BaseballTokenRouterModule = buildModule(
   'BaseballTokenRouterModule',
   (m) => {
-    const LiquidityPool = '0xed47F0b946EDfD3A182CaD5341b452F22E447828';
-    const BBTAddress = '0xaAE7534666Bc96A689bf91Fec93Ee7c5708Bf3Ac';
+    const LiquidityPool = '0x57A668CC12A57355AdFb182bEbDC936582537430';
+    const BBTAddress = '0x7ff09C7b0D70E15545b964c766a4d1F4E35fE6f1';
     const BaseballTokenRouter = m.contract('BaseballTokenRouter', [
       LiquidityPool,
       BBTAddress,
