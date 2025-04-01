@@ -23,7 +23,7 @@ contract BaseballToken is ERC20, Ownable {
 
     uint public MAX_SUPPLY;//토큰 발행량 
     uint public constant TAX = 2;// 0.02, 2% tx 
-    uint public constant EXCHANGE = 5;//1 ETH에 해당하는 BBT 토큰 수
+    uint public constant EXCHANGE = 1000;//1 ETH에 해당하는 BBT 토큰 수
     bool public isTaxOn = true;
     uint256 public totalContributed;
     bool public isContractPaused;
@@ -76,7 +76,7 @@ contract BaseballToken is ERC20, Ownable {
         require(contributionsOf[msg.sender]+msg.value <= getIndividualLimit(), "ABOVE_MAX_INDIVIDUAL_CONTRUBUTION");
         require(totalContributed+msg.value <= getPhaseLimit(), "ABOVE_MAX_CONTRIBUTION");
 
-        uint256 tokenAmount = msg.value * EXCHANGE; //1 ETH = 5 BBT
+        uint256 tokenAmount = msg.value * EXCHANGE; // 1 ETH = 1000 BBT
         balancesToClaim[msg.sender] += tokenAmount;
         contributionsOf[msg.sender] += msg.value;
         totalContributed += msg.value;
@@ -113,10 +113,10 @@ contract BaseballToken is ERC20, Ownable {
     //개별 기여 한도
     function getIndividualLimit() private view returns (uint256){
         if(currentPhase==Phase.SEED){
-            return 1500 * 10**18;
+            return 150 * 10**18;
         }
         else if(currentPhase==Phase.GENERAL){
-            return 1000 * 10**18;
+            return 100 * 10**18;
         }
         else { //제한 없음
             return msg.value;
@@ -125,10 +125,10 @@ contract BaseballToken is ERC20, Ownable {
     //전체 한도
     function getPhaseLimit() private view returns (uint256 limit){
         if(currentPhase==Phase.SEED){
-            limit = 15000 * 10**18;
+            limit = 500 * 10**18; //SEED 단계에서 500 ETH 
         }
         else if (currentPhase==Phase.GENERAL || currentPhase == Phase.OPEN){
-            limit = 30000 * 10**18;
+            limit = 1000 * 10**18; //1000 ETH
         }
     }
     //유저를 화리에 추가 
@@ -154,14 +154,14 @@ contract BaseballToken is ERC20, Ownable {
         require(currentPhase == Phase.OPEN,"NOT_LAST_PHASE");
 
         fundsAlreadyMoved = true;
-        uint256 TokenAmountToTransfer = totalContributed * EXCHANGE; //TokenAmountToTransfer의 maximum은 30k eth*5= 150,000 tokens
+        uint256 TokenAmountToTransfer = totalContributed * EXCHANGE; //TokenAmountToTransfer의 maximum은 1k eth*1000= 1,000,000 tokens
         
          _approve(address(this), address(liquidityPool), TokenAmountToTransfer);//deposit 내부의 transferFrom
          
         super._transfer(address(this),address(liquidityPool),TokenAmountToTransfer);
 
         liquidityPool.deposit{value: totalContributed}(
-            TokenAmountToTransfer, address(this), msg.sender
+            TokenAmountToTransfer, msg.sender
         );
 
         sendRemainingFundsToTreasury();

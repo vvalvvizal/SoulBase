@@ -1,15 +1,13 @@
 import type { Config } from 'tailwindcss';
-import { colorsConfig } from './src/styles/config';
-
+import { colorsConfig } from './utils/styles/config';
 const config: Config = {
   important: true,
   content: ['./src/components/**/*.{js,ts,jsx,tsx}'],
-
   theme: {
     colors: colorsConfig,
     extend: {
       borderRadius: {
-        DEFAULT: '14px',
+        default: '2px',
       },
     },
   },

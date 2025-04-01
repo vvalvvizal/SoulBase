@@ -22,7 +22,7 @@ contract BaseballTokenRouter {
         baseballToken.transfer(address(liquidityPool), _tokenAmount); //Router transfer to pool
 
         //user->pool approve 필요
-        liquidityPool.deposit{value: msg.value}(_tokenAmount, address(0), msg.sender);
+        liquidityPool.deposit{value: msg.value}(_tokenAmount, msg.sender);
     }
 
     //유동성 제거 

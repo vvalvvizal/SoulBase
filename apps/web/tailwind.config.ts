@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from 'tailwindcss';
-import uiConfig from '../../libs/ui/tailwind.config';
 
 const config: Config = {
-  content: ['./src/**/*.{ts,tsx}', '../../libs/ui/**/*.{ts,tsx}'],
-  presets: [uiConfig as Config],
+  content: [
+    './index.html',
+    './src/**/*.{ts,tsx}',
+    '../../libs/ui/**/*.{ts,tsx}',
+  ],
+  presets: [require('../../libs/ui/tailwind.config.ts')],
 };
 export default config;

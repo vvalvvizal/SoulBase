@@ -1,8 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/preflight';
+@import 'tailwindcss/utilities';
 @import 'tailwindcss';
-
-.bg-primary {
-  background-color: blue;
-}

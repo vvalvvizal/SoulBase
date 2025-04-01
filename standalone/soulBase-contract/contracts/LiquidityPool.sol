@@ -61,7 +61,7 @@ contract LiquidityPool is Ownable, ERC20 {
       _update(); //수수료를 유동성 풀에 추가
     }
 
-    function deposit(uint256 tokenAmount, address contractAddress, address account) external payable{
+    function deposit(uint256 tokenAmount, address account) external payable{
         require(msg.value > 0 && tokenAmount > 0, "Invalid deposit amounts");
 
         uint256 liquidity;
@@ -84,12 +84,6 @@ contract LiquidityPool is Ownable, ERC20 {
 
         require(liquidity>0,"INSUFFICIENT_LIQUIDITY_MINTED");
 
-        if(contractAddress != address(0)){          
-            ERC20(baseballToken).transferFrom(contractAddress, address(this),tokenAmount);
-        }
-        else{
-            ERC20(baseballToken).transferFrom(account, address(this),tokenAmount); 
-        }
         super._mint(account,liquidity);
         liquidityProvided[account] += liquidity;
         totalLiquidity += liquidity;
