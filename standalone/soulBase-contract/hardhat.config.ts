@@ -1,4 +1,5 @@
 import { HardhatUserConfig } from 'hardhat/config';
+import '@openzeppelin/hardhat-upgrades';
 import '@nomicfoundation/hardhat-toolbox';
 require('dotenv').config();
 
@@ -15,5 +16,4 @@ const config: HardhatUserConfig = {
     apiKey: `${process.env.POLYGONSCAN_API_KEY}`,
   },
 };
-
 export default config;
