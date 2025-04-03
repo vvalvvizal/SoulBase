@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "./AchievementSBT.sol";
-import "openzeppelin-4.9/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 contract SBTRouter is Ownable{
     AchievementSBT public sbt;
 

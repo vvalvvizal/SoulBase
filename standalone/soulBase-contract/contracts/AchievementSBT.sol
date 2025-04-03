@@ -2,9 +2,9 @@
 pragma solidity ^0.8.13;
 
 import "erc5192/src/ERC5192.sol";
-import "openzeppelin-4.9/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "openzeppelin-4.9/contracts/utils/Strings.sol";
-import "openzeppelin-4.9/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AchievementSBT is ERC5192,Ownable{
   bool private isLocked;

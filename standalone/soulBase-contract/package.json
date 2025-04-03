@@ -18,8 +18,8 @@
     "deploy": "npm run deploy:bbt && npm run deploy:bbtRouter && npm run deploy:liquidityPool && npm run deploy:sbt && npm run deploy:sbtRouter"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.2.0",
-    "erc5192": "^0.0.1",
-    "openzeppelin-4.9": "npm:@openzeppelin/contracts@^4.9"
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3",
+    "erc5192": "^0.0.1"
   }
 }
