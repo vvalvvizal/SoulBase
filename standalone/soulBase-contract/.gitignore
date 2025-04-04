@@ -17,4 +17,7 @@ node_modules
 # 배포 후 생성되는 정보
 deployments/
 
-scripts/
+/scripts
+
+# 프록시 컨트랙트 주소가 담긴 파일 (Upgradable contract)
+proxyContract_*.txt

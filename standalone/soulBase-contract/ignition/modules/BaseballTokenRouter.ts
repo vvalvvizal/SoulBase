@@ -3,12 +3,20 @@
 
 import { buildModule } from '@nomicfoundation/hardhat-ignition/modules';
 import { ethers } from 'hardhat';
+import fs from 'fs';
+import path from 'path';
+
+function loadAddress(fileName: string): string {
+  const filePath = path.join(__dirname, '..', '..', fileName);
+  return fs.readFileSync(filePath, 'utf8').trim();
+}
 
 const BaseballTokenRouterModule = buildModule(
   'BaseballTokenRouterModule',
   (m) => {
-    const LiquidityPool = '0xD698aa557b7D10dB78a26244D1749E0546F3A1f4';
-    const BBTAddress = '0x8b89c6Da9C8EEa3C0343fb1cac4A52B5FF38150D';
+    const LiquidityPool = loadAddress('proxyContract_LP.txt');
+    const BBTAddress = loadAddress('proxyContract_BBT.txt');
+
     const BaseballTokenRouter = m.contract('BaseballTokenRouter', [
       LiquidityPool,
       BBTAddress,

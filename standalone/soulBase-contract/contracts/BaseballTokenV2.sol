@@ -7,7 +7,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./LiquidityPool.sol";
 
-contract BaseballToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
+contract BaseballTokenV2 is Initializable, ERC20Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
     
     event TokensBought(address indexed _account, uint256 amount);
     event BaseballTokenMinted(address indexed account, uint256 amount);
@@ -29,7 +29,7 @@ contract BaseballToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, U
     bool public fundsAlreadyMoved;
     address payable public treasuryWallet; //비상금 주소
     address public bbtRouter;
-    uint256 internal constant VERSION = 1;
+    uint constant internal VERSION = 2;
 
     mapping(address=>uint256) public balancesToClaim;
     mapping(address=>uint256) public contributionsOf; //유저당 ETH 기여
@@ -61,10 +61,11 @@ contract BaseballToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, U
         require(!isContractPaused, "CONTRACT_PAUSED");
         _;
     }
+
     //upgrade용
     function version() public pure returns (uint256) {
             return VERSION;
-        }
+    }
 
     //배포된 라우터 계약 주소 
     function setRouterAddress(address _bbtRouter) external onlyOwner{

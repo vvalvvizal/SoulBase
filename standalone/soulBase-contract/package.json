@@ -10,12 +10,11 @@
     "hardhat": "^2.22.18"
   },
   "scripts": {
-    "deploy:bbt": "npx hardhat ignition deploy ./ignition/modules/BaseballToken.ts",
-    "deploy:liquidityPool": "npx hardhat ignition deploy ./ignition/modules/LiquidityPool.ts",
+    "deploy:bbt": "npx hardhat run ./scripts/deploy_BaseballToken.ts",
+    "deploy:liquidityPool": "npx hardhat run ./scripts/deploy_LiquidityPool.ts",
     "deploy:bbtRouter": "npx hardhat ignition deploy ./ignition/modules/BaseballTokenRouter.ts",
     "deploy:sbt": "npx hardhat ignition deploy ./ignition/modules/AchievementSBT.ts",
-    "deploy:sbtRouter": "npx hardhat ignition deploy ./ignition/modules/SBTRouter.ts",
-    "deploy": "npm run deploy:bbt && npm run deploy:bbtRouter && npm run deploy:liquidityPool && npm run deploy:sbt && npm run deploy:sbtRouter"
+    "deploy:sbtRouter": "npx hardhat ignition deploy ./ignition/modules/SBTRouter.ts"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.3",

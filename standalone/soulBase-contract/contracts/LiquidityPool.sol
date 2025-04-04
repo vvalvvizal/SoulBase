@@ -2,11 +2,14 @@
 pragma solidity ^0.8.13;
 
 import "./BaseballToken.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/utils/math/Math.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract LiquidityPool is Ownable, ERC20 {
+
+contract LiquidityPool is Initializable, UUPSUpgradeable, OwnableUpgradeable, ERC20Upgradeable  {
     event LiquidityAdded(address indexed _account);
     event LiquidityRemoved(address indexed _account);
     event TradedTokens(address indexed _account, uint256 _ethTraded, uint256 tokenTraded);
@@ -19,9 +22,15 @@ contract LiquidityPool is Ownable, ERC20 {
     mapping(address => uint256) liquidityProvided;
     
 
-    constructor(BaseballToken _baseballToken) ERC20("Liquidity Provider Token","LP"){
+       
+    function initialize(BaseballToken _baseballToken) public initializer {
+        __Ownable_init();
+        __UUPSUpgradeable_init();
+        __ERC20_init("Liquidity Provider Token", "LP"); // ERC20 초기화 추가
         baseballToken = _baseballToken;
     }
+
+
     function swap( uint256 _tokenAmount, address account) external payable{
       uint256 product = ethReserve * tokenReserve; //k
       uint256 amountToTransfer;
@@ -68,15 +77,15 @@ contract LiquidityPool is Ownable, ERC20 {
         uint256 totalSupply = totalSupply(); //현재 풀에 발행된 LPT
 
         ethReserve = address(this).balance - msg.value;
-        tokenReserve = ERC20(baseballToken).balanceOf(address(this)) - tokenAmount;
+        tokenReserve = ERC20Upgradeable(baseballToken).balanceOf(address(this)) - tokenAmount;
 
 
         if(totalSupply==0){ //발행된 LP가 0개일 때 초기 유동성 계산
-            liquidity = Math.sqrt(msg.value * tokenAmount); //msg.value는 ETH, tokenAmount는 BBT 수량
+            liquidity = MathUpgradeable.sqrt(msg.value * tokenAmount); //msg.value는 ETH, tokenAmount는 BBT 수량
             //++ 초기 LPT 락업 있으면 악용 방지 가능 
         }
         else{
-             liquidity = Math.min(
+             liquidity = MathUpgradeable.min(
                 (msg.value*totalSupply)/ethReserve, (tokenAmount * totalSupply)/tokenReserve
              );
             
@@ -109,7 +118,7 @@ contract LiquidityPool is Ownable, ERC20 {
         require(ethTransferSuccess, "ETH_TRANSFER_FAILED");
 
         // Token 전송
-        bool tokenTransferSuccess = ERC20(baseballToken).transfer(account, tokenAmount);
+        bool tokenTransferSuccess = ERC20Upgradeable(baseballToken).transfer(account, tokenAmount);
         require(tokenTransferSuccess, "TOKEN_TRANSFER_FAILED");
 
 
@@ -128,9 +137,10 @@ contract LiquidityPool is Ownable, ERC20 {
 
         if (timeElapsed > 0) {
             ethReserve = address(this).balance;
-            tokenReserve = ERC20(baseballToken).balanceOf(address(this));
+            tokenReserve = ERC20Upgradeable(baseballToken).balanceOf(address(this));
             lastBlockTimestamp = blockTimestamp;
         }
     }
+     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
 }
