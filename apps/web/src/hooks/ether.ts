@@ -36,7 +36,7 @@ export const useAccount = () => {
         params: [
           {
             chainId: '0x13882',
-            chainName: 'Polygon Amoy Testnet',
+            chainName: 'Amoy',
             nativeCurrency: {
               name: 'Polygon',
               symbol: 'POL',
@@ -50,6 +50,7 @@ export const useAccount = () => {
         ], //80002 -> hex로
       });
       setIsConnected(true);
+      await fetchBlockchainData();
     } catch (error) {
       console.error(
         'User denied account access or failed to add network',
@@ -93,14 +94,7 @@ export const useAccount = () => {
     }
   };
   useEffect(() => {
-    //initializeWeb3Provider
-    if (isConnected) {
-      console.log('web3 provider connected!');
-    } else {
-      initializeWeb3Provider();
-    }
-
-    //Fetch blockchain information
+    if (!isConnected) return;
     fetchBlockchainData();
   }, [isConnected]);
 

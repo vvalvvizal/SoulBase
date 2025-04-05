@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { ethers, upgrades } from 'hardhat';
 
-describe('Implementation', function () {
-  it('keeps the initial value after upgrade', async () => {
+describe('BaseballToken', function () {
+  it('check version value', async () => {
     const BaseballToken = await ethers.getContractFactory('BaseballToken');
     const BaseballTokenV2 = await ethers.getContractFactory('BaseballTokenV2');
 

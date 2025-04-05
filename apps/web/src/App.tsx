@@ -3,7 +3,7 @@ import '@soulBase/ui/src/index.css';
 import { useAccount } from '@/hooks/ether';
 import { useQuery } from '@apollo/client';
 import { SbTsDocument } from '@soulBase/network/src/gql/generated';
-import Badge from '../../../libs/ui/src/components/atmos/Badge';
+//import Badge from '../../../libs/ui/src/components/atmos/Badge';
 function App() {
   const { account, initializeWeb3Provider, isConnected, balance, isOwner } =
     useAccount();
@@ -12,7 +12,22 @@ function App() {
   return (
     <>
       {!isConnected && (
-        <button onClick={initializeWeb3Provider}>Connect to MetaMask</button>
+        <button
+          onClick={initializeWeb3Provider}
+          style={{
+            padding: '10px 16px',
+            backgroundColor: '#8247e5',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            fontSize: '16px',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+          }}
+        >
+          Connect to MetaMask
+        </button>
       )}
       {isConnected && (
         <main>
@@ -27,7 +42,7 @@ function App() {
               </div>
             ))}
           </div>
-          <div className="w-8 h-8 bg-amber-200 rounded-2xl">asdf</div>
+          {/* <div className="w-8 h-8 bg-amber-200 rounded-2xl">asdf</div>
           <div className="w-40 h-40">
             <Badge
               size="md"
@@ -36,7 +51,7 @@ function App() {
             >
               Your Badge Content
             </Badge>
-          </div>
+          </div> */}
         </main>
       )}
     </>
