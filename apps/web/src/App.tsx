@@ -3,7 +3,9 @@ import '@soulBase/ui/src/index.css';
 import { useAccount } from '@/hooks/ether';
 import { useQuery } from '@apollo/client';
 import { SbTsDocument } from '@soulBase/network/src/gql/generated';
-//import Badge from '../../../libs/ui/src/components/atmos/Badge';
+import Badge from '../../../libs/ui/src/components/atmos/Badge';
+import { Button } from '../../../libs/ui/src/components/atmos/Button';
+
 function App() {
   const { account, initializeWeb3Provider, isConnected, balance, isOwner } =
     useAccount();
@@ -42,16 +44,21 @@ function App() {
               </div>
             ))}
           </div>
-          {/* <div className="w-8 h-8 bg-amber-200 rounded-2xl">asdf</div>
+
           <div className="w-40 h-40">
             <Badge
               size="md"
               variant="gray"
-              className="w-full h-full flex items-center justify-center"
+              className="items-center justify-center"
             >
               Your Badge Content
             </Badge>
-          </div> */}
+          </div>
+          <div className="w-40 h-40">
+            <Button intent="primary" size="medium">
+              button
+            </Button>
+          </div>
         </main>
       )}
     </>

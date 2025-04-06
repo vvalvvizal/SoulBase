@@ -522,11 +522,7 @@
           },
           "t_enum(Phase)2899": {
             "label": "enum BaseballToken.Phase",
-            "members": [
-              "SEED",
-              "GENERAL",
-              "OPEN"
-            ],
+            "members": ["SEED", "GENERAL", "OPEN"],
             "numberOfBytes": "1"
           },
           "t_mapping(t_address,t_bool)": {
@@ -997,11 +993,7 @@
           },
           "t_enum(Phase)3546": {
             "label": "enum BaseballTokenV2.Phase",
-            "members": [
-              "SEED",
-              "GENERAL",
-              "OPEN"
-            ],
+            "members": ["SEED", "GENERAL", "OPEN"],
             "numberOfBytes": "1"
           },
           "t_mapping(t_address,t_bool)": {
@@ -1259,11 +1251,7 @@
           },
           "t_enum(Phase)2899": {
             "label": "enum BaseballToken.Phase",
-            "members": [
-              "SEED",
-              "GENERAL",
-              "OPEN"
-            ],
+            "members": ["SEED", "GENERAL", "OPEN"],
             "numberOfBytes": "1"
           },
           "t_mapping(t_address,t_bool)": {
@@ -1521,11 +1509,7 @@
           },
           "t_enum(Phase)3676": {
             "label": "enum BaseballTokenV2.Phase",
-            "members": [
-              "SEED",
-              "GENERAL",
-              "OPEN"
-            ],
+            "members": ["SEED", "GENERAL", "OPEN"],
             "numberOfBytes": "1"
           },
           "t_mapping(t_address,t_bool)": {
