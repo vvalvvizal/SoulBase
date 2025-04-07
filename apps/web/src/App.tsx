@@ -4,7 +4,7 @@ import { useAccount } from '@/hooks/ether';
 import { useQuery } from '@apollo/client';
 import { SbTsDocument } from '@soulBase/network/src/gql/generated';
 import Badge from '../../../libs/ui/src/components/atmos/Badge';
-import { Button } from '../../../libs/ui/src/components/atmos/Button';
+import Button from '../../../libs/ui/src/components/atmos/Button';
 
 function App() {
   const { account, initializeWeb3Provider, isConnected, balance, isOwner } =
@@ -44,18 +44,15 @@ function App() {
               </div>
             ))}
           </div>
-
+          <div className="inline-flex transition-all items-center shadow justify-center duration-300 rounded-full px-2 py-1 text-sm bg-gray-100 border border-white text-gray-900"></div>
           <div className="w-40 h-40">
-            <Badge
-              size="md"
-              variant="gray"
-              className="items-center justify-center"
-            >
-              Your Badge Content
+            <Badge size="md" variant="gray" className="">
+              aaaaa
             </Badge>
           </div>
+          <div className="inline-flex items-center justify-center rounded-md font-medium bg-blue-500 text-white border-transparent text-base py-2 px-4 opacity-50 cursor-not-allowed uppercase"></div>
           <div className="w-40 h-40">
-            <Button intent="primary" size="medium">
+            <Button intent="primary" size="medium" disabled className="">
               button
             </Button>
           </div>

@@ -1,7 +1,12 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../utils/cn';
+
+export interface IButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>,
+    VariantProps<typeof buttonVariants> {}
+
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md font-medium',
+  'items-center justify-center rounded-md font-medium',
   {
     variants: {
       intent: {
@@ -38,20 +43,24 @@ const buttonVariants = cva(
   },
 );
 
-export interface ButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>,
-    VariantProps<typeof buttonVariants> {}
-
-export const Button: React.FC<ButtonProps> = ({
-  className,
-  intent,
-  size,
+const Button = ({
+  children,
+  className = '',
+  intent = 'primary',
+  size = 'medium',
   disabled,
-  ...props
-}) => (
-  <button
-    className={cn(buttonVariants({ intent, size, disabled }), className)}
-    disabled={disabled}
-    {...props}
-  />
-);
+}: IButtonProps) => {
+  return (
+    <button
+      className={cn(
+        'inline-flex',
+        buttonVariants({ intent, size, disabled }),
+        className,
+      )}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  );
+};
+export default Button;

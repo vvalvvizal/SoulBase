@@ -10,7 +10,7 @@ export interface IBadgeProps {
 }
 
 const badgeVariants = cva(
-  'inline-flex transition-all items-center shadow justify-center duration-300 rounded-full',
+  ' transition-all  items-center shadow justify-center duration-300 rounded-full',
   {
     variants: {
       size: {
@@ -40,8 +40,9 @@ const Badge = ({
   variant = 'gray',
 }: IBadgeProps) => {
   return (
-    //<span className={cn(badgeVariants({ size, variant }), className)}>
-    <span className={`${cn(badgeVariants({ size, variant }))} ${className}`}>
+    <span
+      className={cn('inline-flex', badgeVariants({ size, variant }), className)}
+    >
       {children}
     </span>
   );
