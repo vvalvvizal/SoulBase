@@ -14,6 +14,7 @@
     "tailwindcss": "^4.0.14"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.31.0",
     "autoprefixer": "^10.4.21",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

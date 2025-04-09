@@ -3,9 +3,10 @@ import '@soulBase/ui/src/index.css';
 import { useAccount } from '@/hooks/ether';
 import { useQuery } from '@apollo/client';
 import { SbTsDocument } from '@soulBase/network/src/gql/generated';
-import Badge from '../../../libs/ui/src/components/atmos/Badge';
-import Button from '../../../libs/ui/src/components/atmos/Button';
-
+import Badge from '@soulBase/ui/src/components/atmos/Badge';
+import Button from '@soulBase/ui/src/components/atmos/Button';
+import { HtmlInput } from '@soulBase/ui/src/components/atmos/HtmlInput';
+import { HtmlLabel } from '@soulBase/ui/src/components/atmos/HtmlLabel';
 function App() {
   const { account, initializeWeb3Provider, isConnected, balance, isOwner } =
     useAccount();
@@ -56,6 +57,14 @@ function App() {
               button
             </Button>
           </div>
+          <HtmlLabel
+            title="Something"
+            optional
+            className="mt-8"
+            error="Somthing is not right!"
+          >
+            <HtmlInput placeholder="Type something..." type="number" />
+          </HtmlLabel>
         </main>
       )}
     </>

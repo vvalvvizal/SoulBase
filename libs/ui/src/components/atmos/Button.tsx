@@ -1,9 +1,12 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../utils/cn';
+import { Loader } from '../molecules/Loader';
 
 export interface IButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  loading?: boolean; //직접 추가한 커스텀 prop
+}
 
 const buttonVariants = cva(
   'items-center justify-center rounded-md font-medium',
@@ -16,6 +19,10 @@ const buttonVariants = cva(
       size: {
         small: ['text-sm', 'py-1', 'px-2'],
         medium: ['text-base', 'py-2', 'px-4'],
+      },
+      loading: {
+        false: null,
+        true: ['opacity-50 cursor-not-allowed'],
       },
       disabled: {
         false: null,
@@ -39,6 +46,7 @@ const buttonVariants = cva(
       disabled: false,
       intent: 'primary',
       size: 'medium',
+      loading: false,
     },
   },
 );
@@ -48,7 +56,8 @@ const Button = ({
   className = '',
   intent = 'primary',
   size = 'medium',
-  disabled,
+  loading = false,
+  disabled = false,
 }: IButtonProps) => {
   return (
     <button
@@ -57,9 +66,17 @@ const Button = ({
         buttonVariants({ intent, size, disabled }),
         className,
       )}
-      disabled={disabled}
+      disabled={disabled || loading} //OR 둘 중 하나가 참일때
     >
-      {children}
+      {loading ? (
+        <>
+          <div>
+            <Loader />
+          </div>
+        </>
+      ) : (
+        <>{children}</>
+      )}
     </button>
   );
 };

@@ -60,4 +60,39 @@ export const safelist = [
   // ==== Button common ====
   'rounded-md',
   'font-medium',
+
+  // === Form common ====
+  'w-full',
+  'gap-2',
+  'appearance-none',
+  'placeholder-gray',
+  'focus:ring-primary',
+  'sm:text-sm',
+
+  // === Form Error ====
+  'gap-1',
+  'mt-1',
+  'text-xs',
+  'text-gray-900',
+
+  // === IconExclamationCircle ====
+  'inline',
+  'w-4',
+  'h-4',
+  'text-red-600',
+
+  // === HtmlInput ====
+  'placeholder-gray',
+  'read-only:text-gray-600',
+  'focus:outline-none',
+  'focus:border-primary',
+  'sm:text-sm',
+
+  // === HtmlLabel ====
+  'select-none',
+  'block',
+  'captialize',
+  'font-semibold',
+  'mb-1',
+  'text-xs',
 ];
