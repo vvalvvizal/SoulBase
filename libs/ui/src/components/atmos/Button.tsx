@@ -43,7 +43,7 @@ const buttonVariants = cva(
       { intent: 'primary', size: 'medium', class: 'uppercase' },
     ],
     defaultVariants: {
-      disabled: false,
+      disabled: true,
       intent: 'primary',
       size: 'medium',
       loading: false,
@@ -63,10 +63,10 @@ const Button = ({
     <button
       className={cn(
         'inline-flex',
-        buttonVariants({ intent, size, disabled }),
+        buttonVariants({ intent, size, disabled, loading }),
         className,
       )}
-      disabled={disabled || loading} //OR 둘 중 하나가 참일때
+      disabled={disabled || loading} //OR 둘 중 하나가 참일때 버튼은 비활성화됨
     >
       {loading ? (
         <>

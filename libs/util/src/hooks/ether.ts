@@ -5,8 +5,7 @@ import {
   AchievementSBT,
   AchievementSBT__factory,
 } from '../../../../standalone/soulBase-contract/typechain-types';
-import { SBTcontractAddress } from '../../util/contract';
-
+import { SBTcontractAddress } from '../contract';
 import { ethers } from 'ethers';
 
 declare global {

@@ -1,5 +1,4 @@
-import React = require('react');
-import { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
 export type HtmlInputProps = InputHTMLAttributes<HTMLInputElement> & {};
 
