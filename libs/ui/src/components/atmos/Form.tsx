@@ -1,5 +1,5 @@
 import { FormHTMLAttributes } from 'react';
-import React = require('react');
+import React from 'react';
 
 export type ErrorType = {
   fieldName: string;

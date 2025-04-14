@@ -1,9 +1,13 @@
 import { useAccount } from '@soulBase/util/src/hooks/ether';
+import { useEffect } from 'react';
 import { BaseComponent } from '@soulBase/util/src/types';
 
-export const UserInfo = ({ className, children }: BaseComponent) => {
-  const { account, balance, isOwner } = useAccount();
-  console.log(account, balance, isOwner);
+export const UserInfo = ({ className }: BaseComponent) => {
+  const { account, balance, isOwner, initializeWeb3Provider } = useAccount();
+
+  useEffect(() => {
+    initializeWeb3Provider();
+  }, []);
 
   return (
     <div className={className}>
@@ -26,7 +30,7 @@ export const UserInfo = ({ className, children }: BaseComponent) => {
           </div>
         </div>
       </div>
-      <div className="mt-2 bg-gray-25 p-2 text-right rounded">
+      <div className="mt-2 bg-gray-200 p-2 text-right rounded">
         <div className="font-semibold">Balance</div>
         <p className="text-gray-600 font-light text-2xl">
           {Number(balance).toFixed(4)} POL

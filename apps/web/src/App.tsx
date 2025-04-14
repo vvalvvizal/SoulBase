@@ -1,9 +1,8 @@
-import { UserInfo } from '@soulBase/ui/src/components/organisms/UserInfo';
+import { UserInfo } from '../../../libs/ui/src/components/organisms/UserInfo';
 
 function App() {
   return (
     <main>
-      Hello World
       <UserInfo />
     </main>
   );

@@ -7,7 +7,6 @@ import {
 } from '../../../../standalone/soulBase-contract/typechain-types';
 import { SBTcontractAddress } from '../contract';
 import { ethers } from 'ethers';
-
 declare global {
   interface Window {
     ethereum: any;

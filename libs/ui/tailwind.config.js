@@ -3,7 +3,7 @@ const { safelist } = require('./utils/styles/safelist-tailwindcss');
 module.exports = {
   important: true,
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
-  safelist,
+  safelist: safelist,
   theme: {
     extend: {
       colors: colorsConfig,
