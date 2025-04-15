@@ -1,0 +1,24 @@
+{
+  "name": "hardhat-project",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomiclabs/hardhat-etherscan": "^3.1.8",
+    "@openzeppelin/hardhat-upgrades": "^3.9.0",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.5",
+    "hardhat": "^2.22.18"
+  },
+  "scripts": {
+    "deploy:bbt": "npx hardhat run ./scripts/deploy_BaseballToken.ts",
+    "deploy:liquidityPool": "npx hardhat run ./scripts/deploy_LiquidityPool.ts",
+    "deploy:bbtRouter": "npx hardhat ignition deploy ./ignition/modules/BaseballTokenRouter.ts",
+    "deploy:sbt": "npx hardhat ignition deploy ./ignition/modules/AchievementSBT.ts",
+    "deploy:sbtRouter": "npx hardhat ignition deploy ./ignition/modules/SBTRouter.ts"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3",
+    "erc5192": "^0.0.1"
+  }
+}

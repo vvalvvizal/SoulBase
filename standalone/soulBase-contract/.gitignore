@@ -1,0 +1,23 @@
+node_modules
+.env
+
+# Hardhat files
+/cache
+/artifacts
+
+# TypeChain files
+/typechain
+/typechain-types
+
+# solidity-coverage files
+/coverage
+/coverage.json
+
+
+# 배포 후 생성되는 정보
+deployments/
+
+/scripts
+
+# 프록시 컨트랙트 주소가 담긴 파일 (Upgradable contract)
+proxyContract_*.txt

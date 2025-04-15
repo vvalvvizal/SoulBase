@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum User_Type {
+  PLAYER
+  FAN
+}
+
+model SBT {
+  id               Int      @id @default(autoincrement())
+  tokenId          BigInt   @unique
+  name             String
+  description      String
+  image_url        String
+  metadataJSON_url String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  blockTimestamp   DateTime
+
+  playerId Int
+  player   Player @relation(fields: [playerId], references: [id])
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  address   String    @unique
+  isPlayer  User_Type
+  isAdmin   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+
+  Player Player?
+}
+
+model Player {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sbts      SBT[] // SBT와 1:N관계
+}

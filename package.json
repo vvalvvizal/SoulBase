@@ -1,0 +1,29 @@
+{
+  "name": "soulbase",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "libs/*"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "nx": "20.3.3",
+    "prettier": "^3.3.2"
+  },
+  "scripts": {
+    "format": "npx prettier --write . --no-cache",
+    "tsc": "npx nx run-many -t tsc",
+    "lint": "npx nx run-many -t lint",
+    "prepare": "husky install",
+    "validate": "npm run format && npm run lint && npm run tsc"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}
