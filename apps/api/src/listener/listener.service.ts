@@ -27,6 +27,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
   }
 
   initializeWebSocketProvider() {
+    //  Initialize web socket provider
     const infuraWssUrl = `wss://polygon-amoy.infura.io/ws/v3/${process.env.INFURA_KEY}`;
     this.provider = new ethers.WebSocketProvider(infuraWssUrl);
 

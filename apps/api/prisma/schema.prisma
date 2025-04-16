@@ -8,7 +8,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -30,7 +33,10 @@ model SBT {
   updatedAt        DateTime @updatedAt
   blockTimestamp   DateTime
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
   playerId Int
   player   Player @relation(fields: [playerId], references: [id])
 }
@@ -40,7 +46,11 @@ model User {
   name      String
   address   String    @unique
   isPlayer  User_Type
+<<<<<<< HEAD
+  isAdmin   Boolean   @default(false)
+=======
   isAdmin   Boolean   @default(false) 
+>>>>>>> main
   createdAt DateTime  @default(now())
 
   Player Player?
@@ -51,6 +61,10 @@ model Player {
   name      String
   createdAt DateTime @default(now())
   userId    Int      @unique
+<<<<<<< HEAD
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+=======
   user      User     @relation(fields: [userId], references: [id], onDelete:Cascade)
+>>>>>>> main
   sbts      SBT[] // SBT와 1:N관계
 }
