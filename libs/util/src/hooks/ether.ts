@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+>>>>>>> main
 import { useEffect, useState } from 'react';
 import {
   AchievementSBT,
@@ -26,12 +31,16 @@ export const useAccount = () => {
       return;
     }
 
+<<<<<<< HEAD
     const AMOY_CHAIN_ID = '0x13882';
 
     try {
 
       const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
       if (currentChainId !== AMOY_CHAIN_ID) {
+=======
+    try {
+>>>>>>> main
       await window.ethereum.request({
         method: 'wallet_addEthereumChain',
         params: [
@@ -50,12 +59,17 @@ export const useAccount = () => {
           },
         ], //80002 -> hex로
       });
+<<<<<<< HEAD
 
       await new Promise((res) => setTimeout(res, 500)); 
     }
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       setIsConnected(true);
         
+=======
+      setIsConnected(true);
+      await fetchBlockchainData();
+>>>>>>> main
     } catch (error) {
       console.error(
         'User denied account access or failed to add network',
