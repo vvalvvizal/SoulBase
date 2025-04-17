@@ -1,33 +1,20 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
   /** The `BigInt` scalar type represents non-fractional signed whole numeric values. */
-  BigInt: { input: any; output: any };
+  BigInt: { input: any; output: any; }
 };
 
 export type Player = {
@@ -51,7 +38,7 @@ export enum PlayerScalarFieldEnum {
   CreatedAt = 'createdAt',
   Id = 'id',
   Name = 'name',
-  UserId = 'userId',
+  UserId = 'userId'
 }
 
 export type PlayerWhereInput = {
@@ -80,9 +67,11 @@ export type Query = {
   users: Array<User>;
 };
 
+
 export type QuerySbtArgs = {
   where: SbtWhereUniqueInput;
 };
+
 
 export type QuerySbTsArgs = {
   cursor?: InputMaybe<SbtWhereUniqueInput>;
@@ -93,9 +82,11 @@ export type QuerySbTsArgs = {
   where?: InputMaybe<SbtWhereInput>;
 };
 
+
 export type QueryPlayerArgs = {
   where: PlayerWhereUniqueInput;
 };
+
 
 export type QueryPlayersArgs = {
   cursor?: InputMaybe<PlayerWhereUniqueInput>;
@@ -106,9 +97,11 @@ export type QueryPlayersArgs = {
   where?: InputMaybe<PlayerWhereInput>;
 };
 
+
 export type QueryUserArgs = {
   where: UserWhereUniqueInput;
 };
+
 
 export type QueryUsersArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
@@ -157,7 +150,7 @@ export enum SbtScalarFieldEnum {
   Name = 'name',
   PlayerId = 'playerId',
   TokenId = 'tokenId',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export type SbtWhereInput = {
@@ -183,7 +176,7 @@ export type SbtWhereUniqueInput = {
 
 export enum SortOrder {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type User = {
@@ -211,12 +204,12 @@ export enum UserScalarFieldEnum {
   Id = 'id',
   IsAdmin = 'isAdmin',
   IsPlayer = 'isPlayer',
-  Name = 'name',
+  Name = 'name'
 }
 
 export enum UserType {
   Fan = 'FAN',
-  Player = 'PLAYER',
+  Player = 'PLAYER'
 }
 
 export type UserWhereInput = {
@@ -236,156 +229,36 @@ export type UserWhereUniqueInput = {
   id: Scalars['Int']['input'];
 };
 
+export type SbtFieldsFragment = { __typename?: 'SBT', id: number, tokenId: any, name: string, description: string, image_url: string, metadataJSON_url: string };
+
 export type SbtQueryVariables = Exact<{
   where: SbtWhereUniqueInput;
 }>;
 
-export type SbtQuery = {
-  __typename?: 'Query';
-  SBT?: {
-    __typename?: 'SBT';
-    tokenId: any;
-    name: string;
-    id: number;
-    description: string;
-    image_url: string;
-    metadataJSON_url: string;
-    createdAt: string;
-    updatedAt: string;
-    blockTimestamp: string;
-    playerId: number;
-  } | null;
-};
 
-export type SbTsQueryVariables = Exact<{ [key: string]: never }>;
+export type SbtQuery = { __typename?: 'Query', SBT?: { __typename?: 'SBT', id: number, tokenId: any, name: string, description: string, image_url: string, metadataJSON_url: string } | null };
 
-export type SbTsQuery = {
-  __typename?: 'Query';
-  SBTs: Array<{
-    __typename?: 'SBT';
-    tokenId: any;
-    name: string;
-    id: number;
-    description: string;
-    image_url: string;
-    metadataJSON_url: string;
-    createdAt: string;
-    updatedAt: string;
-    blockTimestamp: string;
-    playerId: number;
-  }>;
-};
+export type SbTsQueryVariables = Exact<{
+  distinct?: InputMaybe<Array<SbtScalarFieldEnum> | SbtScalarFieldEnum>;
+  where?: InputMaybe<SbtWhereInput>;
+  orderBy?: InputMaybe<Array<SbtOrderByWithRelationInput> | SbtOrderByWithRelationInput>;
+  cursor?: InputMaybe<SbtWhereUniqueInput>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+  skip?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type SbTsQuery = { __typename?: 'Query', SBTs: Array<{ __typename?: 'SBT', id: number, tokenId: any, name: string, description: string, image_url: string, metadataJSON_url: string }> };
 
 export const namedOperations = {
   Query: {
     SBT: 'SBT',
-    SBTs: 'SBTs',
+    SBTs: 'SBTs'
   },
-};
-
-export const SbtDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'SBT' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'SBTWhereUniqueInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'SBT' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'tokenId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image_url' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'metadataJSON_url' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'blockTimestamp' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'playerId' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<SbtQuery, SbtQueryVariables>;
-export const SbTsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'SBTs' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'SBTs' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'tokenId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image_url' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'metadataJSON_url' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'blockTimestamp' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'playerId' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<SbTsQuery, SbTsQueryVariables>;
+  Fragment: {
+    SBTFields: 'SBTFields'
+  }
+}
+export const SbtFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SBTFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SBT"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"image_url"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJSON_url"}}]}}]} as unknown as DocumentNode<SbtFieldsFragment, unknown>;
+export const SbtDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SBT"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SBTWhereUniqueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"SBT"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SBTFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SBTFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SBT"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"image_url"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJSON_url"}}]}}]} as unknown as DocumentNode<SbtQuery, SbtQueryVariables>;
+export const SbTsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SBTs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SBTScalarFieldEnum"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"SBTWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SBTOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"SBTWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"SBTs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SBTFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SBTFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SBT"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"image_url"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJSON_url"}}]}}]} as unknown as DocumentNode<SbTsQuery, SbTsQueryVariables>;

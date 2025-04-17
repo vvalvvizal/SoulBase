@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React,{ ReactNode} from 'react';
-=======
-import { ReactNode } from 'react';
->>>>>>> main
+import React, { ReactNode } from 'react';
 
 import {
   ApolloClient,

@@ -1,28 +1,21 @@
+fragment SBTFields on SBT {
+  id
+  tokenId
+  name
+  description
+  image_url
+  metadataJSON_url
+}
+
 query SBT($where: SBTWhereUniqueInput!) {
   SBT(where: $where) {
-    tokenId
-    name
-    id
-    description
-    image_url
-    metadataJSON_url
-    createdAt
-    updatedAt
-    blockTimestamp
-    playerId
+    ...SBTFields
   }
 }
-query SBTs {
-  SBTs {
-    tokenId
-    name
-    id
-    description
-    image_url
-    metadataJSON_url
-    createdAt
-    updatedAt
-    blockTimestamp
-    playerId
+
+
+query SBTs($distinct: [SBTScalarFieldEnum!], $where: SBTWhereInput, $orderBy: [SBTOrderByWithRelationInput!], $cursor: SBTWhereUniqueInput, $take: Float, $skip: Float) {
+  SBTs(distinct: $distinct, where: $where, orderBy: $orderBy, cursor: $cursor, take: $take, skip: $skip) {
+    ...SBTFields
   }
 }

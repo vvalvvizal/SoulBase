@@ -41,40 +41,11 @@ The `BigInt` scalar type represents non-fractional signed whole numeric values.
 scalar BigInt
 
 type Query {
-<<<<<<< HEAD
   players(distinct: [PlayerScalarFieldEnum!], where: PlayerWhereInput, orderBy: [PlayerOrderByWithRelationInput!], cursor: PlayerWhereUniqueInput, take: Float, skip: Float): [Player!]!
   player(where: PlayerWhereUniqueInput!): Player!
   users(distinct: [UserScalarFieldEnum!], where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Float, skip: Float): [User!]!
   user(where: UserWhereUniqueInput!): User!
   SBTs(distinct: [SBTScalarFieldEnum!], where: SBTWhereInput, orderBy: [SBTOrderByWithRelationInput!], cursor: SBTWhereUniqueInput, take: Float, skip: Float): [SBT!]!
-=======
-  players(
-    distinct: [PlayerScalarFieldEnum!]
-    where: PlayerWhereInput
-    orderBy: [PlayerOrderByWithRelationInput!]
-    cursor: PlayerWhereUniqueInput
-    take: Float
-    skip: Float
-  ): [Player!]!
-  player(where: PlayerWhereUniqueInput!): Player!
-  users(
-    distinct: [UserScalarFieldEnum!]
-    where: UserWhereInput
-    orderBy: [UserOrderByWithRelationInput!]
-    cursor: UserWhereUniqueInput
-    take: Float
-    skip: Float
-  ): [User!]!
-  user(where: UserWhereUniqueInput!): User!
-  SBTs(
-    distinct: [SBTScalarFieldEnum!]
-    where: SBTWhereInput
-    orderBy: [SBTOrderByWithRelationInput!]
-    cursor: SBTWhereUniqueInput
-    take: Float
-    skip: Float
-  ): [SBT!]!
->>>>>>> main
   SBT(where: SBTWhereUniqueInput!): SBT
 }
 
@@ -197,8 +168,4 @@ input SBTOrderByWithRelationInput {
 
 input SBTWhereUniqueInput {
   id: Int!
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> main

@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
->>>>>>> main
 import { useEffect, useState } from 'react';
 import {
   AchievementSBT,
@@ -31,45 +26,36 @@ export const useAccount = () => {
       return;
     }
 
-<<<<<<< HEAD
     const AMOY_CHAIN_ID = '0x13882';
 
     try {
-
-      const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
-      if (currentChainId !== AMOY_CHAIN_ID) {
-=======
-    try {
->>>>>>> main
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [
-          {
-            chainId: '0x13882',
-            chainName: 'Amoy',
-            nativeCurrency: {
-              name: 'Polygon',
-              symbol: 'POL',
-              decimals: 18,
-            },
-            blockExplorerUrls: ['https://amoy.polygonscan.com/'],
-            rpcUrls: [
-              `https://polygon-amoy.infura.io/v3/${import.meta.env.VITE_INFURA_KEY}`,
-            ],
-          },
-        ], //80002 -> hex로
+      const currentChainId = await window.ethereum.request({
+        method: 'eth_chainId',
       });
-<<<<<<< HEAD
+      if (currentChainId !== AMOY_CHAIN_ID) {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: '0x13882',
+              chainName: 'Amoy',
+              nativeCurrency: {
+                name: 'Polygon',
+                symbol: 'POL',
+                decimals: 18,
+              },
+              blockExplorerUrls: ['https://amoy.polygonscan.com/'],
+              rpcUrls: [
+                `https://polygon-amoy.infura.io/v3/${import.meta.env.VITE_INFURA_KEY}`,
+              ],
+            },
+          ], //80002 -> hex로
+        });
 
-      await new Promise((res) => setTimeout(res, 500)); 
-    }
+        await new Promise((res) => setTimeout(res, 500));
+      }
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       setIsConnected(true);
-        
-=======
-      setIsConnected(true);
-      await fetchBlockchainData();
->>>>>>> main
     } catch (error) {
       console.error(
         'User denied account access or failed to add network',
