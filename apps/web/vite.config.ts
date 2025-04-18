@@ -11,7 +11,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      //'@soulBase/ui': path.resolve(__dirname, '../../libs/ui/src'),
+      '@soulBase/ui': path.resolve(__dirname, '../../libs/ui'),
+      '@soulBase/network': path.resolve(__dirname, '../../libs/network'),
     },
   },
   server:{
