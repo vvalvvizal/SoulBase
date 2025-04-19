@@ -14,7 +14,7 @@ export const NavSidebar = ({ menuItems }: INavSidebarProps) => {
   const [open, setOpen] = useDialogState(false);
   return (
     <>
-      <Button type="button" className="p-2" onClick={()=>setOpen((state)=>!state)} aria-label='Open main menu'></Button>
+      <Button type="button" className="p-2" onClick={()=>setOpen((state)=>!state)} aria-label='Open main menu'>버튼</Button>
       <Sidebar open={open} setOpen={setOpen} blur={false}>
         <UserInfo className="mb-8" />
         <div className="flex flex-col items-start gap-3">

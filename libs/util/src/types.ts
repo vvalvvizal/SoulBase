@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Icon as IconType } from '@tabler/icons-react';
-import { AchievementSBT } from '../../../standalone/soulBase-contract/typechain-types';
+import { SBTRouter } from '../../../standalone/soulBase-contract/typechain-types';
 
 export type MenuItem = {
   label: string;
@@ -14,6 +14,6 @@ export type BaseComponent = {
 };
 
 export type ActionType<T=string> = {
-    contract : AchievementSBT;
+    contract : SBTRouter;
     payload: T;
 }

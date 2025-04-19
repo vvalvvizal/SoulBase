@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import {
-  AchievementSBT,
-  AchievementSBT__factory,
-} from '../../../../standalone/soulBase-contract/typechain-types';
-import { SBTcontractAddress } from '../contract';
+// import {
+//   AchievementSBT,
+//   AchievementSBT__factory,
+// } from '../../../../standalone/soulBase-contract/typechain-types';
+import { SBTRouter, SBTRouter__factory } from '../../../../standalone/soulBase-contract/typechain-types';
+import { SBTcontractAddress,SBTRouterAddress } from '../contract';
 import { ethers } from 'ethers';
 declare global {
   interface Window {
@@ -12,10 +13,11 @@ declare global {
 }
 
 export const useAccount = () => {
+
   const [account, setAccount] = useState('');
   const [balance, setBalance] = useState('');
   const [isOwner, setIsOwner] = useState(false);
-  const [contract, setContract] = useState<AchievementSBT | null>(null);
+  const [contract, setContract] = useState<SBTRouter | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
   const initializeWeb3Provider = async () => {
@@ -74,11 +76,12 @@ export const useAccount = () => {
       const provider = new ethers.BrowserProvider(window.ethereum);
 
       const signer = await provider.getSigner();
-      const contract = AchievementSBT__factory.connect(
-        SBTcontractAddress,
+      const contract = SBTRouter__factory.connect(
+        SBTRouterAddress,
         signer,
       );
       setContract(contract);
+      console.log('contract', contract);
 
       const accounts = await provider.send('eth_requestAccounts', []);
       if (accounts && accounts.length > 0) {

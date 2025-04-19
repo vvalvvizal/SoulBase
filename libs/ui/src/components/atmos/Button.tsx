@@ -58,6 +58,8 @@ const Button = ({
   size = 'medium',
   loading = false,
   disabled = false,
+  onClick,
+
 }: IButtonProps) => {
   return (
     <button
@@ -66,7 +68,8 @@ const Button = ({
         buttonVariants({ intent, size, disabled, loading }),
         className,
       )}
-      disabled={disabled || loading} //OR 둘 중 하나가 참일때 버튼은 비활성화됨
+      disabled={disabled || loading} //OR 둘 중 하나가 참일때 버튼은 비활성화됨,
+      onClick={onClick}
     >
       {loading ? (
         <>

@@ -9,19 +9,20 @@ export const TailwindTagCollector = () => {
         <div className="flex items-center gap-2" />
         <div className="text-sm mr-6 gap-5 hidden md:flex" />
         <div className="w-16" />
-  
+        <div className="flex items-center justify-start gap-1 mt-1 text-xs text-gray-900"></div>
         <div className="relative flex items-center gap-2" />
         <div className="z-10 text-xl font-semibold" />
         <div className="text-xs text-gray" />
         <div className="absolute top-0 z-20 px-1 mb-4 -translate-y-1/2 left-full" />
         <div className="px-2 text-xs font-semibold text-black border border-white rounded shadow-xl bg-white/30 backdrop-black" />
-  
+        <div className="inline w-4 h-4 text-red-600"/>
         <div className="hover:underline underline-offset-8" />
         <div className="flex gap-1 items-center font-medium text-lg" />
-  
+        <div className="bg-gray-25 flex justify-center items-start"/>
         <div className="p-2" />
+        <div className ="container sm:px-2 mx-auto undefined"/>
         <div className="flex flex-col items-start gap-3" />
-  
+        <div className="max-w-md p-4 bg-white rounded mt-20'"/>
         <div className="fixed inset-0 z-50 overflow-hidden" />
         <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
         <div className="fixed inset-y-0 right-0 flex max-w-full" />
@@ -30,7 +31,6 @@ export const TailwindTagCollector = () => {
         <div className="text-lg font-semibold" />
         <div className="p-2 text-gray-500 rounded-md hover:bg-gray-100" />
         <div className="flex-1 overflow-auto" />
-        <div className="bg-gray-25 flex justify-center items-start"/>
         <div className="flex gap-3" />
         <img className="rounded-full w-16 h-16" alt="" />
         <div className="mb-2 pr-6" />

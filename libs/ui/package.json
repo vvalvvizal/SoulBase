@@ -1,7 +1,6 @@
 {
   "name": "@soulBase/ui",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,12 +14,14 @@
     "@headlessui/react": "^2.2.1",
     "@react-spring/web": "^9.7.5",
     "@soulBase/util": "*",
-    "@soulBase/forms":"*",
+    "@soulBase/forms": "*",
+    "@soulBase/network":"*",
     "@tabler/icons-react": "^3.31.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.482.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7"
-  }
+  },
+  "description": ""
 }
