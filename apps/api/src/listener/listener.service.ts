@@ -42,6 +42,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       //contract 함수 사용
       this.contract.on(
         this.contract.filters['SBTMinted'], //SBT 발생되었을 때 발생하는 이벤트
+
         async (to, tokenId, metadataJSON_url, event) => {
           const blockNumber = event.blockNumber;
           const timestamp = await this.getBlockTimeStamp(blockNumber);
@@ -60,7 +61,14 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
           }
 
           const player = await this.prisma.player.findFirst({
-            where: { user: { address: to } },
+            where: {
+              user: {
+                address: to,
+              },
+            },
+            include: {
+              user: true,
+            },
           });
 
           if (!player) {
@@ -88,7 +96,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
 
     try {
       this.contract.on(
-        this.contract.filters['SBTUpdated'],
+        this.contract.filters.SBTUpdated(),
         async (tokenId, oldTokenURI, newTokenURI) => {
           await this.updateSBT({
             tokenId: BigInt(tokenId),

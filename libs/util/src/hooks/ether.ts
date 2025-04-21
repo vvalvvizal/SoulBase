@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react';
 //   AchievementSBT,
 //   AchievementSBT__factory,
 // } from '../../../../standalone/soulBase-contract/typechain-types';
-import { SBTRouter, SBTRouter__factory } from '../../../../standalone/soulBase-contract/typechain-types';
-import { SBTcontractAddress,SBTRouterAddress } from '../contract';
+import {
+  SBTRouter,
+  SBTRouter__factory,
+} from '../../../../standalone/soulBase-contract/typechain-types';
+import { SBTcontractAddress, SBTRouterAddress } from '../contract';
 import { ethers } from 'ethers';
 declare global {
   interface Window {
@@ -13,7 +16,6 @@ declare global {
 }
 
 export const useAccount = () => {
-
   const [account, setAccount] = useState('');
   const [balance, setBalance] = useState('');
   const [isOwner, setIsOwner] = useState(false);
@@ -76,10 +78,7 @@ export const useAccount = () => {
       const provider = new ethers.BrowserProvider(window.ethereum);
 
       const signer = await provider.getSigner();
-      const contract = SBTRouter__factory.connect(
-        SBTRouterAddress,
-        signer,
-      );
+      const contract = SBTRouter__factory.connect(SBTRouterAddress, signer);
       setContract(contract);
       console.log('contract', contract);
 

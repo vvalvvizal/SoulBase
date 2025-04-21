@@ -11,6 +11,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-spring/core": "^9.7.5",
+    "@react-spring/rafz": "^9.7.5",
+    "@react-spring/types": "^9.7.5",
     "@soulBase/network": "*",
     "@soulBase/ui": "*",
     "@tailwindcss/vite": "^4.0.14",

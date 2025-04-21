@@ -1,10 +1,11 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { SBT as SBTtype } from '@prisma/client';
+//import { SBT as SBTtype } from '@prisma/client';
 import { GraphQLBigInt } from 'graphql-scalars';
-import { RestrictProperties } from 'src/common/dtos/common.input';
+//import { RestrictProperties } from 'src/common/dtos/common.input';
+import { Player } from 'src/models/players/graphql/entity/player.entity';
 
 @ObjectType()
-export class SBT implements RestrictProperties<SBT, SBTtype> {
+export class SBT {
   // Todo Add below to make optional fields optional.
   // @Field({ nullable: true })
   @Field(() => Int)
@@ -36,4 +37,7 @@ export class SBT implements RestrictProperties<SBT, SBTtype> {
 
   @Field(() => Int)
   playerId: number;
+
+  @Field(() => Player)
+  player: Player;
 }

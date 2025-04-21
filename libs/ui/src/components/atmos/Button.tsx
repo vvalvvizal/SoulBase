@@ -59,7 +59,6 @@ const Button = ({
   loading = false,
   disabled = false,
   onClick,
-
 }: IButtonProps) => {
   return (
     <button

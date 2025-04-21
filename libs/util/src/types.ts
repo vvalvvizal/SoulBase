@@ -13,7 +13,7 @@ export type BaseComponent = {
   className?: string;
 };
 
-export type ActionType<T=string> = {
-    contract : SBTRouter;
-    payload: T;
-}
+export type ActionType<T = string> = {
+  contract: SBTRouter;
+  payload: T;
+};

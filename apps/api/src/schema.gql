@@ -2,26 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Player {
-  id: Int!
-  name: String!
-  createdAt: String!
-  userId: Int!
-}
-
-type User {
-  id: Int!
-  name: String!
-  address: String!
-  isPlayer: UserType!
-  createdAt: String!
-}
-
-enum UserType {
-  PLAYER
-  FAN
-}
-
 type SBT {
   id: Int!
   tokenId: BigInt!
@@ -33,6 +13,7 @@ type SBT {
   updatedAt: String!
   blockTimestamp: String!
   playerId: Int!
+  player: Player!
 }
 
 """
@@ -40,12 +21,56 @@ The `BigInt` scalar type represents non-fractional signed whole numeric values.
 """
 scalar BigInt
 
+type User {
+  id: Int!
+  name: String!
+  address: String!
+  isPlayer: UserType!
+  createdAt: String!
+  Player: Player
+}
+
+enum UserType {
+  PLAYER
+  FAN
+}
+
+type Player {
+  id: Int!
+  name: String!
+  createdAt: String!
+  userId: Int!
+  user: User!
+  sbts: [SBT!]!
+}
+
 type Query {
-  players(distinct: [PlayerScalarFieldEnum!], where: PlayerWhereInput, orderBy: [PlayerOrderByWithRelationInput!], cursor: PlayerWhereUniqueInput, take: Float, skip: Float): [Player!]!
+  players(
+    distinct: [PlayerScalarFieldEnum!]
+    where: PlayerWhereInput
+    orderBy: [PlayerOrderByWithRelationInput!]
+    cursor: PlayerWhereUniqueInput
+    take: Float
+    skip: Float
+  ): [Player!]!
   player(where: PlayerWhereUniqueInput!): Player!
-  users(distinct: [UserScalarFieldEnum!], where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Float, skip: Float): [User!]!
+  users(
+    distinct: [UserScalarFieldEnum!]
+    where: UserWhereInput
+    orderBy: [UserOrderByWithRelationInput!]
+    cursor: UserWhereUniqueInput
+    take: Float
+    skip: Float
+  ): [User!]!
   user(where: UserWhereUniqueInput!): User!
-  SBTs(distinct: [SBTScalarFieldEnum!], where: SBTWhereInput, orderBy: [SBTOrderByWithRelationInput!], cursor: SBTWhereUniqueInput, take: Float, skip: Float): [SBT!]!
+  SBTs(
+    distinct: [SBTScalarFieldEnum!]
+    where: SBTWhereInput
+    orderBy: [SBTOrderByWithRelationInput!]
+    cursor: SBTWhereUniqueInput
+    take: Float
+    skip: Float
+  ): [SBT!]!
   SBT(where: SBTWhereUniqueInput!): SBT
 }
 

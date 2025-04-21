@@ -13,9 +13,37 @@ query SBT($where: SBTWhereUniqueInput!) {
   }
 }
 
-
-query SBTs($distinct: [SBTScalarFieldEnum!], $where: SBTWhereInput, $orderBy: [SBTOrderByWithRelationInput!], $cursor: SBTWhereUniqueInput, $take: Float, $skip: Float) {
-  SBTs(distinct: $distinct, where: $where, orderBy: $orderBy, cursor: $cursor, take: $take, skip: $skip) {
+query SBTs(
+  $distinct: [SBTScalarFieldEnum!]
+  $where: SBTWhereInput
+  $orderBy: [SBTOrderByWithRelationInput!]
+  $cursor: SBTWhereUniqueInput
+  $take: Float
+  $skip: Float
+) {
+  SBTs(
+    distinct: $distinct
+    where: $where
+    orderBy: $orderBy
+    cursor: $cursor
+    take: $take
+    skip: $skip
+  ) {
     ...SBTFields
+  }
+}
+
+query SBTsByPlayer($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    name
+    address
+    isPlayer
+    Player {
+      id
+      sbts {
+        ...SBTFields
+      }
+    }
   }
 }

@@ -11,6 +11,15 @@ export class UsersService {
   }
 
   findOne(args: FindUniqueUserArgs) {
-    return this.prisma.user.findUnique(args);
+    return this.prisma.user.findUnique({
+      ...args,
+      include: {
+        Player: {
+          include: {
+            sbts: true,
+          },
+        },
+      },
+    });
   }
 }

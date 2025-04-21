@@ -15,10 +15,10 @@ export default defineConfig({
       '@soulBase/network': path.resolve(__dirname, '../../libs/network'),
     },
   },
-  server:{
-    watch:{
-      usePolling:true,
+  server: {
+    watch: {
+      usePolling: true,
       interval: 100,
-    }
-  }
+    },
+  },
 });
