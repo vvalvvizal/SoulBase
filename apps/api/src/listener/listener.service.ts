@@ -14,19 +14,20 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  onModuleInit() {
+  async onModuleInit() {
     //  Initialie web socekt provider
-    this.initializeWebSocketProvider();
+    await this.initializeWebSocketProvider();
 
     //  Setup the event subscriber
     this.subscribeToEvents();
+
   }
 
   onModuleDestroy() {
     this.cleanup();
   }
 
-  initializeWebSocketProvider() {
+  async initializeWebSocketProvider() {
     //  Initialize web socket provider
     const infuraWssUrl = `wss://polygon-amoy.infura.io/ws/v3/${process.env.INFURA_KEY}`;
     this.provider = new ethers.WebSocketProvider(infuraWssUrl);
@@ -35,47 +36,34 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       SBTcontractAddress,
       this.provider,
     );
-  }
+
+  } 
 
   subscribeToEvents() {
     try {
-      //contract 함수 사용
-      this.contract.on(
-        this.contract.filters['SBTMinted'], //SBT 발생되었을 때 발생하는 이벤트
-
-        async (to, tokenId, metadataJSON_url, event) => {
-          const blockNumber = event.blockNumber;
-          const timestamp = await this.getBlockTimeStamp(blockNumber);
-          const url = String(metadataJSON_url);
-
-          //세부 정보 JSON 가져오기
+        this.contract.on(this.contract.filters['SBTMinted'], async (to, tokenId, metadataJSON_url, event) => {
+          
+        const blockNumber = event.blockNumber;
+         const timestamp = await this.getBlockTimeStamp(blockNumber);
+        const url = metadataJSON_url;
+        
           let metadata;
           try {
             metadata = await fetch(url).then((res) => res.json());
           } catch (err) {
-            console.error(
-              `Event: Error fetching metadata from URL: ${url}`,
-              err,
-            );
+            console.error(`Event: Error fetching metadata from URL: ${url}`, err);
             return;
           }
-
+        
           const player = await this.prisma.player.findFirst({
-            where: {
-              user: {
-                address: to,
-              },
-            },
-            include: {
-              user: true,
-            },
+            where: { user: { address: to } },
           });
-
+        
           if (!player) {
             console.log(`Event: Player not found for address: ${to}`);
             return;
           }
-
+        
           await this.createSBT({
             tokenId: BigInt(tokenId),
             name: metadata.name,
@@ -86,10 +74,11 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
             playerId: player.id,
           });
 
-          console.log(`Event: SBT ${tokenId} saved for player ${player.id}`);
-        },
-      );
+          console.log(`✅ Event: SBT ${tokenId} saved for player ${player.id}`);
+        });
+   
       console.log(`Event: SBTMinted Listening...📡`);
+      
     } catch (error) {
       console.error(`Event: SBTCreated: Listener setup failed`, error);
     }
@@ -203,6 +192,8 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       },
     });
     console.log('✅ SBT Minted:', sbt);
+  }catch (error) {
+    console.error('❌ Failed to mint SBT:', error);
   }
 
   private async updateSBT({
