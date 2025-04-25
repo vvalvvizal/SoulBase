@@ -20,7 +20,6 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
 
     //  Setup the event subscriber
     this.subscribeToEvents();
-
   }
 
   onModuleDestroy() {
@@ -36,34 +35,37 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       SBTcontractAddress,
       this.provider,
     );
-
-  } 
+  }
 
   subscribeToEvents() {
     try {
-        this.contract.on(this.contract.filters['SBTMinted'], async (to, tokenId, metadataJSON_url, event) => {
-          
-        const blockNumber = event.blockNumber;
-         const timestamp = await this.getBlockTimeStamp(blockNumber);
-        const url = metadataJSON_url;
-        
+      this.contract.on(
+        this.contract.filters['SBTMinted'],
+        async (to, tokenId, metadataJSON_url, event) => {
+          const blockNumber = event.blockNumber;
+          const timestamp = await this.getBlockTimeStamp(blockNumber);
+          const url = metadataJSON_url;
+
           let metadata;
           try {
             metadata = await fetch(url).then((res) => res.json());
           } catch (err) {
-            console.error(`Event: Error fetching metadata from URL: ${url}`, err);
+            console.error(
+              `Event: Error fetching metadata from URL: ${url}`,
+              err,
+            );
             return;
           }
-        
+
           const player = await this.prisma.player.findFirst({
             where: { user: { address: to } },
           });
-        
+
           if (!player) {
             console.log(`Event: Player not found for address: ${to}`);
             return;
           }
-        
+
           await this.createSBT({
             tokenId: BigInt(tokenId),
             name: metadata.name,
@@ -75,10 +77,10 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
           });
 
           console.log(`✅ Event: SBT ${tokenId} saved for player ${player.id}`);
-        });
-   
+        },
+      );
+
       console.log(`Event: SBTMinted Listening...📡`);
-      
     } catch (error) {
       console.error(`Event: SBTCreated: Listener setup failed`, error);
     }
@@ -192,7 +194,8 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       },
     });
     console.log('✅ SBT Minted:', sbt);
-  }catch (error) {
+  }
+  catch(error) {
     console.error('❌ Failed to mint SBT:', error);
   }
 

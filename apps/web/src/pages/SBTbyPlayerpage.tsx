@@ -1,16 +1,5 @@
-import { useQuery } from '@apollo/client';
-import { SbTsByPlayerDocument } from '@soulBase/network/src/gql/generated';
-import { useParams } from 'react-router-dom';
-export default function SBTbyPlayerpage() {
-  const { userId } = useParams();
-  const { data } = useQuery(SbTsByPlayerDocument, {
-    variables: {
-      where: {
-        id: userId ? parseInt(userId) : undefined,
-      },
-    },
-    skip: false,
-  });
+import {SBTbyPlayer} from '@soulBase/ui/src/components/templates/SBTbyPlayer';
 
-  return <div> sbts by player {JSON.stringify(data, null, 2)}</div>;
+export default function SBTbyPlayerpage() {
+  return <SBTbyPlayer/>;
 }

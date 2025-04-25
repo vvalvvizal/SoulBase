@@ -1,4 +1,4 @@
-import { SBTMint } from '@soulBase/ui/src/components/templates/SBTMint';
+import { SBTMint } from '@soulBase/ui/src/components/templates/SBTMint';
 
 export default function SBTMintpage() {
   return (
