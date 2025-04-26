@@ -35,12 +35,7 @@ query SBTs(
 
 query SBTsByPlayer($where: UserWhereUniqueInput!) {
   user(where: $where) {
-    id
-    name
-    address
-    isPlayer
     Player {
-      id
       sbts {
         ...SBTFields
       }

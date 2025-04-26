@@ -9,6 +9,7 @@ export const TailwindTagCollector = () => {
       <div className="flex items-center gap-2" />
       <div className="text-sm mr-6 gap-5 hidden md:flex" />
       <div className="w-16" />
+      <div className="relative pb-[100%]"/>
       <div className="flex items-center justify-start gap-1 mt-1 text-xs text-gray-900"></div>
       <div className="relative flex items-center gap-2" />
       <div className="z-10 text-xl font-semibold" />
@@ -29,16 +30,44 @@ export const TailwindTagCollector = () => {
       <div className="flex flex-col w-full max-w-sm h-full bg-white shadow-xl" />
       <div className="flex items-center justify-between p-4 border-b" />
       <div className="text-lg font-semibold" />
+      <div  className="h-48 w-full object-cover md:h-full md:w-48"/>
       <div className="p-2 text-gray-500 rounded-md hover:bg-gray-100" />
       <div className="flex-1 overflow-auto" />
+      <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8"/>
+      <div className="max-w-7xl mx-auto"/>
+      <div className="text-center mb-12"/>
+      <div className="text-3xl font-extrabold text-gray-900 sm:text-4xl"/>
+      <div className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4"/>
       <div className="flex gap-3" />
+      <div className="md:flex text-sm text-blue-500 hover:underline"/>
+      <div className="h-4 w-4 text-yellow-500 mr-1" />
+      <div className="mt-4 flex items-center text-gray-700"/>
+      <div className="mt-2 text-xl font-bold text-gray-900"></div>
+      <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold"></div>
+      <div className="h-48 w-full object-cover md:h-full md:w-48"/>
       <img className="rounded-full w-16 h-16" alt="" />
+      <div className="h-48 w-full md:h-full md:w-48 bg-gray-100 flex items-center justify-center"></div>
       <div className="mb-2 pr-6" />
-      <span className="text-gray-600 break-all" />
-      <span className="ml-2 border border-black shadow-lg px-2 mt-1 py-1 rounded-full" />
+      <div className="container mx-auto px-4 py-8" />
+      <div className="mb-8" />
+      <div className="text-3xl font-bold text-center mb-2" />
+      <div className="text-gray-600 text-center mb-6" />
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between" />
+      <div className="relative w-full md:w-64" />
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+      <div className="h-5 w-5 text-gray-400" />
+      <div className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+      <div className="flex items-center gap-2" />
+      <div className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" />
+      <div className="h-4 w-4 mr-2" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" />
+      <div className="col-span-full text-center py-12" />
+      <div className="text-gray-500 text-lg" />
+      <div className="text-gray-600 break-all" />
+      <div className="ml-2 border border-black shadow-lg px-2 mt-1 py-1 rounded-full" />
       <div className="mt-2 bg-gray-200 p-2 text-right rounded" />
       <div className="font-semibold" />
-      <p className="text-gray-600 font-light text-2xl" />
+      <div className="text-gray-600 font-light text-2xl" />
       <div className="block w-full px-3 py-2 border rounded appearance-none placeholder-gray read-only:text-gray-600 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
       <div className="flex items-baseline justify-between" />
       <div className="mb-1 font-semibold capitalize" />
@@ -48,6 +77,9 @@ export const TailwindTagCollector = () => {
       <div className="inline-flex items-center justify-center rounded-md font-medium bg-white text-gray-800 border-gray-400 text-sm py-1 px-2 opacity-50 cursor-not-allowed" />
       <div className="min-h-[calc(100vh-8rem)] mt-4 h-64 bg-white flex flex-col items-center justify-center gap-4 font-light" />
       <div className="animate-spin" />
+      <div className="p-8"/>
+      <div className="md:shrink-0 padding-2"/>
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl border border-gray-200"/>
     </div>
   );
 };
