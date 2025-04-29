@@ -32,7 +32,7 @@ function App() {
           />
           <Route path="/about" element={<div>About 페이지</div>} />
           <Route path="/sbtmint" element={<SBTMintpage />} />
-          <Route path='/swap' element={<SwapPage/>}/>
+          <Route path="/swap" element={<SwapPage />} />
         </Routes>
       </Container>
     </main>

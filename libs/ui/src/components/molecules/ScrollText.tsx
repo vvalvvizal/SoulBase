@@ -41,5 +41,5 @@ export const ScrollText = ({ items, className }: IScrollTextProps) => {
   );
 };
 export const TokenInput = () => {
-    return (<div></div>);
+  return <div></div>;
 };

@@ -58,7 +58,7 @@ export const SBTMint = () => {
   };
 
   return (
-   <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-center mb-2">Mint SBT</h1>
         <p className="text-gray-600 text-center mb-6">
@@ -66,31 +66,31 @@ export const SBTMint = () => {
         </p>
       </div>
       <div className="flex justify-center">
-    <Form
-      className="max-w-md p-4 bg-white rounded mt-15"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      
-      <HtmlLabel title="to" error={errors.to?.message}>
-      <Badge className="" size="sm" variant="gray">Where the SBT will be sent</Badge>
-        <HtmlInput placeholder="Enter to address" {...register('to')} />
-        
-      </HtmlLabel>
-      <HtmlLabel
-        title="metadataJSON_url"
-        error={errors.metadataJSON_url?.message}
-      >
-        <HtmlInput
-          placeholder="Enter metadataJSON_url"
-          {...register('metadataJSON_url')}
-        />
-      </HtmlLabel>
+        <Form
+          className="max-w-md p-4 bg-white rounded mt-15"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <HtmlLabel title="to" error={errors.to?.message}>
+            <Badge className="" size="sm" variant="gray">
+              Where the SBT will be sent
+            </Badge>
+            <HtmlInput placeholder="Enter to address" {...register('to')} />
+          </HtmlLabel>
+          <HtmlLabel
+            title="metadataJSON_url"
+            error={errors.metadataJSON_url?.message}
+          >
+            <HtmlInput
+              placeholder="Enter metadataJSON_url"
+              {...register('metadataJSON_url')}
+            />
+          </HtmlLabel>
 
-      <Button loading={loading} intent="primary" size="small" type="submit">
-        Submit
-      </Button>
-    </Form>
-    </div>
+          <Button loading={loading} intent="primary" size="small" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 };

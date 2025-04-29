@@ -1,5 +1,10 @@
 import { MenuItem } from '@soulBase/util/src/types';
-import { IconHome, IconBook, IconCoin, IconExchange } from '@tabler/icons-react';
+import {
+  IconHome,
+  IconBook,
+  IconCoin,
+  IconExchange,
+} from '@tabler/icons-react';
 import { Container } from '../../components/atmos/Container';
 import { useLocation, Link } from 'react-router-dom';
 import { Logo } from './Logo';
@@ -11,7 +16,7 @@ const MENUITEMS: MenuItem[] = [
   { label: 'Home', href: '/', Icon: IconHome },
   { label: 'My Collection', href: `/user/2`, Icon: IconBook },
   { label: 'SBT Mint', href: `/sbtmint`, Icon: IconCoin },
-  {label: 'Swap', href: `/swap`, Icon: IconExchange},
+  { label: 'Swap', href: `/swap`, Icon: IconExchange },
 ];
 
 export const Header = () => {

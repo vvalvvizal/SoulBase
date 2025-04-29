@@ -1,45 +1,45 @@
-import { useState } from "react";
-import { ChevronDown } from "lucide-react"
+import { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 interface TokenInfo {
-    name: string;
-    symbol: string;
-    address: string;
-    decimals: number;
-    icon: string;
-  }
+  name: string;
+  symbol: string;
+  address: string;
+  decimals: number;
+  icon: string;
+}
 
 export const BBT_TOKEN_INFO = {
-    name:"BBT",
-    symbol:"BBT",
-    address:"",
-    decimals:18,
-    icon:"https://cryptologos.cc/logos/big-bang-token-bbt-logo.png",
-}
+  name: 'BBT',
+  symbol: 'BBT',
+  address: '0x7ff09C7b0D70E15545b964c766a4d1F4E35fE6f1',
+  decimals: 18,
+  icon: 'https://cryptologos.cc/logos/big-bang-token-bbt-logo.png',
+};
 export const POL_TOKEN_INFO = {
-    name:"POL",
-    symbol:"POL",
-    address:"",
-    decimals:18,
-    icon:"https://cryptologos.cc/logos/polygon-matic-logo.png",
-}
+  name: 'POL',
+  symbol: 'POL',
+  address: '0x0000000000000000000000000000000000001010',
+  decimals: 18,
+  icon: 'https://coin-images.coingecko.com/coins/images/32440/large/polygon.png?1698233684',
+};
 
 interface TokenInputProps {
-    label:string
-    value:string 
-    onChange:(value:string)=>void
-    token:TokenInfo
-    address:string
-    icon:string
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  token: TokenInfo;
+  address: string;
+  icon: string;
 }
 
-export const TokenInput = (TokenInputs:TokenInputProps) => {
-    const {label, value, onChange, token, address, icon} = TokenInputs;
+export const TokenInput = (TokenInputs: TokenInputProps) => {
+  const { label, value, onChange, token, address, icon } = TokenInputs;
 
-    const [isTokenListOpen, setIsTokenListOpen] = useState(false);
+  const [isTokenListOpen, setIsTokenListOpen] = useState(false);
 
-    return(
-           <div className="p-4 bg-gray-800 rounded-xl">
+  return (
+    <div className="p-4 bg-gray-800 rounded-xl">
       <div className="flex justify-between mb-2">
         <span className="text-sm text-gray-400">{label}</span>
         <span className="text-sm text-gray-400">
@@ -59,7 +59,11 @@ export const TokenInput = (TokenInputs:TokenInputProps) => {
             onClick={() => setIsTokenListOpen(!isTokenListOpen)}
             className="flex items-center gap-2 py-2 px-3 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors"
           >
-            <img src={token.icon || "/placeholder.svg"} alt={token.name} className="w-5 h-5 rounded-full" />
+            <img
+              src={token.icon || '/placeholder.svg'}
+              alt={token.name}
+              className="w-5 h-5 rounded-full"
+            />
             <span>{token.symbol}</span>
             <ChevronDown size={16} />
           </button>
@@ -72,7 +76,11 @@ export const TokenInput = (TokenInputs:TokenInputProps) => {
                   className="w-full flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"
                   onClick={() => setIsTokenListOpen(false)}
                 >
-                  <img src={token.icon || "/placeholder.svg"} alt={token.name} className="w-6 h-6 rounded-full" />
+                  <img
+                    src={token.icon || '/placeholder.svg'}
+                    alt={token.name}
+                    className="w-6 h-6 rounded-full z"
+                  />
                   <div className="text-left">
                     <div>{token.symbol}</div>
                     <div className="text-xs text-gray-400">{token.name}</div>
@@ -88,5 +96,6 @@ export const TokenInput = (TokenInputs:TokenInputProps) => {
           최대
         </button> */}
       </div>
-    </div>);
-}
+    </div>
+  );
+};
