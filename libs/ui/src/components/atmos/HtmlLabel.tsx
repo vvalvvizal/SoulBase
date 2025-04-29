@@ -11,7 +11,7 @@ export const HtmlLabel = React.forwardRef<HTMLLabelElement, HtmlLabelProps>(
     <label ref={ref} className={`text-sm block select-none ${className}`}>
       <div className="flex items-baseline justify-between">
         <div className="mb-1 font-semibold capitalize">{title}</div>
-        <div className="text-xs text-gray-600">
+        <div className="text-md text-gray-600">
           {optional ? `{optional}` : null}
         </div>
       </div>

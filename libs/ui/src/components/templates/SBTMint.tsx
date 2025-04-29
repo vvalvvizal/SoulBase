@@ -9,6 +9,7 @@ import { sbtMinter } from '@soulBase/ui/utils/actions/sbtMinter';
 import { useNavigate } from 'react-router-dom';
 import { useApolloClient } from '@apollo/client';
 import { namedOperations } from '@soulBase/network/src/gql/generated';
+import Badge from '../atmos/Badge';
 
 export const SBTMint = () => {
   const {
@@ -57,12 +58,23 @@ export const SBTMint = () => {
   };
 
   return (
+   <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-center mb-2">Mint SBT</h1>
+        <p className="text-gray-600 text-center mb-6">
+          관리자는 SBT를 발행할 수 있습니다 <br />
+        </p>
+      </div>
+      <div className="flex justify-center">
     <Form
-      className="max-w-md p-4 bg-white rounded mt-20"
+      className="max-w-md p-4 bg-white rounded mt-15"
       onSubmit={handleSubmit(onSubmit)}
     >
+      
       <HtmlLabel title="to" error={errors.to?.message}>
+      <Badge className="" size="sm" variant="gray">Where the SBT will be sent</Badge>
         <HtmlInput placeholder="Enter to address" {...register('to')} />
+        
       </HtmlLabel>
       <HtmlLabel
         title="metadataJSON_url"
@@ -74,9 +86,11 @@ export const SBTMint = () => {
         />
       </HtmlLabel>
 
-      <Button loading={loading} intent="secondary" size="small" type="submit">
+      <Button loading={loading} intent="primary" size="small" type="submit">
         Submit
       </Button>
     </Form>
+    </div>
+    </div>
   );
 };

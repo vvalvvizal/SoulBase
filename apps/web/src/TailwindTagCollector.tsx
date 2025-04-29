@@ -80,6 +80,42 @@ export const TailwindTagCollector = () => {
       <div className="p-8" />
       <div className="md:shrink-0 padding-2" />
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl border border-gray-200" />
+      <div className="bg-white rounded-3xl shadow-lg p-6 w-full max-w-md mx-auto"/>
+  <div className="flex justify-between items-center mb-4" />
+
+  <div className="mb-4 p-3 bg-gray-50 rounded-xl" />
+
+  <div className="bg-gray-50 rounded-2xl p-4 mb-2" />
+
+  <div className="flex justify-center -my-3 z-10 relative" />
+
+  <div className="bg-gray-50 rounded-2xl p-4 mb-4" />
+
+  <div className="bg-gray-50 rounded-xl p-3 mb-4 text-sm" />
+
+  <div className="w-full py-3 px-4 rounded-xl font-bold text-white"/>
+  <div className="bg-gray-300 cursor-not-allowed bg-blue-600 hover:bg-blue-700 transition-colors"/>
+  <div className="inline-flex transition-all items-center shadow justify-center duration-300 rounded-full text-yellow-900" />
+  <div className="w-full max-w-md mx-auto bg-gray-900 rounded-2xl shadow-xl p-4 text-white" />
+
+{/* SectionTitle */}
+<div className="flex justify-between items-center mb-4" />
+<div className="text-xl font-bold" />
+<div className="p-2 rounded-lg hover:bg-gray-800 transition-colors" />
+
+{/* SlippageSettings */}
+<div className="mb-4 p-3 bg-gray-800 rounded-xl" />
+<div className="text-sm font-medium mb-2" />
+<div className="flex gap-2" />
+<div className="px-3 py-1 rounded-lg text-sm bg-gray-700 hover:bg-gray-600" />
+<div className="px-3 py-1 rounded-lg text-sm bg-blue-600" />
+<div className="relative flex-1" />
+<input className="w-full p-2 rounded-lg bg-gray-700 text-white text-sm placeholder-gray-400 focus:outline-none" />
+
+{/* PrimaryButton */}
+<div className="w-full mt-4 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 transition-colors" />
+<div className="w-full mt-4 py-4 rounded-xl font-bold text-lg bg-gray-700 text-gray-500 cursor-not-allowed" />
+
     </div>
   );
 };

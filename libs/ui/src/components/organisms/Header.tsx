@@ -1,5 +1,5 @@
 import { MenuItem } from '@soulBase/util/src/types';
-import { IconHome, IconBook, IconCoin } from '@tabler/icons-react';
+import { IconHome, IconBook, IconCoin, IconExchange } from '@tabler/icons-react';
 import { Container } from '../../components/atmos/Container';
 import { useLocation, Link } from 'react-router-dom';
 import { Logo } from './Logo';
@@ -7,18 +7,17 @@ import { Menus } from './Menu';
 import { NavSidebar } from './NavSidebar';
 import { useAccount } from '@soulBase/util/src/hooks/ether';
 
-
-
 const MENUITEMS: MenuItem[] = [
   { label: 'Home', href: '/', Icon: IconHome },
   { label: 'My Collection', href: `/user/2`, Icon: IconBook },
-  {label: 'SBT Mint', href: `/sbtmint`, Icon: IconCoin},
+  { label: 'SBT Mint', href: `/sbtmint`, Icon: IconCoin },
+  {label: 'Swap', href: `/swap`, Icon: IconExchange},
 ];
 
 export const Header = () => {
   const { account } = useAccount();
   return (
-    <header> 
+    <header>
       <nav className="flexed z-50 top-0 w-full bg-white">
         <Container className="relative flex items-center justify-between h-16 py-2">
           <div className="relative flex items-center justify-between w-full gap-16">

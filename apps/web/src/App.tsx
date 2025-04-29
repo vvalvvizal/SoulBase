@@ -5,6 +5,7 @@ import { TailwindTagCollector } from './TailwindTagCollector';
 import SBTbyPlayerpage from './pages/SBTbyPlayerpage';
 import SBTItempage from './pages/SBTItempage';
 import SBTMintpage from './pages/SBTMintpage';
+import SwapPage from './pages/SwapPage';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           />
           <Route path="/about" element={<div>About 페이지</div>} />
           <Route path="/sbtmint" element={<SBTMintpage />} />
+          <Route path='/swap' element={<SwapPage/>}/>
         </Routes>
       </Container>
     </main>
