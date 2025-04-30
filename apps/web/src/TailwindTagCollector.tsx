@@ -21,7 +21,7 @@ export const TailwindTagCollector = () => {
       <div className="flex gap-1 items-center font-medium text-lg" />
       <div className="bg-gray-25 flex justify-center items-start" />
       <div className="p-2 max-h-60 overflow-y-auto" />
-      <div className="relative z-10 w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center hover:bg-gray-700 transition-colors"/>
+      <div className="relative z-10 w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center hover:bg-gray-700 transition-colors" />
       <div className="container sm:px-2 mx-auto undefined" />
       <div className="flex flex-col items-start gap-3" />
       <div className="max-w-md p-4 bg-white rounded mt-20'" />
@@ -93,7 +93,7 @@ export const TailwindTagCollector = () => {
       <div className="bg-gray-50 rounded-2xl p-4 mb-4" />
 
       <div className="bg-gray-50 rounded-xl p-3 mb-4 text-sm" />
-      <div className="absolute right-0 mt-2 w-60 bg-gray-800 rounded-xl shadow-lg z-10 p-2"/>
+      <div className="absolute right-0 mt-2 w-60 bg-gray-800 rounded-xl shadow-lg z-10 p-2" />
       <div className="w-full py-3 px-4 rounded-xl font-bold text-white" />
       <div className="bg-gray-300 cursor-not-allowed bg-blue-600 hover:bg-blue-700 transition-colors" />
       <div className="inline-flex transition-all items-center shadow justify-center duration-300 rounded-full text-yellow-900" />

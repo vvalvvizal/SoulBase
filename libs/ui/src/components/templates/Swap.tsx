@@ -7,7 +7,7 @@ import {
   POL_TOKEN_INFO,
   TokenInput,
 } from '../organisms/TokenInput';
-import {ArrowDown} from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 
 export const Swap = () => {
   const [showSettings, setShowSettings] = useState(false);
@@ -22,18 +22,21 @@ export const Swap = () => {
     setInputAmount(value);
     //input에 따라 교환될 output 계산
     if (value && !isNaN(value)) {
-      const output = isReversed? (Number.parseFloat(value)/exchangeRate).toFixed(6) :(Number.parseFloat(value) * exchangeRate).toFixed(6);
-      //reversed 안 된 상태의 input은 bbt 
+      const output = isReversed
+        ? (Number.parseFloat(value) / exchangeRate).toFixed(6)
+        : (Number.parseFloat(value) * exchangeRate).toFixed(6);
+      //reversed 안 된 상태의 input은 bbt
       //1 BBT / 10000 = 1POL
       setOutputAmount(output);
-    } 
-    else{
+    } else {
       setOutputAmount('');
     }
   };
   const handleOutputChange = (value) => {
     if (value && !isNaN(value)) {
-      const input = isReversed? (Number.parseFloat(value) * exchangeRate).toFixed(6) : (Number.parseFloat(value) / exchangeRate).toFixed(6);
+      const input = isReversed
+        ? (Number.parseFloat(value) * exchangeRate).toFixed(6)
+        : (Number.parseFloat(value) / exchangeRate).toFixed(6);
       setInputAmount(input);
     }
     setOutputAmount(value);
@@ -41,19 +44,15 @@ export const Swap = () => {
   };
 
   const handleReverseTokens = () => {
-
     setIsReversed(!isReversed);
-    setInputAmount(outputAmount)
+    setInputAmount(outputAmount);
     setOutputAmount(inputAmount);
-  }
+  };
 
-  const inputToken = isReversed? BBT_TOKEN_INFO : POL_TOKEN_INFO; //reversed 안 된 상태 input은 bbt 
-  const outputToken = isReversed? POL_TOKEN_INFO:BBT_TOKEN_INFO; //output은 pol
+  const inputToken = isReversed ? BBT_TOKEN_INFO : POL_TOKEN_INFO; //reversed 안 된 상태 input은 bbt
+  const outputToken = isReversed ? POL_TOKEN_INFO : BBT_TOKEN_INFO; //output은 pol
 
-  const handleSwap = () => {
-
-  }
-
+  const handleSwap = () => {};
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -118,8 +117,6 @@ export const Swap = () => {
               value={inputAmount}
               onChange={handleInputChange}
               token={inputToken}
-              address="0x1234567890abcdef1234567890abcdef12345678"
-              icon="/path/to/icon.png"
             />
 
             <div className="relative h-8 flex justify-center">
@@ -127,11 +124,11 @@ export const Swap = () => {
                 <div className="w-full border-t border-gray-700"></div>
               </div>
               <button
-            onClick={handleReverseTokens}
-            className="relative z-5 w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center hover:bg-gray-700 transition-colors"
-          >
-            <ArrowDown size={20} />
-          </button>
+                onClick={handleReverseTokens}
+                className="relative z-5 w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center hover:bg-gray-700 transition-colors"
+              >
+                <ArrowDown size={20} />
+              </button>
             </div>
 
             <TokenInput
@@ -139,8 +136,7 @@ export const Swap = () => {
               value={outputAmount}
               onChange={handleOutputChange}
               token={outputToken}
-              address="0x1234567890abcdef1234567890abcdef12345678"
-              icon="/path/to/icon.png"
+
             />
           </div>
 
@@ -151,7 +147,9 @@ export const Swap = () => {
                 {/* <Info size={14} className="ml-1 text-gray-500" /> */}
               </span>
               <span>
-                1 {inputToken.symbol} = {isReversed ? (1 / exchangeRate).toFixed(6) : exchangeRate} {outputToken.symbol}
+                1 {inputToken.symbol} ={' '}
+                {isReversed ? (1 / exchangeRate).toFixed(6) : exchangeRate}{' '}
+                {outputToken.symbol}
               </span>
             </div>
             <div className="flex justify-between items-center">
@@ -161,16 +159,16 @@ export const Swap = () => {
           </div>
 
           <button
-        onClick={handleSwap}
-        disabled={!inputAmount || Number.parseFloat(inputAmount) === 0}
-        className={`w-full mt-4 py-4 rounded-xl font-bold text-lg ${
-          !inputAmount || Number.parseFloat(inputAmount) === 0
-            ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-700 transition-colors"
-        }`}
-      >
-        {!inputAmount ? "금액을 입력하세요" : "스왑"}
-      </button>
+            onClick={handleSwap}
+            disabled={!inputAmount || Number.parseFloat(inputAmount) === 0}
+            className={`w-full mt-4 py-4 rounded-xl font-bold text-lg ${
+              !inputAmount || Number.parseFloat(inputAmount) === 0
+                ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                : 'bg-blue-600 hover:bg-blue-700 transition-colors'
+            }`}
+          >
+            {!inputAmount ? '금액을 입력하세요' : '스왑'}
+          </button>
 
           {/* <div className="mt-4 flex justify-center">
         <button className="flex items-center text-sm text-gray-400 hover:text-gray-300">

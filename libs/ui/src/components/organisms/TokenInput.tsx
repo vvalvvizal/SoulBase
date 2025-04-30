@@ -14,7 +14,7 @@ export const BBT_TOKEN_INFO = {
   symbol: 'BBT',
   address: '0x7ff09C7b0D70E15545b964c766a4d1F4E35fE6f1',
   decimals: 18,
-  icon: 'https://cryptologos.cc/logos/big-bang-token-bbt-logo.png',
+  icon: '/bbt_logo.png'
 };
 export const POL_TOKEN_INFO = {
   name: 'POL',
@@ -29,12 +29,10 @@ interface TokenInputProps {
   value: string;
   onChange: (value: string) => void;
   token: TokenInfo;
-  address: string;
-  icon: string;
 }
 
 export const TokenInput = (TokenInputs: TokenInputProps) => {
-  const { label, value, onChange, token, address, icon } = TokenInputs;
+  const { label, value, onChange, token} = TokenInputs;
 
   const [isTokenListOpen, setIsTokenListOpen] = useState(false);
 
