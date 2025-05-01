@@ -10,7 +10,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { Logo } from './Logo';
 import { Menus } from './Menu';
 import { NavSidebar } from './NavSidebar';
-import { useAccount } from '@soulBase/util/src/hooks/ether';
+import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 
 const MENUITEMS: MenuItem[] = [
   { label: 'Home', href: '/', Icon: IconHome },

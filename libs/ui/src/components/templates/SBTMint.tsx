@@ -1,5 +1,5 @@
 import { useFormSBTMinter } from '@soulBase/forms/src/SBTMinter';
-import { useAccount } from '@soulBase/util/src/hooks/ether';
+import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useState, useEffect } from 'react';
 import { Form } from '../atmos/Form';
 import { HtmlLabel } from '../atmos/HtmlLabel';

@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
-import { BBTcontractAddress } from './util';
+import { BBTcontractAddress, LPcontractAddress } from './util';
 import { BaseballToken__factory } from '../../standalone/soulBase-contract/typechain-types';
+import { LiquidityPool__factory } from '../../standalone/soulBase-contract/typechain-types';
 
 import 'dotenv/config';
 
@@ -10,6 +11,8 @@ const main = async () => {
 
   const provider = new ethers.WebSocketProvider(infuraWssUrl);
 
+
+  //BBT Minted Event
   try {
     await provider.ready;
     console.log('WebSocket connected');
@@ -17,12 +20,13 @@ const main = async () => {
     console.error('Error connecting to WebSocket:', error);
     return;
   }
-  const contract = BaseballToken__factory.connect(BBTcontractAddress, provider);
+  const bbtcontract = BaseballToken__factory.connect(BBTcontractAddress, provider);
+  const lpcontract = LiquidityPool__factory.connect(LPcontractAddress, provider);
 
   try {
-    contract.on(contract.filters['BaseballTokenMinted'], (account, amount) => {
+    bbtcontract.on(bbtcontract.filters['BaseballTokenMinted'], (account, amount) => {
       console.log(
-        `Event:  ${amount.toString()} Baseball Token Minted for ${account}🪙`,
+        `Event:  ${amount.toString()} Baseball Token Minted for ${account}`,
       );
     });
 
@@ -30,5 +34,18 @@ const main = async () => {
   } catch (error) {
     console.log('BaseballMinted event error', error);
   }
+
+  // SWAP EVENT
+  try{
+    lpcontract.on(lpcontract.filters['TradedTokens'],(account, ethTraded, tokenTraded)=>{
+      console.log(`Event: ${account} traded ${ethTraded.toString()} ETH - ${tokenTraded.toString()} BBT`);
+    });
+  
+  console.log('Event: TradedTokens Listening...');}
+  catch(error){
+    console.log()
+  }
+
+  
 };
 main();

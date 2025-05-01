@@ -1,4 +1,4 @@
-import { useAccount } from '@soulBase/util/src/hooks/ether';
+import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useEffect } from 'react';
 import { BaseComponent } from '@soulBase/util/src/types';
 

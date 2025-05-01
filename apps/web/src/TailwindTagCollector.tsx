@@ -5,11 +5,11 @@ export const TailwindTagCollector = () => {
       <div className="flexed z-50 top-0 w-full bg-white" />
       <div className="relative flex items-center justify-between h-16 py-2" />
       <div className="relative flex items-center justify-between w-full gap-16" />
-      <div className="w-auto z-50" />
+      <div className="w-auto z-50 max-h-11 pr-1" />
       <div className="flex items-center gap-2" />
       <div className="text-sm mr-6 gap-5 hidden md:flex" />
       <div className="w-16 w-6 h-6 rounded-full" />
-      <div className="relative pb-[100%]" />
+      <div className="relative pb-[100%] py-0.5" />
       <div className="flex items-center justify-start gap-1 mt-1 text-xs text-gray-900"></div>
       <div className="relative flex items-center gap-2" />
       <div className="z-10 text-xl font-semibold" />
@@ -17,7 +17,7 @@ export const TailwindTagCollector = () => {
       <div className="absolute top-0 z-20 px-1 mb-4 -translate-y-1/2 left-full" />
       <div className="px-2 text-xs font-semibold text-black border border-white rounded shadow-xl bg-white/30 backdrop-black" />
       <div className="inline w-4 h-4 text-red-600" />
-      <div className="hover:underline underline-offset-8" />
+      <div className="hover:underline underline-offset-8 pr-2" />
       <div className="flex gap-1 items-center font-medium text-lg" />
       <div className="bg-gray-25 flex justify-center items-start" />
       <div className="p-2 max-h-60 overflow-y-auto" />
@@ -86,7 +86,7 @@ export const TailwindTagCollector = () => {
 
       <div className="mb-4 p-3 bg-gray-50 rounded-xl" />
 
-      <div className="bg-gray-50 rounded-2xl p-4 mb-2" />
+      <div className="bg-gray-50 rounded-2xl p-4 mb-2 top-1/2" />
 
       <div className="flex justify-center -my-3 z-10 relative" />
 

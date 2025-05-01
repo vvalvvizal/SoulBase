@@ -14,7 +14,7 @@ export const BBT_TOKEN_INFO = {
   symbol: 'BBT',
   address: '0x7ff09C7b0D70E15545b964c766a4d1F4E35fE6f1',
   decimals: 18,
-  icon: '/bbt_logo.png'
+  icon: '/bbt_logo.png',
 };
 export const POL_TOKEN_INFO = {
   name: 'POL',
@@ -32,9 +32,13 @@ interface TokenInputProps {
 }
 
 export const TokenInput = (TokenInputs: TokenInputProps) => {
-  const { label, value, onChange, token} = TokenInputs;
+  const { label, value, onChange, token } = TokenInputs;
 
   const [isTokenListOpen, setIsTokenListOpen] = useState(false);
+
+  const handleMaxClick = () => {
+    
+  }
 
   return (
     <div className="p-4 bg-gray-800 rounded-xl">
@@ -90,9 +94,9 @@ export const TokenInput = (TokenInputs: TokenInputProps) => {
         </div>
       </div>
       <div className="mt-2 flex justify-end">
-        {/* <button onClick={handleMaxClick} className="text-xs text-blue-500 hover:text-blue-400 transition-colors">
+        <button onClick={handleMaxClick} className="text-xs text-blue-500 hover:text-blue-400 transition-colors">
           최대
-        </button> */}
+        </button>
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ declare global {
     ethereum: any;
   }
 }
+import { getProvider } from './getProvider';
 
 export const useAccount = () => {
   const [account, setAccount] = useState('');
@@ -69,13 +70,8 @@ export const useAccount = () => {
   };
 
   const fetchBlockchainData = async () => {
-    if (!window?.ethereum) {
-      console.error('Ethereum object not found.');
-      return;
-    }
-
-    try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
+  try{
+      const provider = await getProvider();
 
       const signer = await provider.getSigner();
       const contract = SBTRouter__factory.connect(SBTRouterAddress, signer);
@@ -91,7 +87,7 @@ export const useAccount = () => {
         setBalance(ethers.formatEther(balance));
 
         const contractOwner = await contract.owner();
-        setIsOwner(accounts.toLowerCase() === contractOwner.toLowerCase());
+        setIsOwner(account.toLowerCase() === contractOwner.toLowerCase());
       } else {
         console.error('No accounts detected');
         return;
