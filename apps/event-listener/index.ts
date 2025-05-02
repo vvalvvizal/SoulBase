@@ -11,7 +11,6 @@ const main = async () => {
 
   const provider = new ethers.WebSocketProvider(infuraWssUrl);
 
-
   //BBT Minted Event
   try {
     await provider.ready;
@@ -20,15 +19,24 @@ const main = async () => {
     console.error('Error connecting to WebSocket:', error);
     return;
   }
-  const bbtcontract = BaseballToken__factory.connect(BBTcontractAddress, provider);
-  const lpcontract = LiquidityPool__factory.connect(LPcontractAddress, provider);
+  const bbtcontract = BaseballToken__factory.connect(
+    BBTcontractAddress,
+    provider,
+  );
+  const lpcontract = LiquidityPool__factory.connect(
+    LPcontractAddress,
+    provider,
+  );
 
   try {
-    bbtcontract.on(bbtcontract.filters['BaseballTokenMinted'], (account, amount) => {
-      console.log(
-        `Event:  ${amount.toString()} Baseball Token Minted for ${account}`,
-      );
-    });
+    bbtcontract.on(
+      bbtcontract.filters['BaseballTokenMinted'],
+      (account, amount) => {
+        console.log(
+          `Event:  ${amount.toString()} Baseball Token Minted for ${account}`,
+        );
+      },
+    );
 
     console.log('Event: BaseballTokenMinted Listening...');
   } catch (error) {
@@ -36,16 +44,29 @@ const main = async () => {
   }
 
   // SWAP EVENT
-  try{
-    lpcontract.on(lpcontract.filters['TradedTokens'],(account, ethTraded, tokenTraded)=>{
-      console.log(`Event: ${account} traded ${ethTraded.toString()} ETH - ${tokenTraded.toString()} BBT`);
-    });
-  
-  console.log('Event: TradedTokens Listening...');}
-  catch(error){
-    console.log()
+  try {
+    lpcontract.on(
+      lpcontract.filters['TradedTokens'],
+      (account, ethTraded, tokenTraded) => {
+        console.log(
+          `Event: ${account} traded ${ethTraded.toString()} ETH - ${tokenTraded.toString()} BBT`,
+        );
+      },
+    );
+
+    console.log('Event: TradedTokens Listening...');
+  } catch (error) {
+    console.log();
   }
 
-  
+  // ADD LIQUIDITY EVENT
+  try{
+    lpcontract.on(lpcontract.filters['LiquidityAdded'],(account)=>{
+
+    })
+  }
+catch(error){
+
 };
+}
 main();

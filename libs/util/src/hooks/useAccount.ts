@@ -70,7 +70,7 @@ export const useAccount = () => {
   };
 
   const fetchBlockchainData = async () => {
-  try{
+    try {
       const provider = await getProvider();
 
       const signer = await provider.getSigner();

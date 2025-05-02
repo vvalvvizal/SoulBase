@@ -3,13 +3,13 @@ pragma solidity ^0.8.13;
 
 import "./BaseballToken.sol";
 import "./LiquidityPool.sol";
-contract BaseballTokenRouter {
+contract BaseballTokenRouter  is Initializable, UUPSUpgradeable, OwnableUpgradeable{
 
     LiquidityPool liquidityPool;
     BaseballToken baseballToken;
 
-    constructor (LiquidityPool _liquidityPool, BaseballToken _baseballToken){
-        liquidityPool = _liquidityPool;
+    function initialize(LiquidityPool _liquidityPool, BaseballToken _baseballToken) public initializer{
+       liquidityPool = _liquidityPool;
         baseballToken = _baseballToken;
     }
 
@@ -36,4 +36,6 @@ contract BaseballTokenRouter {
        baseballToken.transferFrom(msg.sender, address(liquidityPool),_tokenAmount);
         liquidityPool.swap{value:msg.value}(_tokenAmount, msg.sender);
     }
+
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 }

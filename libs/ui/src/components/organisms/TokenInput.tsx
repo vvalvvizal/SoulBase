@@ -36,9 +36,7 @@ export const TokenInput = (TokenInputs: TokenInputProps) => {
 
   const [isTokenListOpen, setIsTokenListOpen] = useState(false);
 
-  const handleMaxClick = () => {
-    
-  }
+  const handleMaxClick = () => {};
 
   return (
     <div className="p-4 bg-gray-800 rounded-xl">
@@ -94,7 +92,10 @@ export const TokenInput = (TokenInputs: TokenInputProps) => {
         </div>
       </div>
       <div className="mt-2 flex justify-end">
-        <button onClick={handleMaxClick} className="text-xs text-blue-500 hover:text-blue-400 transition-colors">
+        <button
+          onClick={handleMaxClick}
+          className="text-xs text-blue-500 hover:text-blue-400 transition-colors"
+        >
           최대
         </button>
       </div>

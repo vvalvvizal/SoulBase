@@ -8,9 +8,8 @@ import {
 } from '../organisms/TokenInput';
 import { ArrowDown, RefreshCw } from 'lucide-react';
 import { FormError } from '../atmos/FormError';
-import {useAccount} from '@soulBase/util/src/hooks/useAccount';
+import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useTokenBalance } from '@soulBase/util/src/hooks/useTokenBalance';
-
 
 export const Swap = () => {
   const [showSettings, setShowSettings] = useState(false);
@@ -21,13 +20,10 @@ export const Swap = () => {
   const [slippageError, setSlippageError] = useState(null);
 
   const exchangeRate = 1000; // 1000 BBT = 1 POL
-  const BBTbalance:String = useTokenBalance(BBT_TOKEN_INFO.address); 
+  const BBTbalance: String = useTokenBalance(BBT_TOKEN_INFO.address);
 
-  const {balance, account}  = useAccount();
+  const { balance, account } = useAccount();
 
-
-  
-      
   const handleInputChange = (value) => {
     setInputAmount(value);
     //input에 따라 교환될 output 계산
@@ -62,23 +58,33 @@ export const Swap = () => {
   const inputToken = isReversed ? BBT_TOKEN_INFO : POL_TOKEN_INFO; //reversed 안 된 상태 input은 bbt
   const outputToken = isReversed ? POL_TOKEN_INFO : BBT_TOKEN_INFO; //output은 pol
   const minimumReceived = outputAmount
-  ? (Number.parseFloat(outputAmount) * (1 - Number.parseFloat(slippage) / 100)).toFixed(6)
-  : "0"
+    ? (
+        Number.parseFloat(outputAmount) *
+        (1 - Number.parseFloat(slippage) / 100)
+      ).toFixed(6)
+    : '0';
 
   const checkSlippage = (value) => {
     const num = parseFloat(value);
-    if(num>=100){
-      setSlippageError("슬리피지 허용 범위는 0% ~ 100%입니다.");
-      return false; 
+    if (num >= 100) {
+      setSlippageError('슬리피지 허용 범위는 0% ~ 100%입니다.');
+      return false;
     }
     setSlippage(value);
     setSlippageError(null);
     return true;
-  }
+  };
 
   const handleSwap = () => {
-  
-    console.log(slippage, "account:", account,"pol balance:",balance, "bbt balance:",BBTbalance);
+    console.log(
+      slippage,
+      'account:',
+      account,
+      'pol balance:',
+      balance,
+      'bbt balance:',
+      BBTbalance,
+    );
   };
 
   return (
@@ -107,7 +113,7 @@ export const Swap = () => {
             <div className="mb-4 p-3 bg-gray-800 rounded-xl">
               <h3 className="text-sm font-medium mb-2">슬리피지 허용 범위</h3>
               <div className="flex gap-2 ">
-                {['0.1','0.2', '0.5', '1.0'].map((value) => (
+                {['0.1', '0.2', '0.5', '1.0'].map((value) => (
                   <button
                     key={value}
                     onClick={() => {
@@ -133,7 +139,7 @@ export const Swap = () => {
                     className="w-full bg-gray-700 rounded-lg pl-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <span className="absolute text-sm">%</span>
-                  <FormError error={slippageError} variant='white' size='sm' />
+                  <FormError error={slippageError} variant="white" size="sm" />
                 </div>
               </div>
             </div>
@@ -181,7 +187,9 @@ export const Swap = () => {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-400">최소 수령량</span>
-              <span>{minimumReceived} {outputToken.symbol} </span>
+              <span>
+                {minimumReceived} {outputToken.symbol}{' '}
+              </span>
             </div>
           </div>
 
@@ -198,11 +206,17 @@ export const Swap = () => {
           </button>
 
           <div className="mt-4 flex justify-center">
-        <button className="flex items-center text-sm text-gray-400 hover:text-gray-300" onClick={()=>{{}}}>
-          <RefreshCw size={14} className="mr-1" />
-          가격 새로고침
-        </button>
-      </div>
+            <button
+              className="flex items-center text-sm text-gray-400 hover:text-gray-300"
+              onClick={() => {
+                {
+                }
+              }}
+            >
+              <RefreshCw size={14} className="mr-1" />
+              가격 새로고침
+            </button>
+          </div>
         </div>
       </div>
     </div>

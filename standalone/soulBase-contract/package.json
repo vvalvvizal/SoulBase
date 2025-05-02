@@ -12,7 +12,7 @@
   "scripts": {
     "deploy:bbt": "npx hardhat run ./scripts/deploy_BaseballToken.ts",
     "deploy:liquidityPool": "npx hardhat run ./scripts/deploy_LiquidityPool.ts",
-    "deploy:bbtRouter": "npx hardhat ignition deploy ./ignition/modules/BaseballTokenRouter.ts",
+    "deploy:bbtRouter": "npx hardhat run ./scripts/deploy_BBTRouter.ts",
     "deploy:sbt": "npx hardhat ignition deploy ./ignition/modules/AchievementSBT.ts",
     "deploy:sbtRouter": "npx hardhat ignition deploy ./ignition/modules/SBTRouter.ts"
   },

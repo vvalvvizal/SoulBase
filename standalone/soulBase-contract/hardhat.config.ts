@@ -5,15 +5,17 @@ require('dotenv').config();
 
 const config: HardhatUserConfig = {
   solidity: '0.8.13',
-  defaultNetwork: 'amoy',
+  defaultNetwork: 'polygonAmoy',
   networks: {
-    amoy: {
+    polygonAmoy: {
       url: `https://polygon-amoy.infura.io/v3/${process.env.INFURA_KEY}`,
       accounts: [process.env.PRIVATE_KEY || ''],
     },
   },
   etherscan: {
-    apiKey: `${process.env.POLYGONSCAN_API_KEY}`,
+    apiKey: {
+      polygonAmoy: `${process.env.POLYGONSCAN_API_KEY}`,
+    }
   },
 };
 export default config;
