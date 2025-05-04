@@ -15,7 +15,7 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: {
       polygonAmoy: `${process.env.POLYGONSCAN_API_KEY}`,
-    }
+    },
   },
 };
 export default config;

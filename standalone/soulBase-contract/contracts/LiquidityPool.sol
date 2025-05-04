@@ -10,8 +10,8 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 
 contract LiquidityPool is Initializable, UUPSUpgradeable, OwnableUpgradeable, ERC20Upgradeable  {
-    event LiquidityAdded(address indexed _account);
-    event LiquidityRemoved(address indexed _account);
+    event LiquidityAdded(address indexed _account,  uint256 _liquidity);
+    event LiquidityRemoved(address indexed _account, uint256 _liquidity);
     event TradedTokens(address indexed _account, uint256 _ethTraded, uint256 tokenTraded);
 
     BaseballToken baseballToken;
@@ -20,7 +20,8 @@ contract LiquidityPool is Initializable, UUPSUpgradeable, OwnableUpgradeable, ER
     uint256 tokenReserve;
     uint32 lastBlockTimestamp;
     mapping(address => uint256) liquidityProvided;
-    
+    uint256 internal constant VERSION = 3;
+
 
        
     function initialize(BaseballToken _baseballToken) public initializer {
@@ -28,6 +29,10 @@ contract LiquidityPool is Initializable, UUPSUpgradeable, OwnableUpgradeable, ER
         __UUPSUpgradeable_init();
         __ERC20_init("Liquidity Provider Token", "LP"); // ERC20 초기화 추가
         baseballToken = _baseballToken;
+    }
+    //upgrade용
+    function version() public pure returns (uint256) {
+            return VERSION;
     }
 
 
@@ -97,7 +102,7 @@ contract LiquidityPool is Initializable, UUPSUpgradeable, OwnableUpgradeable, ER
         liquidityProvided[account] += liquidity;
         totalLiquidity += liquidity;
         _update();
-        emit LiquidityAdded(account);
+        emit LiquidityAdded(account, liquidity);
     }
 
     function withdraw(address account) external {
@@ -122,7 +127,7 @@ contract LiquidityPool is Initializable, UUPSUpgradeable, OwnableUpgradeable, ER
         require(tokenTransferSuccess, "TOKEN_TRANSFER_FAILED");
 
 
-        emit LiquidityRemoved(account);
+        emit LiquidityRemoved(account, liquidity);
         _update();
 
     }

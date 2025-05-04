@@ -3,14 +3,26 @@ pragma solidity ^0.8.13;
 
 import "./BaseballToken.sol";
 import "./LiquidityPool.sol";
-contract BaseballTokenRouter  is Initializable, UUPSUpgradeable, OwnableUpgradeable{
+contract BaseballTokenRouter is Initializable, UUPSUpgradeable, OwnableUpgradeable{
 
     LiquidityPool liquidityPool;
     BaseballToken baseballToken;
+    uint256 internal constant VERSION = 3;
+
 
     function initialize(LiquidityPool _liquidityPool, BaseballToken _baseballToken) public initializer{
+        __Ownable_init();
+        __UUPSUpgradeable_init();
        liquidityPool = _liquidityPool;
         baseballToken = _baseballToken;
+    }
+
+    function userAmount() external view returns(uint256){
+        return baseballToken.balanceOf(msg.sender);
+    }   
+        //upgrade용
+    function version() public pure returns (uint256) {
+            return VERSION;
     }
 
     //유동성 추가 

@@ -40,7 +40,7 @@ const main = async () => {
 
     console.log('Event: BaseballTokenMinted Listening...');
   } catch (error) {
-    console.log('BaseballMinted event error', error);
+    console.error('BaseballMinted event error', error);
   }
 
   // SWAP EVENT
@@ -56,17 +56,20 @@ const main = async () => {
 
     console.log('Event: TradedTokens Listening...');
   } catch (error) {
-    console.log();
+    console.error('TradedTokens event error', error);
   }
 
   // ADD LIQUIDITY EVENT
-  try{
-    lpcontract.on(lpcontract.filters['LiquidityAdded'],(account)=>{
+  try {
+    lpcontract.on(lpcontract.filters['LiquidityAdded'], (account, liquidity) => {
+      console.log(
+        `Event: ${account} added ${liquidity.toString()} BBT to liquidityPool`,
+      );
+    });
 
-    })
+    console.log('Event: LiquidityAdded Listening...');
+  } catch (error) {
+    console.error('LiquidityAdded event error', error);
   }
-catch(error){
-
 };
-}
 main();

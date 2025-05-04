@@ -29,7 +29,7 @@ contract BaseballToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, U
     bool public fundsAlreadyMoved;
     address payable public treasuryWallet; //비상금 주소
     address public bbtRouter;
-    uint256 internal constant VERSION = 1;
+    uint constant internal VERSION = 5;
 
     mapping(address=>uint256) public balancesToClaim;
     mapping(address=>uint256) public contributionsOf; //유저당 ETH 기여
@@ -61,10 +61,11 @@ contract BaseballToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, U
         require(!isContractPaused, "CONTRACT_PAUSED");
         _;
     }
+
     //upgrade용
     function version() public pure returns (uint256) {
             return VERSION;
-        }
+    }
 
     //배포된 라우터 계약 주소 
     function setRouterAddress(address _bbtRouter) external onlyOwner{
@@ -126,10 +127,8 @@ contract BaseballToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, U
         }
         else if(currentPhase==Phase.GENERAL){
             return 100 * 10**18;
-        }
-        else { //제한 없음
-            return msg.value;
-        }
+        } 
+        else return type(uint256).max;
     }
     //전체 한도
     function getPhaseLimit() private view returns (uint256 limit){
@@ -173,10 +172,9 @@ contract BaseballToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, U
             TokenAmountToTransfer, msg.sender
         );
 
-        sendRemainingFundsToTreasury();
     }
-    //남은 금액 비상금 계좌로
-    function sendRemainingFundsToTreasury() internal {
+    // //남은 금액 비상금 계좌로
+    function sendRemainingFundsToTreasury() external onlyOwner {
         uint256 remainingToken = balanceOf(address(this));
 
         super._transfer(address(this), address(treasuryWallet),remainingToken);
