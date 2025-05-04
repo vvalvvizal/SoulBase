@@ -61,11 +61,14 @@ const main = async () => {
 
   // ADD LIQUIDITY EVENT
   try {
-    lpcontract.on(lpcontract.filters['LiquidityAdded'], (account, liquidity) => {
-      console.log(
-        `Event: ${account} added ${liquidity.toString()} BBT to liquidityPool`,
-      );
-    });
+    lpcontract.on(
+      lpcontract.filters['LiquidityAdded'],
+      (account, liquidity) => {
+        console.log(
+          `Event: ${account} added ${liquidity.toString()} BBT to liquidityPool`,
+        );
+      },
+    );
 
     console.log('Event: LiquidityAdded Listening...');
   } catch (error) {

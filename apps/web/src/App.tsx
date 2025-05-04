@@ -15,7 +15,7 @@ function App() {
       <Container>
         <Routes>
           <Route
-            path="/user/:userId"
+            path="/user"
             element={
               <div>
                 <SBTbyPlayerpage />

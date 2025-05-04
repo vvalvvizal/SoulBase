@@ -76,7 +76,6 @@ export const useAccount = () => {
       const signer = await provider.getSigner();
       const contract = SBTRouter__factory.connect(SBTRouterAddress, signer);
       setContract(contract);
-      console.log('contract', contract);
 
       const accounts = await provider.send('eth_requestAccounts', []);
       if (accounts && accounts.length > 0) {
@@ -88,6 +87,7 @@ export const useAccount = () => {
 
         const contractOwner = await contract.owner();
         setIsOwner(account.toLowerCase() === contractOwner.toLowerCase());
+
       } else {
         console.error('No accounts detected');
         return;

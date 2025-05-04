@@ -20,8 +20,8 @@ export const SBTMint = () => {
   } = useFormSBTMinter();
   const { contract, account, initializeWeb3Provider } = useAccount();
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const client = useApolloClient();
+  // const navigate = useNavigate();
+  // const client = useApolloClient();
 
   useEffect(() => {
     initializeWeb3Provider();
@@ -45,16 +45,12 @@ export const SBTMint = () => {
       payload: { to, metadataJSON_url },
     });
     setLoading(false);
-    if (success) {
-      reset();
-      navigate('/user/2');
-      client.refetchQueries({ include: [namedOperations.Query.SBTs] });
-    }
     // if (success) {
     //   reset();
-    //   navigate(`/sbts/${account}`);
+    //   navigate('/user/2');
     //   client.refetchQueries({ include: [namedOperations.Query.SBTs] });
     // }
+
   };
 
   return (

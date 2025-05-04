@@ -1,33 +1,47 @@
 import { useQuery } from '@apollo/client';
-import { SbTsByPlayerDocument } from '@soulBase/network/src/gql/generated';
+import { UserByAddressDocument, SbTsByPlayerDocument } from '@soulBase/network/src/gql/generated';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../organisms/Card';
+import { useAccount } from '@soulBase/util/src/hooks/useAccount';
+import { useEffect } from 'react';
 
 export const SBTbyPlayer = () => {
-  const { userId } = useParams();
+  const { account, initializeWeb3Provider } = useAccount();
   const navigate = useNavigate();
 
-  const { data } = useQuery(SbTsByPlayerDocument, {
+  useEffect(() => {
+    initializeWeb3Provider();
+  }, []);
+ 
+
+  const {data : userData, error} = useQuery(UserByAddressDocument, {
     variables: {
       where: {
-        id: userId ? parseInt(userId) : undefined,
+        address: account?.toLowerCase(),//소문자로 
       },
     },
-    skip: false,
+    skip: !account,
   });
 
+  const user = userData?.user;
+  const userId = user?.id;
+  const isPlayer = user?.isPlayer ?? false;
+
+  const { data :sbtData} = useQuery(SbTsByPlayerDocument, {
+    variables: {
+      where: {
+        id: userId
+      },
+    },
+    skip: !userId || !isPlayer, //일반 유저일경우 skip
+  });
+  const sbts = sbtData?.user?.Player?.sbts ?? [];
+  
   function handleSbtClick(sbtId: number) {
     navigate(`/sbt/${sbtId}`);
     return;
   }
 
-  const { user } = data || {};
-  const { Player } = user || {};
-  const { sbts } = Player || {};
-
-  function setSearchTerm(value: string): void {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <div className="container mx-auto px-4 py-8">

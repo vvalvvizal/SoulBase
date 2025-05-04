@@ -42,3 +42,11 @@ query SBTsByPlayer($where: UserWhereUniqueInput!) {
     }
   }
 }
+
+query UserByAddress($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    name
+    isPlayer
+  }
+}

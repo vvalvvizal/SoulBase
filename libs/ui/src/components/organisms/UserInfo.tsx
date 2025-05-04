@@ -8,7 +8,7 @@ export const UserInfo = ({ className }: BaseComponent) => {
   useEffect(() => {
     initializeWeb3Provider();
   }, []);
-
+ 
   return (
     <div className={className}>
       <div className="flex gap-3">
