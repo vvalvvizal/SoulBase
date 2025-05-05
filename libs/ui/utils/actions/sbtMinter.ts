@@ -1,9 +1,9 @@
-import { ActionType } from '@soulBase/util/src/types';
+import { SBTActionType } from '@soulBase/util/src/types';
 
 export async function sbtMinter({
   contract,
   payload: { to, metadataJSON_url },
-}: ActionType<{ to: string; metadataJSON_url: string }>): Promise<boolean> {
+}: SBTActionType<{ to: string; metadataJSON_url: string }>): Promise<boolean> {
   try {
     const tx = await contract.mintSBT(to, metadataJSON_url);
     const receipt = await tx.wait();

@@ -1,5 +1,5 @@
 import { useFormSBTMinter } from '@soulBase/forms/src/SBTMinter';
-import { useAccount } from '@soulBase/util/src/hooks/useAccount';
+import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 import { useState, useEffect } from 'react';
 import { Form } from '../atmos/Form';
 import { HtmlLabel } from '../atmos/HtmlLabel';
@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useApolloClient } from '@apollo/client';
 import { namedOperations } from '@soulBase/network/src/gql/generated';
 import Badge from '../atmos/Badge';
+import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 
 export const SBTMint = () => {
   const {
@@ -18,7 +19,8 @@ export const SBTMint = () => {
     reset,
     formState: { errors },
   } = useFormSBTMinter();
-  const { contract, account, initializeWeb3Provider } = useAccount();
+  const {account, initializeWeb3Provider, isConnected} = useAccount();
+  const { SBTRouterContract : contract } = useContracts(account,isConnected);
   const [loading, setLoading] = useState(false);
   // const navigate = useNavigate();
   // const client = useApolloClient();
@@ -50,7 +52,6 @@ export const SBTMint = () => {
     //   navigate('/user/2');
     //   client.refetchQueries({ include: [namedOperations.Query.SBTs] });
     // }
-
   };
 
   return (

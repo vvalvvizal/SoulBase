@@ -11,18 +11,26 @@ import { Logo } from './Logo';
 import { Menus } from './Menu';
 import { NavSidebar } from './NavSidebar';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
-import { useEffect } from 'react';
-
-
+import { useEffect, useState } from 'react';
+import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 
 export const Header = () => {
-  const { isOwner, initializeWeb3Provider, isConnected } = useAccount();
+  const {  initializeWeb3Provider, isConnected, account } = useAccount();
+  const { SBTRouterContract } = useContracts(account, isConnected);
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     initializeWeb3Provider();
-  }, []);
 
-  
+    const checkOwner = async () => {
+      if (SBTRouterContract && account) {
+        const owner = await SBTRouterContract.owner();
+        setIsOwner(owner.toLowerCase() === account.toLowerCase());
+      }
+    };
+
+    checkOwner();
+  }, [account]);
 
   const MENUITEMS: MenuItem[] = [
     { label: 'Home', href: '/', Icon: IconHome },
@@ -33,8 +41,6 @@ export const Header = () => {
     { label: 'Swap', href: `/swap`, Icon: IconExchange },
   ];
 
-
- 
   return (
     <header>
       <nav className="flexed z-50 top-0 w-full bg-white">

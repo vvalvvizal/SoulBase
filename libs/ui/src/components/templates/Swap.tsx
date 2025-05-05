@@ -8,8 +8,10 @@ import {
 } from '../organisms/TokenInput';
 import { ArrowDown, RefreshCw } from 'lucide-react';
 import { FormError } from '../atmos/FormError';
-import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useTokenBalance } from '@soulBase/util/src/hooks/useTokenBalance';
+import { swap } from '../../../utils/actions/swap';
+import { useContracts } from '@soulBase/util/src/hooks/useContracts';
+import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 
 export const Swap = () => {
   const [showSettings, setShowSettings] = useState(false);
@@ -18,11 +20,14 @@ export const Swap = () => {
   const [outputAmount, setOutputAmount] = useState('');
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [slippageError, setSlippageError] = useState(null);
-
+  
   const exchangeRate = 1000; // 1000 BBT = 1 POL
-  const BBTbalance: String = useTokenBalance(BBT_TOKEN_INFO.address);
+  const { account, initializeWeb3Provider, isConnected } = useAccount();
+  const { BBTRouterContract, BBTContract } = useContracts(account, isConnected);
 
-  const { balance, account } = useAccount();
+  useEffect(() => {
+    initializeWeb3Provider();
+  }, []);
 
   const handleInputChange = (value) => {
     setInputAmount(value);
@@ -39,30 +44,33 @@ export const Swap = () => {
     }
   };
   const handleOutputChange = (value) => {
+    setOutputAmount(value);
     if (value && !isNaN(value)) {
       const input = isReversed
         ? (Number.parseFloat(value) * exchangeRate).toFixed(6)
         : (Number.parseFloat(value) / exchangeRate).toFixed(6);
       setInputAmount(input);
     }
-    setOutputAmount(value);
+    else{
+      setInputAmount('');
+    }
     //output에 따라 교환될 input 계산
   };
 
   const handleReverseTokens = () => {
     setIsReversed(!isReversed);
-    setInputAmount(outputAmount);
-    setOutputAmount(inputAmount);
+    setInputAmount('');
+    setOutputAmount('');
   };
+  const BBTbalance = useTokenBalance(BBT_TOKEN_INFO.address);
+  const POLbalance = useTokenBalance(POL_TOKEN_INFO.address);
 
   const inputToken = isReversed ? BBT_TOKEN_INFO : POL_TOKEN_INFO; //reversed 안 된 상태 input은 bbt
   const outputToken = isReversed ? POL_TOKEN_INFO : BBT_TOKEN_INFO; //output은 pol
-  const minimumReceived = outputAmount
-    ? (
-        Number.parseFloat(outputAmount) *
-        (1 - Number.parseFloat(slippage) / 100)
-      ).toFixed(6)
-    : '0';
+  const inputBalance = isReversed?  BBTbalance : POLbalance;
+  const outputBalance = isReversed? POLbalance : BBTbalance;
+
+  const minimumReceived  = 0;
 
   const checkSlippage = (value) => {
     const num = parseFloat(value);
@@ -75,17 +83,27 @@ export const Swap = () => {
     return true;
   };
 
-  const handleSwap = () => {
-    console.log(
-      slippage,
-      'account:',
-      account,
-      'pol balance:',
-      balance,
-      'bbt balance:',
-      BBTbalance,
-    );
+  const handleSwap = async() => {
+    const success = await swap({
+      BBTRouterContract, BBTContract, 
+      payload: {
+        tokenAmount: inputAmount, 
+        minAmountOut: minimumReceived
+      }
+    });
+    
+    if(success) {
+      setInputAmount('');
+      setOutputAmount('');
+    } 
+    console.log('Swap success:', success);
   };
+  const handleMaxClick = () => {
+    handleInputChange(inputBalance);
+  };
+
+
+
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -151,7 +169,16 @@ export const Swap = () => {
               value={inputAmount}
               onChange={handleInputChange}
               token={inputToken}
+              balance={inputBalance}
             />
+                            <div className="mt-2 flex justify-end">
+        <button
+          onClick={handleMaxClick}
+          className="text-xs text-blue-500 hover:text-blue-400 transition-colors"
+        >
+          최대
+        </button>
+      </div>
 
             <div className="relative h-8 flex justify-center">
               <div className="absolute inset-0 flex items-center justify-center">
@@ -170,7 +197,9 @@ export const Swap = () => {
               value={outputAmount}
               onChange={handleOutputChange}
               token={outputToken}
+              balance={outputBalance}
             />
+  
           </div>
 
           <div className="mt-4 p-3 bg-gray-800 rounded-xl text-sm">
@@ -189,6 +218,12 @@ export const Swap = () => {
               <span className="text-gray-400">최소 수령량</span>
               <span>
                 {minimumReceived} {outputToken.symbol}{' '}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-400">최대 슬리피지</span>
+              <span>
+                {slippage}%
               </span>
             </div>
           </div>

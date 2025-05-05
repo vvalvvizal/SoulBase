@@ -1,5 +1,8 @@
 import { useQuery } from '@apollo/client';
-import { UserByAddressDocument, SbTsByPlayerDocument } from '@soulBase/network/src/gql/generated';
+import {
+  UserByAddressDocument,
+  SbTsByPlayerDocument,
+} from '@soulBase/network/src/gql/generated';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../organisms/Card';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
@@ -12,12 +15,11 @@ export const SBTbyPlayer = () => {
   useEffect(() => {
     initializeWeb3Provider();
   }, []);
- 
 
-  const {data : userData, error} = useQuery(UserByAddressDocument, {
+  const { data: userData, error } = useQuery(UserByAddressDocument, {
     variables: {
       where: {
-        address: account?.toLowerCase(),//소문자로 
+        address: account?.toLowerCase(), //소문자로
       },
     },
     skip: !account,
@@ -27,21 +29,20 @@ export const SBTbyPlayer = () => {
   const userId = user?.id;
   const isPlayer = user?.isPlayer ?? false;
 
-  const { data :sbtData} = useQuery(SbTsByPlayerDocument, {
+  const { data: sbtData } = useQuery(SbTsByPlayerDocument, {
     variables: {
       where: {
-        id: userId
+        id: userId,
       },
     },
     skip: !userId || !isPlayer, //일반 유저일경우 skip
   });
   const sbts = sbtData?.user?.Player?.sbts ?? [];
-  
+
   function handleSbtClick(sbtId: number) {
     navigate(`/sbt/${sbtId}`);
     return;
   }
-
 
   return (
     <div className="container mx-auto px-4 py-8">

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import path from 'path';
+
 
 interface TokenInfo {
   name: string;
@@ -12,7 +14,7 @@ interface TokenInfo {
 export const BBT_TOKEN_INFO = {
   name: 'BBT',
   symbol: 'BBT',
-  address: '0x7ff09C7b0D70E15545b964c766a4d1F4E35fE6f1',
+  address: '0x07187Ab227013AeCA994ac89f05AdA2Aa0b50485',
   decimals: 18,
   icon: '/bbt_logo.png',
 };
@@ -29,21 +31,21 @@ interface TokenInputProps {
   value: string;
   onChange: (value: string) => void;
   token: TokenInfo;
+  balance: string;
 }
 
 export const TokenInput = (TokenInputs: TokenInputProps) => {
-  const { label, value, onChange, token } = TokenInputs;
+  const { label, value, onChange, token, balance} = TokenInputs;
 
   const [isTokenListOpen, setIsTokenListOpen] = useState(false);
 
-  const handleMaxClick = () => {};
 
   return (
     <div className="p-4 bg-gray-800 rounded-xl">
       <div className="flex justify-between mb-2">
         <span className="text-sm text-gray-400">{label}</span>
         <span className="text-sm text-gray-400">
-          잔액: <span className="text-gray-300">{value}</span>
+          잔액: <span className="text-gray-300">{balance}</span>
         </span>
       </div>
       <div className="flex items-center gap-3">
@@ -91,14 +93,7 @@ export const TokenInput = (TokenInputs: TokenInputProps) => {
           )}
         </div>
       </div>
-      <div className="mt-2 flex justify-end">
-        <button
-          onClick={handleMaxClick}
-          className="text-xs text-blue-500 hover:text-blue-400 transition-colors"
-        >
-          최대
-        </button>
-      </div>
+
     </div>
   );
 };

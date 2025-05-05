@@ -16,11 +16,12 @@ contract LiquidityPool is Initializable, UUPSUpgradeable, OwnableUpgradeable, ER
 
     BaseballToken baseballToken;
     uint256 totalLiquidity;
-    uint256 ethReserve;
-    uint256 tokenReserve;
+    uint256 public ethReserve;
+    uint256 public tokenReserve;
     uint32 lastBlockTimestamp;
+    uint public constant SWAP_TAX = 1;// 1% swap tax
     mapping(address => uint256) liquidityProvided;
-    uint256 internal constant VERSION = 3;
+    uint256 internal constant VERSION = 5;
 
 
        
@@ -36,35 +37,45 @@ contract LiquidityPool is Initializable, UUPSUpgradeable, OwnableUpgradeable, ER
     }
 
 
-    function swap( uint256 _tokenAmount, address account) external payable{
+    function swap( uint256 _tokenAmount, address account, uint256 _minAmountOut) external payable{
       uint256 product = ethReserve * tokenReserve; //k
       uint256 amountToTransfer;
       uint256 amountToTake;
       uint256 totalAmountToTransfer; 
+      uint256 _withTax;
 
-      if(msg.value == 0){ //BBT -> ETH
+      if(_tokenAmount != 0){ //요청에 bbt가 있다면
+        //BBT -> ETH
         uint256 currentTokenBalance = baseballToken.balanceOf(address(this));
-        uint256 _withTax = _tokenAmount - ((2 * _tokenAmount)/100);
+        
+        if (baseballToken.isTaxOn()) {// bbt transfer 수수료가 켜져 있다면
+            _withTax = _tokenAmount - ((baseballToken.TAX() * _tokenAmount) / 100);
+        } else {
+            _withTax = _tokenAmount;
+        }
         uint256 addedBalance = tokenReserve + _withTax;
 
-        require(addedBalance==currentTokenBalance, "DID_NOT_TRANSFER");
+        require(addedBalance>=currentTokenBalance, "DID_NOT_TRANSFER");
 
         uint256 x = product / (tokenReserve + _withTax);
         amountToTransfer = ethReserve - x;
 
-        amountToTake = (1 * amountToTransfer) / 100; //swap 수수료 1%
+        amountToTake = (SWAP_TAX * amountToTransfer) / 100; //swap 수수료 1%
         totalAmountToTransfer = amountToTransfer - amountToTake;
 
-        (bool success, ) = account.call{value: totalAmountToTransfer}("");
+        require(totalAmountToTransfer >= _minAmountOut, "SLIPPAGE_EXCEEDED");//슬리피지 최소 수령량 이하
 
-        require(success, "TRANSFER_FAILED");
+        (bool success, ) = account.call{value: totalAmountToTransfer}("");//ETH 전송
+
+        require(success, "ETH_TRANSFER_FAILED");
       }
       else{ //ETH -> BBT
         uint256 y = product / (ethReserve + msg.value);
         amountToTransfer = tokenReserve - y;
 
-        amountToTake = (1 * amountToTransfer)/100; //swap 수수료 1%
+        amountToTake = (SWAP_TAX * amountToTransfer)/100; //swap 수수료 1%
         totalAmountToTransfer = amountToTransfer - amountToTake;
+        require(totalAmountToTransfer >= _minAmountOut, "SLIPPAGE_EXCEEDED");
 
         baseballToken.transfer(account, totalAmountToTransfer);
       }

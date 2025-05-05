@@ -5,7 +5,7 @@ import { PlayerWhereInput } from 'src/models/players/graphql/dtos/where.args';
 
 @InputType()
 export class UserWhereUniqueInput {
-  @Field(() => Int, { nullable: true }) 
+  @Field(() => Int, { nullable: true })
   id: number;
 
   @Field(() => String, { nullable: true })

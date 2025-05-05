@@ -7,7 +7,7 @@ contract BaseballTokenRouter is Initializable, UUPSUpgradeable, OwnableUpgradeab
 
     LiquidityPool liquidityPool;
     BaseballToken baseballToken;
-    uint256 internal constant VERSION = 3;
+    uint256 internal constant VERSION = 5;
 
 
     function initialize(LiquidityPool _liquidityPool, BaseballToken _baseballToken) public initializer{
@@ -28,12 +28,12 @@ contract BaseballTokenRouter is Initializable, UUPSUpgradeable, OwnableUpgradeab
     //유동성 추가 
     function addLiquidity(uint256 _tokenAmount) external payable {
         require(baseballToken.balanceOf(msg.sender) > 0, "NO_AVAILABLE_TOKENS");
-        //user->router approve 필요
+        //bbt에 대해 user->router approve 필요
         baseballToken.transferFrom(msg.sender, address(this), _tokenAmount); //Router get Token
 
         baseballToken.transfer(address(liquidityPool), _tokenAmount); //Router transfer to pool
 
-        //user->pool approve 필요
+        //내부적으로 bbt에 대해 user->pool approve
         liquidityPool.deposit{value: msg.value}(_tokenAmount, msg.sender);
     }
 
@@ -42,11 +42,17 @@ contract BaseballTokenRouter is Initializable, UUPSUpgradeable, OwnableUpgradeab
         liquidityPool.withdraw(msg.sender);
 
     }
-    //토큰 교환 ETH -> BBT
-    function swapTokens(uint256 _tokenAmount) external payable{
-        //user -> router approve 필요
-       baseballToken.transferFrom(msg.sender, address(liquidityPool),_tokenAmount);
-        liquidityPool.swap{value:msg.value}(_tokenAmount, msg.sender);
+    //토큰 교환
+    function swapTokens(uint256 _tokenAmount, uint256 _minAmountOut) external payable {
+        if (msg.value > 0) {
+            // ETH → BBT: ETH만 풀로 이동
+            liquidityPool.swap{value: msg.value}(0, msg.sender, _minAmountOut); // 0은 BBT 안 보내는 의미
+        } else {
+            // BBT → ETH: BBT를 풀로 넘김
+            //bbt에 대해 user->router approve 필요
+            baseballToken.transferFrom(msg.sender, address(liquidityPool), _tokenAmount);
+            liquidityPool.swap( _tokenAmount, msg.sender, _minAmountOut);
+        }
     }
 
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}

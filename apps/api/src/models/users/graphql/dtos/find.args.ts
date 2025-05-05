@@ -6,7 +6,7 @@ import {
 } from '@nestjs/graphql';
 import { Prisma } from '@prisma/client';
 import { UserOrderByWithRelationInput } from './order-by.args';
-import { UserWhereInput,  UserWhereUniqueInput} from './where.args';
+import { UserWhereInput, UserWhereUniqueInput } from './where.args';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 
 registerEnumType(Prisma.UserScalarFieldEnum, {

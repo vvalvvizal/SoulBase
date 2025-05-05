@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Icon as IconType } from '@tabler/icons-react';
-import { SBTRouter } from '../../../standalone/soulBase-contract/typechain-types';
+import { BaseballToken,BaseballTokenRouter, SBTRouter } from '../../../standalone/soulBase-contract/typechain-types';
+
 
 export type MenuItem = {
   label: string;
@@ -13,7 +14,15 @@ export type BaseComponent = {
   className?: string;
 };
 
-export type ActionType<T = string> = {
+export type SBTActionType<T = string> = {
   contract: SBTRouter;
   payload: T;
 };
+
+
+export type BBTActionType<T=string>={
+  BBTContract : BaseballToken;
+  BBTRouterContract : BaseballTokenRouter;
+  payload: T;
+}
+
