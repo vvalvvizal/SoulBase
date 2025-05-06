@@ -31,7 +31,7 @@ export const Swap = () => {
 
   const handleInputChange = (value) => {
     setInputAmount(value);
-    
+
     //input에 따라 교환될 output 계산
     if (value && !isNaN(value)) {
       const output = isReversed
@@ -40,7 +40,6 @@ export const Swap = () => {
       //reversed 안 된 상태의 input은 bbt
       //1 BBT / 10000 = 1POL
       setOutputAmount(output);
-    
     } else {
       setOutputAmount('');
     }
@@ -70,7 +69,7 @@ export const Swap = () => {
   const outputToken = isReversed ? POL_TOKEN_INFO : BBT_TOKEN_INFO; //output은 pol
   const inputBalance = isReversed ? BBTbalance : POLbalance;
   const outputBalance = isReversed ? POLbalance : BBTbalance;
-  const ETHvalue = isReversed? undefined : inputAmount; //eth->bbt일 때 msg.value로 eth 넘김
+  const ETHvalue = isReversed ? undefined : inputAmount; //eth->bbt일 때 msg.value로 eth 넘김
   const minimumReceived = 0;
 
   const checkSlippage = (value) => {
@@ -91,7 +90,7 @@ export const Swap = () => {
       BBTContract,
       payload: {
         tokenAmount: inputAmount,
-        ethAmount : ETHvalue,
+        ethAmount: ETHvalue,
         minAmountOut: minimumReceived,
       },
     });

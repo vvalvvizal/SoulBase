@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { checkOwner } from './checkOwner';
 
 declare global {
   interface Window {
@@ -58,7 +57,6 @@ export const useAccount = () => {
     } catch (error) {
       console.error('Failed to connect wallet:', error);
     }
-
   };
 
   return {

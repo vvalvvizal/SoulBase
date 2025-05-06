@@ -13,7 +13,7 @@ import { NavSidebar } from './NavSidebar';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useEffect, useState } from 'react';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
-import { checkOwner } from '@soulBase/util/src/hooks/checkOwner';
+import { checkOwner } from '@soulBase/util/src/checkOwner';
 
 export const Header = () => {
   const { initializeWeb3Provider, isConnected, account } = useAccount();
@@ -33,7 +33,6 @@ export const Header = () => {
     };
     fetchOwner();
   }, [SBTRouterContract, account]);
-
 
   const MENUITEMS: MenuItem[] = [
     { label: 'Home', href: '/', Icon: IconHome },

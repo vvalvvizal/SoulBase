@@ -15,7 +15,7 @@ import {
   BaseballTokenRouterAddress,
   BaseballTokenAddress,
 } from '../contract';
-import { getProvider } from './getProvider';
+import { getProvider } from '../getProvider';
 
 export const useContracts = (account: string, isConnected: boolean) => {
   const [isOwner, setIsOwner] = useState(false);

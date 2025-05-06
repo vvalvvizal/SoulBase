@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { useAccount } from './useAccount';
-import { getProvider } from './getProvider';
+import { getProvider } from '../getProvider';
 import { ERC20Upgradeable__factory } from '../../../../standalone/soulBase-contract/typechain-types';
 import { POL_TOKEN_INFO } from '../../../ui/src/components/organisms/TokenInput';
 
