@@ -21,7 +21,10 @@ export const useTokenBalance = (tokenAddress: string) => {
       } else {
         try {
           const provider = await getProvider();
-          const bbtToken = ERC20Upgradeable__factory.connect(tokenAddress, provider);
+          const bbtToken = ERC20Upgradeable__factory.connect(
+            tokenAddress,
+            provider,
+          );
           const rawBalance = await bbtToken.balanceOf(account);
           const formatted = ethers.formatEther(rawBalance);
           setTokenBalance(formatted);

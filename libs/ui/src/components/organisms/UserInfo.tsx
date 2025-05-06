@@ -1,13 +1,30 @@
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BaseComponent } from '@soulBase/util/src/types';
+import { useContracts } from '@soulBase/util/src/hooks/useContracts';
+import { checkOwner } from '@soulBase/util/src/hooks/checkOwner';
 
 export const UserInfo = ({ className }: BaseComponent) => {
-  const { account, balance, isOwner, initializeWeb3Provider } = useAccount();
+  const { account, balance, isConnected, initializeWeb3Provider } = useAccount();
+  const { LPcontract } = useContracts(account, isConnected);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
+  
+    useEffect(() => {
+      initializeWeb3Provider();
 
-  useEffect(() => {
-    initializeWeb3Provider();
-  }, []);
+    }, [account]);
+  
+    useEffect(() => {
+      const fetchOwner = async () => {
+        if (LPcontract && account) {
+          const ownerStatus = await checkOwner(LPcontract, account);
+          setIsOwner(ownerStatus);
+        }
+      };
+      fetchOwner();
+    }, [LPcontract, account]);
+
+
 
   return (
     <div className={className}>

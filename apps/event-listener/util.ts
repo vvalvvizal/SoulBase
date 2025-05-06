@@ -1,2 +1,2 @@
-export const BBTcontractAddress = '0xaAE7534666Bc96A689bf91Fec93Ee7c5708Bf3Ac';
-export const LPcontractAddress = '0x57A668CC12A57355AdFb182bEbDC936582537430';
+export const BBTcontractAddress = '0x07187Ab227013AeCA994ac89f05AdA2Aa0b50485';
+export const LPcontractAddress = '0x53fC459576Cd6C4983D433374d44dbCC6DA783ee';

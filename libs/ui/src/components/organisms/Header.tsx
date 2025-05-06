@@ -13,24 +13,27 @@ import { NavSidebar } from './NavSidebar';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useEffect, useState } from 'react';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
+import { checkOwner } from '@soulBase/util/src/hooks/checkOwner';
 
 export const Header = () => {
-  const {  initializeWeb3Provider, isConnected, account } = useAccount();
+  const { initializeWeb3Provider, isConnected, account } = useAccount();
   const { SBTRouterContract } = useContracts(account, isConnected);
   const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     initializeWeb3Provider();
+  }, []);
 
-    const checkOwner = async () => {
+  useEffect(() => {
+    const fetchOwner = async () => {
       if (SBTRouterContract && account) {
-        const owner = await SBTRouterContract.owner();
-        setIsOwner(owner.toLowerCase() === account.toLowerCase());
+        const ownerStatus = await checkOwner(SBTRouterContract, account);
+        setIsOwner(ownerStatus);
       }
     };
+    fetchOwner();
+  }, [SBTRouterContract, account]);
 
-    checkOwner();
-  }, [account]);
 
   const MENUITEMS: MenuItem[] = [
     { label: 'Home', href: '/', Icon: IconHome },

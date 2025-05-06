@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
+import { checkOwner } from './checkOwner';
 
 declare global {
   interface Window {
@@ -21,7 +22,9 @@ export const useAccount = () => {
     const AMOY_CHAIN_ID = '0x13882';
 
     try {
-      const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
+      const currentChainId = await window.ethereum.request({
+        method: 'eth_chainId',
+      });
 
       if (currentChainId !== AMOY_CHAIN_ID) {
         await window.ethereum.request({
@@ -31,7 +34,9 @@ export const useAccount = () => {
               chainId: AMOY_CHAIN_ID,
               chainName: 'Amoy',
               nativeCurrency: { name: 'Polygon', symbol: 'POL', decimals: 18 },
-              rpcUrls: [`https://polygon-amoy.infura.io/v3/${import.meta.env.VITE_INFURA_KEY}`],
+              rpcUrls: [
+                `https://polygon-amoy.infura.io/v3/${import.meta.env.VITE_INFURA_KEY}`,
+              ],
               blockExplorerUrls: ['https://amoy.polygonscan.com/'],
             },
           ],
@@ -40,7 +45,9 @@ export const useAccount = () => {
         await new Promise((res) => setTimeout(res, 500));
       }
 
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
       if (accounts.length > 0) {
         setAccount(accounts[0]);
         const provider = new ethers.BrowserProvider(window.ethereum);
@@ -51,6 +58,7 @@ export const useAccount = () => {
     } catch (error) {
       console.error('Failed to connect wallet:', error);
     }
+
   };
 
   return {

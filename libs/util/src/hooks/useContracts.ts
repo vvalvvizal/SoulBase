@@ -19,10 +19,13 @@ import { getProvider } from './getProvider';
 
 export const useContracts = (account: string, isConnected: boolean) => {
   const [isOwner, setIsOwner] = useState(false);
-  const [SBTRouterContract, setSBTRouterContract] = useState<SBTRouter | null>(null);
+  const [SBTRouterContract, setSBTRouterContract] = useState<SBTRouter | null>(
+    null,
+  );
   const [LPcontract, setLPcontract] = useState<LiquidityPool | null>(null);
-  const [BBTRouterContract, setBBTRouterContract] = useState<BaseballTokenRouter | null>(null);
-  const [BBTContract, setBBTContract] = useState<BaseballToken|null>(null);
+  const [BBTRouterContract, setBBTRouterContract] =
+    useState<BaseballTokenRouter | null>(null);
+  const [BBTContract, setBBTContract] = useState<BaseballToken | null>(null);
 
   const fetchContracts = async () => {
     try {
@@ -31,7 +34,10 @@ export const useContracts = (account: string, isConnected: boolean) => {
 
       const sbtRouter = SBTRouter__factory.connect(SBTRouterAddress, signer);
       const lp = LiquidityPool__factory.connect(LiquidityPoolAddress, signer);
-      const bbtRouter = BaseballTokenRouter__factory.connect(BaseballTokenRouterAddress, signer);
+      const bbtRouter = BaseballTokenRouter__factory.connect(
+        BaseballTokenRouterAddress,
+        signer,
+      );
       const bbt = BaseballToken__factory.connect(BaseballTokenAddress, signer);
 
       setSBTRouterContract(sbtRouter);

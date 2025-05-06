@@ -14,11 +14,6 @@ services:
     volumes:
       - db_data_soulBase:/var/lib/postgresql/data
 
-  event-listener:
-    build:
-      context: ./apps/event-listener
-    command: node index.ts
-    restart: always
 
 volumes:
   db_data_soulBase:

@@ -19,8 +19,8 @@ export const SBTMint = () => {
     reset,
     formState: { errors },
   } = useFormSBTMinter();
-  const {account, initializeWeb3Provider, isConnected} = useAccount();
-  const { SBTRouterContract : contract } = useContracts(account,isConnected);
+  const { account, initializeWeb3Provider, isConnected } = useAccount();
+  const { SBTRouterContract: contract } = useContracts(account, isConnected);
   const [loading, setLoading] = useState(false);
   // const navigate = useNavigate();
   // const client = useApolloClient();

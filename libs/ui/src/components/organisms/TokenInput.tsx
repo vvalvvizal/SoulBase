@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import path from 'path';
 
-
 interface TokenInfo {
   name: string;
   symbol: string;
@@ -35,10 +34,9 @@ interface TokenInputProps {
 }
 
 export const TokenInput = (TokenInputs: TokenInputProps) => {
-  const { label, value, onChange, token, balance} = TokenInputs;
+  const { label, value, onChange, token, balance } = TokenInputs;
 
   const [isTokenListOpen, setIsTokenListOpen] = useState(false);
-
 
   return (
     <div className="p-4 bg-gray-800 rounded-xl">
@@ -93,7 +91,6 @@ export const TokenInput = (TokenInputs: TokenInputProps) => {
           )}
         </div>
       </div>
-
     </div>
   );
 };
