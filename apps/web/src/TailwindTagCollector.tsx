@@ -116,6 +116,11 @@ export const TailwindTagCollector = () => {
       {/* PrimaryButton */}
       <div className="w-full mt-4 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 transition-colors" />
       <div className="w-full mt-4 py-4 rounded-xl font-bold text-lg bg-gray-700 text-gray-500 cursor-not-allowed p-2 text-sm text-gray-400" />
+
+
+      {/* pool status */}
+      <div className=" bg-gray-700 rounded-lg p-3 grid grid-cols-2 gap-4 flex justify-between items-center mb-4 w-full max-w-4xl mx-auto bg-gray-900 rounded-2xl shadow-xl p-6 text-white"/>
+      <div className="text-lg font-medium mb-4 flex items-center flex flex-col md:flex-row justify-between items-start md:items-center mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 bg-gray-800 rounded-xl p-5"/>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from '../atmos/Button';
 import { IconServer, IconSettings } from '@tabler/icons-react';
+import {  Link } from 'react-router-dom';
 import {
   BBT_TOKEN_INFO,
   POL_TOKEN_INFO,
@@ -13,6 +14,8 @@ import { swap } from '../../../utils/actions/swap';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { parseEther } from 'ethers';
+import Badge from '../atmos/Badge';
+
 
 export const Swap = () => {
   const [showSettings, setShowSettings] = useState(false);
@@ -105,10 +108,14 @@ export const Swap = () => {
     handleInputChange(inputBalance);
   };
 
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-center mb-2">SWAP</h1>
+        <Link to ="/pool" aria-label='liquidityPool' className="w-auto z-50">
+        <Badge variant='gray' size='md' className="">풀 상태 보기</Badge>
+        </Link>
         <p className="text-gray-600 text-center mb-6">
           BBT와 POL을 DEX에서 Swap하세요 <br />
         </p>

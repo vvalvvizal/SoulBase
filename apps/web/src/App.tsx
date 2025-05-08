@@ -6,6 +6,7 @@ import SBTbyPlayerpage from './pages/SBTbyPlayerpage';
 import SBTItempage from './pages/SBTItempage';
 import SBTMintpage from './pages/SBTMintpage';
 import SwapPage from './pages/SwapPage';
+import PoolStatuspage from './pages/PoolStatuspage';
 
 function App() {
   return (
@@ -32,7 +33,10 @@ function App() {
           />
           <Route path="/about" element={<div>About 페이지</div>} />
           <Route path="/sbtmint" element={<SBTMintpage />} />
+          
           <Route path="/swap" element={<SwapPage />} />
+          <Route path="/pool" element={<PoolStatuspage/>}/>        
+         
         </Routes>
       </Container>
     </main>
