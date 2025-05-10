@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from '../atmos/Button';
 import { IconServer, IconSettings } from '@tabler/icons-react';
-import {  Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   BBT_TOKEN_INFO,
   POL_TOKEN_INFO,
@@ -13,9 +13,8 @@ import { useTokenBalance } from '@soulBase/util/src/hooks/useTokenBalance';
 import { swap } from '../../../utils/actions/swap';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
-import { parseEther } from 'ethers';
 import Badge from '../atmos/Badge';
-
+import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
 
 export const Swap = () => {
   const [showSettings, setShowSettings] = useState(false);
@@ -24,58 +23,72 @@ export const Swap = () => {
   const [outputAmount, setOutputAmount] = useState('');
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [slippageError, setSlippageError] = useState(null);
-  const exchangeRate = 1000; // 1000 BBT = 1 POL
   const { account, initializeWeb3Provider, isConnected } = useAccount();
+  const [minimumReceived, setMinimumReceived] = useState<number|String>('');
   const { BBTRouterContract, BBTContract } = useContracts(account, isConnected);
+  const { exchangeRate } = usePoolStatus();//   x * y = k, y = k/x 처럼 pol = pol*bbt/bbt 계산 
 
   useEffect(() => {
     initializeWeb3Provider();
-  }, []);
+  }, [account]);
 
-  const handleInputChange = (value) => {
+  useEffect(()=>{
+    const calMinimumReceive = (outputAmount) => {
+      const outputAmountFloat = parseFloat(outputAmount);
+      const minReceive = outputAmountFloat - (outputAmountFloat * (parseFloat(slippage) / 100));
+      setMinimumReceived(minReceive);
+    }
+    calMinimumReceive(outputAmount);
+  },[slippage, outputAmount])
+  
+  const handleInputChange = (value: string) => {
     setInputAmount(value);
 
-    //input에 따라 교환될 output 계산
-    if (value && !isNaN(value)) {
-      const output = isReversed
-        ? (Number.parseFloat(value) / exchangeRate).toFixed(6)
-        : (Number.parseFloat(value) * exchangeRate).toFixed(6);
-      //reversed 안 된 상태의 input은 bbt
-      //1 BBT / 10000 = 1POL
+    if (value && !isNaN(Number(value))) {
+      const output = isReversed //isReversed true일때 output은 pol 
+        ? (parseFloat(value) * exchangeRate).toFixed(6)
+        : (parseFloat(value) / exchangeRate).toFixed(6);
+
       setOutputAmount(output);
+
     } else {
       setOutputAmount('');
+      setMinimumReceived('');
     }
   };
-  const handleOutputChange = (value) => {
+
+  const handleOutputChange = (value: string) => {
     setOutputAmount(value);
-    if (value && !isNaN(value)) {
-      const input = isReversed
-        ? (Number.parseFloat(value) * exchangeRate).toFixed(6)
-        : (Number.parseFloat(value) / exchangeRate).toFixed(6);
+    if (value && !isNaN(Number(value))) {
+      //isReversed가 true면 bbt -> pol이라는거 
+
+      const input = isReversed //isReversed true일 때 input은 bbt
+        ? (parseFloat(value) / exchangeRate).toFixed(6)
+        : (parseFloat(value) * exchangeRate).toFixed(6);
       setInputAmount(input);
     } else {
       setInputAmount('');
+      setMinimumReceived('');
     }
-    //output에 따라 교환될 input 계산
   };
 
   const handleReverseTokens = () => {
     setIsReversed(!isReversed);
     setInputAmount('');
     setOutputAmount('');
+    setMinimumReceived('');
   };
+
   const BBTbalance = useTokenBalance(BBT_TOKEN_INFO.address);
   const POLbalance = useTokenBalance(POL_TOKEN_INFO.address);
 
-  const inputToken = isReversed ? BBT_TOKEN_INFO : POL_TOKEN_INFO; //reversed 안 된 상태 input은 bbt
-  const outputToken = isReversed ? POL_TOKEN_INFO : BBT_TOKEN_INFO; //output은 pol
+  const inputToken = isReversed ? BBT_TOKEN_INFO : POL_TOKEN_INFO;
+  const outputToken = isReversed ? POL_TOKEN_INFO : BBT_TOKEN_INFO;
   const inputBalance = isReversed ? BBTbalance : POLbalance;
   const outputBalance = isReversed ? POLbalance : BBTbalance;
-  const ETHvalue = isReversed ? undefined : inputAmount; //eth->bbt일 때 msg.value로 eth 넘김
-  const minimumReceived = 0;
+  const ETHvalue = isReversed ? undefined : inputAmount;
 
-  const checkSlippage = (value) => {
+  const checkSlippage = (value: string) => {
     const num = parseFloat(value);
     if (num >= 100) {
       setSlippageError('슬리피지 허용 범위는 0% ~ 100%입니다.');
@@ -104,18 +117,15 @@ export const Swap = () => {
     }
     console.log('Swap success:', success);
   };
+
   const handleMaxClick = () => {
     handleInputChange(inputBalance);
   };
-
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-center mb-2">SWAP</h1>
-        <Link to ="/pool" aria-label='liquidityPool' className="w-auto z-50">
-        <Badge variant='gray' size='md' className="">풀 상태 보기</Badge>
-        </Link>
         <p className="text-gray-600 text-center mb-6">
           BBT와 POL을 DEX에서 Swap하세요 <br />
         </p>
@@ -123,6 +133,11 @@ export const Swap = () => {
       <div className="flex justify-center">
         <div className="w-full max-w-md mx-auto bg-gray-900 rounded-2xl shadow-xl p-4 text-white">
           <div className="flex justify-between items-center mb-4">
+            <Link to="/pool" aria-label="liquidityPool" className="w-auto z-50">
+              <Badge variant="gray" size="md" className="">
+                풀 상태 보기
+              </Badge>
+            </Link>
             <h2 className="text-xl font-bold">토큰 스왑</h2>
             <Button
               onClick={() => setShowSettings(!showSettings)}
@@ -133,11 +148,11 @@ export const Swap = () => {
               <IconSettings />
             </Button>
           </div>
-          {/* 설정 버튼을 눌렀을 때, showSettings 값이 true일 때 보여질 내용*/}
+
           {showSettings && (
             <div className="mb-4 p-3 bg-gray-800 rounded-xl">
               <h3 className="text-sm font-medium mb-2">슬리피지 허용 범위</h3>
-              <div className="flex gap-2 ">
+              <div className="flex gap-2">
                 {['0.1', '0.2', '0.5', '1.0'].map((value) => (
                   <button
                     key={value}
@@ -155,7 +170,6 @@ export const Swap = () => {
                   </button>
                 ))}
 
-                {/* 직접 슬리피지 입력 */}
                 <div className="relative flex-1 pr-2">
                   <input
                     type="text"
@@ -212,7 +226,6 @@ export const Swap = () => {
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-400 flex items-center">
                 <span>가격</span>
-                {/* <Info size={14} className="ml-1 text-gray-500" /> */}
               </span>
               <span>
                 1 {inputToken.symbol} ={' '}
@@ -222,9 +235,7 @@ export const Swap = () => {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-400">최소 수령량</span>
-              <span>
-                {minimumReceived} {outputToken.symbol}{' '}
-              </span>
+              <span>{minimumReceived} {outputToken.symbol} </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-400">최대 슬리피지</span>
@@ -248,8 +259,7 @@ export const Swap = () => {
             <button
               className="flex items-center text-sm text-gray-400 hover:text-gray-300"
               onClick={() => {
-                {
-                }
+                //가격 새로고침
               }}
             >
               <RefreshCw size={14} className="mr-1" />

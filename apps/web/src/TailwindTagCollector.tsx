@@ -7,9 +7,9 @@ export const TailwindTagCollector = () => {
       <div className="relative flex items-center justify-between w-full gap-16" />
       <div className="w-auto z-50 max-h-11 pr-1" />
       <div className="flex items-center gap-2" />
-      <div className="text-sm mr-6 gap-5 hidden md:flex" />
+      <div className="text-sm mr-6 gap-5 hidden md:flex flex gap-2 mt-2 md:mt-0" />
       <div className="w-16 w-6 h-6 rounded-full" />
-      <div className="relative pb-[100%] py-0.5" />
+      <div className="relative pb-[100%] py-0.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium" />
       <div className="flex items-center justify-start gap-1 mt-1 text-xs text-gray-900"></div>
       <div className="relative flex items-center gap-2" />
       <div className="z-10 text-xl font-semibold" />
@@ -117,10 +117,9 @@ export const TailwindTagCollector = () => {
       <div className="w-full mt-4 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 transition-colors" />
       <div className="w-full mt-4 py-4 rounded-xl font-bold text-lg bg-gray-700 text-gray-500 cursor-not-allowed p-2 text-sm text-gray-400" />
 
-
       {/* pool status */}
-      <div className=" bg-gray-700 rounded-lg p-3 grid grid-cols-2 gap-4 flex justify-between items-center mb-4 w-full max-w-4xl mx-auto bg-gray-900 rounded-2xl shadow-xl p-6 text-white"/>
-      <div className="text-lg font-medium mb-4 flex items-center flex flex-col md:flex-row justify-between items-start md:items-center mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 bg-gray-800 rounded-xl p-5"/>
+      <div className=" bg-gray-700 rounded-lg p-3 grid grid-cols-2 gap-4 flex justify-between items-center mb-4 w-full max-w-4xl mx-auto bg-gray-900 rounded-2xl shadow-xl p-6 text-white" />
+      <div className="text-lg font-medium mb-4 flex items-center flex flex-col md:flex-row justify-between items-start md:items-center mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 bg-gray-800 rounded-xl p-5" />
     </div>
   );
 };

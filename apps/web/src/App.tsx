@@ -7,36 +7,38 @@ import SBTItempage from './pages/SBTItempage';
 import SBTMintpage from './pages/SBTMintpage';
 import SwapPage from './pages/SwapPage';
 import PoolStatuspage from './pages/PoolStatuspage';
+import Mainpage from './pages/Mainpage';
+import  SBTListpage from './pages/SBTListpage';
+import HandleLiquiditypage from './pages/HandleLiquiditypage';
 
 function App() {
   return (
     <main>
       <Header />
       <TailwindTagCollector />
+      
       <Container>
         <Routes>
+          <Route path="/" element={<Mainpage/>}/>
+          <Route path="/sbts" element={<SBTListpage/>}/>
           <Route
             path="/user"
             element={
-              <div>
                 <SBTbyPlayerpage />
-              </div>
             }
           />
           <Route
             path="/sbt/:sbt"
             element={
-              <div>
                 <SBTItempage />
-              </div>
             }
           />
-          <Route path="/about" element={<div>About 페이지</div>} />
           <Route path="/sbtmint" element={<SBTMintpage />} />
-          
           <Route path="/swap" element={<SwapPage />} />
-          <Route path="/pool" element={<PoolStatuspage/>}/>        
-         
+          <Route path="/pool" element={<PoolStatuspage />} />
+          <Route path ="/handleLiquidity" element={<HandleLiquiditypage/>}/>
+
+          
         </Routes>
       </Container>
     </main>

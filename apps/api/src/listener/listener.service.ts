@@ -58,11 +58,11 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
           }
 
           const player = await this.prisma.player.findFirst({
-            where: { user: { address: to } },
+            where: { user: { address: to.toLowerCase() } },
           });
 
           if (!player) {
-            console.log(`Event: Player not found for address: ${to}`);
+            console.log(`Event: Player not found for address: ${to.toLowerCase()}`);
             return;
           }
 
