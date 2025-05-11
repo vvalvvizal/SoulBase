@@ -1,8 +1,8 @@
-import { ArrowUpRight,  Droplets, Repeat} from 'lucide-react';
+import { ArrowUpRight, Droplets, Repeat } from 'lucide-react';
 import { useTokenBalance } from '@soulBase/util/src/hooks/useTokenBalance';
 import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
 import { formatEther } from 'ethers';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const PoolStatus = () => {
   const {
@@ -11,14 +11,17 @@ export const PoolStatus = () => {
     POLAmount: polAmount,
   } = usePoolStatus();
 
-
   //x*y=k
   //1bbt = pol/bbt
-  const bbtPrice = polAmount/bbtAmount;
-  const polPrice = bbtAmount/polAmount;
+  const bbtPrice = polAmount / bbtAmount;
+  const polPrice = bbtAmount / polAmount;
 
   console.log(
-    TotalLiquidity, bbtAmount.toLocaleString(), polAmount.toLocaleString(), bbtPrice, polPrice
+    TotalLiquidity,
+    bbtAmount.toLocaleString(),
+    polAmount.toLocaleString(),
+    bbtPrice,
+    polPrice,
   );
 
   //2.001401956472791e+22 -> 20,014,019,564,727,910,000,000 toLocaleString()
@@ -32,17 +35,20 @@ export const PoolStatus = () => {
           <p className="text-gray-400 mt-1">유동성 풀 상태 및 통계</p>
         </div>
         <div className="flex gap-2 mt-2 md:mt-0">
-         
-         {/* 현재 flex 컨테이너 내부 기본 정렬이 raw, 이상태에서 주축(가로)을 중앙으로 */}
-        <Link
-          to="/HandleLiquidity"
-          className="flex items-center gap-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium"
-        >
-          <Droplets className="w-4 h-4 mr-1" />
-          유동성 추가 및 제거
-        </Link>
-          <Link to = "/swap"className="flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors text-sm font-medium">
-          <Repeat className="w-4 h-4 mr-1"  />스왑
+          {/* 현재 flex 컨테이너 내부 기본 정렬이 raw, 이상태에서 주축(가로)을 중앙으로 */}
+          <Link
+            to="/HandleLiquidity"
+            className="flex items-center gap-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium"
+          >
+            <Droplets className="w-4 h-4 mr-1" />
+            유동성 추가 및 제거
+          </Link>
+          <Link
+            to="/swap"
+            className="flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors text-sm font-medium"
+          >
+            <Repeat className="w-4 h-4 mr-1" />
+            스왑
           </Link>
         </div>
       </div>
@@ -55,10 +61,12 @@ export const PoolStatus = () => {
           </h3>
           <div className="flex justify-between items-center mb-4">
             <div>
-                <p className="text-3xl font-bold">${TotalLiquidity.toLocaleString()}</p>
-                <p className="text-gray-400 text-sm">총 유동성</p>
-              </div>
-              {/*
+              <p className="text-3xl font-bold">
+                ${TotalLiquidity.toLocaleString()}
+              </p>
+              <p className="text-gray-400 text-sm">총 유동성</p>
+            </div>
+            {/*
               <div className="flex items-center text-green-500">
                 <TrendingUp size={16} className="mr-1" />
                 <span className="text-sm">+2.4%</span>
@@ -138,7 +146,7 @@ export const PoolStatus = () => {
               <div className="text-right">
                 <div className="font-medium">1 BBT = {bbtPrice} POL</div>
                 <div className="text-sm text-gray-400">
-                  1 POL = {(1 / bbtPrice).toFixed(6)} BBT
+                  1 POL = {(1 / bbtPrice)} BBT
                 </div>
               </div>
             </div>

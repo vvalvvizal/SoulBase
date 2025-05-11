@@ -95,7 +95,7 @@ export const TailwindTagCollector = () => {
       <div className="bg-gray-50 rounded-xl p-3 mb-4 text-sm" />
       <div className="absolute right-0 mt-2 w-60 bg-gray-800 rounded-xl shadow-lg z-10 p-2" />
       <div className="w-full py-3 px-4 rounded-xl font-bold text-white" />
-      <div className="bg-gray-300 cursor-not-allowed bg-blue-600 hover:bg-blue-700 transition-colors" />
+      <div className="bg-gray-300 cursor-not-allowed bg-blue-600 hover:bg-blue-700 transition-colors hover:text-white-400" />
       <div className="inline-flex transition-all items-center shadow justify-center duration-300 rounded-full text-yellow-900" />
       <div className="w-full max-w-md mx-auto bg-gray-900 rounded-2xl shadow-xl p-4 text-white" />
 
@@ -106,7 +106,7 @@ export const TailwindTagCollector = () => {
 
       {/* SlippageSettings */}
       <div className="mb-4 p-3 bg-gray-800 rounded-xl" />
-      <div className="text-sm font-medium mb-2" />
+      <div className="text-sm font-medium mb-2 flex items-center text-sm text-gray-400 hover:text-white transition-colors" />
       <div className="flex gap-2" />
       <div className="px-3 py-1 rounded-lg text-sm bg-gray-700 hover:bg-gray-600" />
       <div className="px-3 py-1 rounded-lg text-sm bg-blue-600" />

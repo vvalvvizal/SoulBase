@@ -62,7 +62,9 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
           });
 
           if (!player) {
-            console.log(`Event: Player not found for address: ${to.toLowerCase()}`);
+            console.log(
+              `Event: Player not found for address: ${to.toLowerCase()}`,
+            );
             return;
           }
 

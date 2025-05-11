@@ -19,7 +19,7 @@ contract LiquidityPool is Initializable, UUPSUpgradeable, OwnableUpgradeable, ER
     uint256 public ethReserve;
     uint256 public tokenReserve;
     uint32 lastBlockTimestamp;
-    uint public constant SWAP_TAX = 1;// 1% swap tax
+    uint public constant SWAP_TAX = 1;// 0.01% swap tax
     mapping(address => uint256) liquidityProvided;
     uint256 internal constant VERSION = 5;
 

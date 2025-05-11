@@ -8,6 +8,7 @@ declare global {
 }
 
 export const useAccount = () => {
+
   const [account, setAccount] = useState('');
   const [balance, setBalance] = useState('');
   const [isConnected, setIsConnected] = useState(false);

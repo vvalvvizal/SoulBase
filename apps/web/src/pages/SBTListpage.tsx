@@ -1,8 +1,5 @@
-import { SBTItem } from "@soulBase/ui/src/components/templates/SBTItem"
+import { SBTItem } from '@soulBase/ui/src/components/templates/SBTItem';
 
-export default function SBTListpage() 
-{
-    return(
-    <SBTItem/>
-    )
+export default function SBTListpage() {
+  return <SBTItem />;
 }

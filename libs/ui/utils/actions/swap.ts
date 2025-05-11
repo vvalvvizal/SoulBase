@@ -1,15 +1,18 @@
+import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
 import { BBTActionType } from '@soulBase/util/src/types';
 import { parseUnits } from 'ethers';
-
 export async function swap({
   BBTContract,
   BBTRouterContract,
   payload: { tokenAmount, ethAmount, minAmountOut },
 }: BBTActionType<{ tokenAmount; ethAmount; minAmountOut }>): Promise<boolean> {
   try {
-    const amountIn = parseUnits(String(tokenAmount), 18);
-    const minOut = parseUnits(String(minAmountOut), 18); //반환값 BigNumber
-    const ETHvalue = ethAmount ? parseUnits(String(ethAmount), 18) : undefined;
+
+    const amountIn = parseUnits(Number(tokenAmount).toFixed(18), 18);// toFixed 사용하기 위해 명시적으로 Number로 변환
+    const minOut = parseUnits(Number(minAmountOut).toFixed(18), 18); 
+    const ETHvalue = ethAmount
+      ? parseUnits(Number(ethAmount).toFixed(18), 18)
+      : undefined;
 
     console.log(
       '토큰 amount',

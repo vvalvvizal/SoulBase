@@ -1,4 +1,3 @@
-
 export const HandleLiquidity = () => {
-    return (<div>HandleLiquidity</div>)
-}
+  return <div>HandleLiquidity</div>;
+};

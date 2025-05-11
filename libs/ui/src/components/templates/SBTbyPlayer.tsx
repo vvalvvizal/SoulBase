@@ -10,14 +10,14 @@ import { useEffect } from 'react';
 
 export const SBTbyPlayer = () => {
   const { account, initializeWeb3Provider } = useAccount();
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
     initializeWeb3Provider();
   }, [account]);
 
-  const { data: userData, error:userError} = useQuery(UserByAddressDocument, {
+  const { data: userData, error: userError } = useQuery(UserByAddressDocument, {
     variables: {
       where: {
         address: account?.toLowerCase(), //소문자로
@@ -26,12 +26,11 @@ export const SBTbyPlayer = () => {
     skip: !account,
   });
 
-
   const user = userData?.user;
   const userId = user?.id;
   const isPlayer = user?.isPlayer ?? false;
 
-  const { data: sbtData, error:sbtError } = useQuery(SbTsByPlayerDocument, {
+  const { data: sbtData, error: sbtError } = useQuery(SbTsByPlayerDocument, {
     variables: {
       where: {
         id: userId,
@@ -39,7 +38,6 @@ export const SBTbyPlayer = () => {
     },
     skip: !userId || !isPlayer, //일반 유저일경우 skip
   });
-
 
   const sbts = sbtData?.user?.Player?.sbts ?? [];
 
@@ -49,7 +47,6 @@ export const SBTbyPlayer = () => {
   }
 
   return (
-
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-center mb-2">SBT 컬렉션 앨범</h1>

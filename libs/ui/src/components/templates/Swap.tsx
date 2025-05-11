@@ -17,6 +17,7 @@ import Badge from '../atmos/Badge';
 import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
 
 export const Swap = () => {
+  const [loading, setLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [slippage, setSlippage] = useState('0.5');
   const [inputAmount, setInputAmount] = useState('');
@@ -24,33 +25,38 @@ export const Swap = () => {
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [slippageError, setSlippageError] = useState(null);
   const { account, initializeWeb3Provider, isConnected } = useAccount();
-  const [minimumReceived, setMinimumReceived] = useState<number|String>('');
-  const { BBTRouterContract, BBTContract } = useContracts(account, isConnected);
-  const { exchangeRate } = usePoolStatus();//   x * y = k, y = k/x 처럼 pol = pol*bbt/bbt 계산 
-
+  const [minimumReceived, setMinimumReceived] = useState('');
+  const { BBTRouterContract, BBTContract, LPcontract } = useContracts(account, isConnected);
+  const { exchangeRate,swapTAX,fetchPoolStatus } = usePoolStatus(); //   x * y = k, y = k/x 처럼 pol = pol*bbt/bbt 계산
+  const [minWithTAX, setMinWithTAX] = useState('');
   useEffect(() => {
     initializeWeb3Provider();
   }, [account]);
 
-  useEffect(()=>{
-    const calMinimumReceive = (outputAmount) => {
-      const outputAmountFloat = parseFloat(outputAmount);
-      const minReceive = outputAmountFloat - (outputAmountFloat * (parseFloat(slippage) / 100));
-      setMinimumReceived(minReceive);
-    }
-    calMinimumReceive(outputAmount);
-  },[slippage, outputAmount])
+  useEffect(() => {
+    const calMinimumReceive = async(outputAmount) => {
+      if(!LPcontract)return;
+      const outputAmountFloat = parseFloat(outputAmount); // 문자열을 float형으로 변환
   
+      const slippageAdjusted =  outputAmountFloat * (1-parseFloat(slippage)/100);
+      setMinimumReceived(slippageAdjusted.toFixed(18));
+  
+    };
+    calMinimumReceive(outputAmount);
+  }, [slippage, outputAmount]);
+
+
+
   const handleInputChange = (value: string) => {
     setInputAmount(value);
 
     if (value && !isNaN(Number(value))) {
-      const output = isReversed //isReversed true일때 output은 pol 
-        ? (parseFloat(value) * exchangeRate).toFixed(6)
-        : (parseFloat(value) / exchangeRate).toFixed(6);
+      const output = isReversed //isReversed true일때 output은 pol
+        ? (parseFloat(value) * exchangeRate).toFixed(18)
+        : (parseFloat(value) / exchangeRate).toFixed(18);//toFixed(6) 필요한가
+        
 
       setOutputAmount(output);
-
     } else {
       setOutputAmount('');
       setMinimumReceived('');
@@ -60,11 +66,11 @@ export const Swap = () => {
   const handleOutputChange = (value: string) => {
     setOutputAmount(value);
     if (value && !isNaN(Number(value))) {
-      //isReversed가 true면 bbt -> pol이라는거 
+      //isReversed가 true면 bbt -> pol이라는거
 
       const input = isReversed //isReversed true일 때 input은 bbt
-        ? (parseFloat(value) / exchangeRate).toFixed(6)
-        : (parseFloat(value) * exchangeRate).toFixed(6);
+        ? (parseFloat(value) / exchangeRate).toFixed(18)
+        : (parseFloat(value) * exchangeRate).toFixed(18);
       setInputAmount(input);
     } else {
       setInputAmount('');
@@ -100,24 +106,43 @@ export const Swap = () => {
   };
 
   const handleSwap = async () => {
-    console.log(isReversed, inputToken, outputToken);
-    const success = await swap({
-      BBTRouterContract,
-      BBTContract,
-      payload: {
-        tokenAmount: inputAmount,
-        ethAmount: ETHvalue,
-        minAmountOut: minimumReceived,
-      },
-    });
+    //console.log("handleSwap", isReversed, inputToken, outputToken);
+    setLoading(true);
+    //SWAP_TAX 컨트랙트 public 변수 가져옴
+    const swapFeeBN = await LPcontract.SWAP_TAX(); //BigNumber
+    const swapFee = Number(swapFeeBN); //number
 
-    if (success) {
-      setInputAmount('');
-      setOutputAmount('');
+    const feeAdjusted = parseFloat(minimumReceived) * (100 - swapFee) / 100;
+
+    // 수수료와 슬리피지 반영된 최소 수령량
+    setMinWithTAX(feeAdjusted.toFixed(18));//String
+
+    console.log("minimumReceived", minimumReceived,"minWithTAX", minWithTAX);
+    
+    try {
+      const success = await swap({
+        BBTRouterContract,
+        BBTContract,
+        payload: {
+          tokenAmount: inputAmount,
+          ethAmount: ETHvalue,
+          minAmountOut: minWithTAX,
+        },
+      });
+  
+      console.log('Swap success:', success);
+  
+      if (success) {
+        setInputAmount('');
+        setOutputAmount('');
+      }
+    } catch (error) {
+      console.error('Swap failed with error:', error);
+    } finally {
+      setLoading(false); 
     }
-    console.log('Swap success:', success);
   };
-
+  
   const handleMaxClick = () => {
     handleInputChange(inputBalance);
   };
@@ -144,6 +169,7 @@ export const Swap = () => {
               intent="primary"
               size="small"
               className="p-2 rounded-lg hover:bg-gray-800 transition-colors"
+  
             >
               <IconSettings />
             </Button>
@@ -235,16 +261,28 @@ export const Swap = () => {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-400">최소 수령량</span>
-              <span>{minimumReceived} {outputToken.symbol} </span>
+              <span>
+                {minimumReceived} {outputToken.symbol}{' '}
+              </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-400">최대 슬리피지</span>
               <span>{slippage}%</span>
             </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-400">네트워크 비용</span>
+              <span>%</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-400">수수료</span>
+              <span>{swapTAX}%</span>
+            </div>
           </div>
 
-          <button
+          <Button
             onClick={handleSwap}
+            loading={loading}     intent="primary"
+              size="medium"
             disabled={!inputAmount || Number.parseFloat(inputAmount) === 0}
             className={`w-full mt-4 py-4 rounded-xl font-bold text-lg ${
               !inputAmount || Number.parseFloat(inputAmount) === 0
@@ -253,14 +291,12 @@ export const Swap = () => {
             }`}
           >
             {!inputAmount ? '금액을 입력하세요' : '스왑'}
-          </button>
+          </Button>
 
           <div className="mt-4 flex justify-center">
             <button
-              className="flex items-center text-sm text-gray-400 hover:text-gray-300"
-              onClick={() => {
-                //가격 새로고침
-              }}
+              className="flex items-center text-sm text-gray-400 hover:text-white transition-colors"
+              onClick={fetchPoolStatus}
             >
               <RefreshCw size={14} className="mr-1" />
               가격 새로고침

@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { BaseComponent } from '@soulBase/util/src/types';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 import { checkOwner } from '@soulBase/util/src/checkOwner';
+import { Contract } from 'ethers';
 
 export const UserInfo = ({ className }: BaseComponent) => {
   const { account, balance, isConnected, initializeWeb3Provider } =
     useAccount();
-  const { LPcontract } = useContracts(account, isConnected);
+    
+  const { LPcontract }= useContracts(account, isConnected);
   const [isOwner, setIsOwner] = useState<boolean>(false);
 
   useEffect(() => {
@@ -17,6 +19,7 @@ export const UserInfo = ({ className }: BaseComponent) => {
   useEffect(() => {
     const fetchOwner = async () => {
       if (LPcontract && account) {
+        //@ts-ignore
         const ownerStatus = await checkOwner(LPcontract, account);
         setIsOwner(ownerStatus);
       }
