@@ -26,26 +26,26 @@ export const Swap = () => {
   const [slippageError, setSlippageError] = useState(null);
   const { account, initializeWeb3Provider, isConnected } = useAccount();
   const [minimumReceived, setMinimumReceived] = useState('');
-  const { BBTRouterContract, BBTContract, LPcontract } = useContracts(account, isConnected);
-  const { exchangeRate,swapTAX,fetchPoolStatus } = usePoolStatus(); //   x * y = k, y = k/x 처럼 pol = pol*bbt/bbt 계산
-  const [minWithTAX, setMinWithTAX] = useState('');
+  const { BBTRouterContract, BBTContract, LPcontract } = useContracts(
+    account,
+    isConnected,
+  );
+  const { exchangeRate, swapTAX, fetchPoolStatus } = usePoolStatus(); //   x * y = k, y = k/x 처럼 pol = pol*bbt/bbt 계산
   useEffect(() => {
     initializeWeb3Provider();
   }, [account]);
 
   useEffect(() => {
-    const calMinimumReceive = async(outputAmount) => {
-      if(!LPcontract)return;
+    const calMinimumReceive = async (outputAmount) => {
+      if (!LPcontract) return;
       const outputAmountFloat = parseFloat(outputAmount); // 문자열을 float형으로 변환
-  
-      const slippageAdjusted =  outputAmountFloat * (1-parseFloat(slippage)/100);
+
+      const slippageAdjusted =
+        outputAmountFloat * (1 - parseFloat(slippage) / 100);
       setMinimumReceived(slippageAdjusted.toFixed(18));
-  
     };
     calMinimumReceive(outputAmount);
   }, [slippage, outputAmount]);
-
-
 
   const handleInputChange = (value: string) => {
     setInputAmount(value);
@@ -53,8 +53,7 @@ export const Swap = () => {
     if (value && !isNaN(Number(value))) {
       const output = isReversed //isReversed true일때 output은 pol
         ? (parseFloat(value) * exchangeRate).toFixed(18)
-        : (parseFloat(value) / exchangeRate).toFixed(18);//toFixed(6) 필요한가
-        
+        : (parseFloat(value) / exchangeRate).toFixed(18); //toFixed(6) 필요한가
 
       setOutputAmount(output);
     } else {
@@ -112,13 +111,13 @@ export const Swap = () => {
     const swapFeeBN = await LPcontract.SWAP_TAX(); //BigNumber
     const swapFee = Number(swapFeeBN); //number
 
-    const feeAdjusted = parseFloat(minimumReceived) * (100 - swapFee) / 100;
+    const feeAdjusted = (parseFloat(minimumReceived) * (100 - swapFee)) / 100;
 
     // 수수료와 슬리피지 반영된 최소 수령량
-    setMinWithTAX(feeAdjusted.toFixed(18));//String
+    const minWithTAX = feeAdjusted.toFixed(18); //String
 
-    console.log("minimumReceived", minimumReceived,"minWithTAX", minWithTAX);
-    
+    console.log('minimumReceived', minimumReceived, 'minWithTAX', minWithTAX);
+
     try {
       const success = await swap({
         BBTRouterContract,
@@ -129,9 +128,9 @@ export const Swap = () => {
           minAmountOut: minWithTAX,
         },
       });
-  
+
       console.log('Swap success:', success);
-  
+
       if (success) {
         setInputAmount('');
         setOutputAmount('');
@@ -139,10 +138,10 @@ export const Swap = () => {
     } catch (error) {
       console.error('Swap failed with error:', error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
-  
+
   const handleMaxClick = () => {
     handleInputChange(inputBalance);
   };
@@ -169,7 +168,6 @@ export const Swap = () => {
               intent="primary"
               size="small"
               className="p-2 rounded-lg hover:bg-gray-800 transition-colors"
-  
             >
               <IconSettings />
             </Button>
@@ -281,8 +279,9 @@ export const Swap = () => {
 
           <Button
             onClick={handleSwap}
-            loading={loading}     intent="primary"
-              size="medium"
+            loading={loading}
+            intent="primary"
+            size="medium"
             disabled={!inputAmount || Number.parseFloat(inputAmount) === 0}
             className={`w-full mt-4 py-4 rounded-xl font-bold text-lg ${
               !inputAmount || Number.parseFloat(inputAmount) === 0

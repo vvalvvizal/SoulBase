@@ -22,17 +22,16 @@ export const usePoolStatus = () => {
           const bbt = await LPcontract.tokenReserve();
           const pol = await LPcontract.ethReserve();
           const tax = await LPcontract.SWAP_TAX();
-          
+
           const bbtNum = Number(formatEther(bbt));
           const polNum = Number(formatEther(pol));
           const taxNum = Number(tax);
 
           setBBTAmount(bbtNum);
           setPOLAmount(polNum);
-          setExchangeRate(polNum / bbtNum);
+          setExchangeRate(polNum / bbtNum); //1 BBT당 몇 POL인지
           setTotalLiquidity(polNum);
           setSwapTAX(taxNum);
-
         } catch (err) {
           console.error('Error initializing pool status:', err);
         }
@@ -43,7 +42,6 @@ export const usePoolStatus = () => {
   }, [account, LPcontract]);
 
   const fetchPoolStatus = async () => {
- 
     try {
       if (LPcontract) {
         const bbt = await LPcontract.tokenReserve();
@@ -68,6 +66,6 @@ export const usePoolStatus = () => {
     BBTAmount,
     POLAmount,
     exchangeRate,
-    swapTAX
+    swapTAX,
   };
 };

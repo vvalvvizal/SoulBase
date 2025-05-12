@@ -7,9 +7,8 @@ export async function swap({
   payload: { tokenAmount, ethAmount, minAmountOut },
 }: BBTActionType<{ tokenAmount; ethAmount; minAmountOut }>): Promise<boolean> {
   try {
-
-    const amountIn = parseUnits(Number(tokenAmount).toFixed(18), 18);// toFixed 사용하기 위해 명시적으로 Number로 변환
-    const minOut = parseUnits(Number(minAmountOut).toFixed(18), 18); 
+    const amountIn = parseUnits(Number(tokenAmount).toFixed(18), 18); // toFixed 사용하기 위해 명시적으로 Number로 변환
+    const minOut = parseUnits(Number(minAmountOut).toFixed(18), 18);
     const ETHvalue = ethAmount
       ? parseUnits(Number(ethAmount).toFixed(18), 18)
       : undefined;

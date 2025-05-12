@@ -1,27 +1,48 @@
 import { ArrowUpRight, Droplets, Repeat } from 'lucide-react';
-import { useTokenBalance } from '@soulBase/util/src/hooks/useTokenBalance';
 import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
-import { formatEther } from 'ethers';
+import { usePOLPrice } from '@soulBase/util/src/hooks/useCoingecko';
 import { Link } from 'react-router-dom';
+import { PoolCompositionChart } from '../organisms/Composition';
+import { useContracts } from '@soulBase/util/src/hooks/useContracts';
+import { useQuery, gql } from '@apollo/client';
+import { graphClient } from '@soulBase/network/src/config/graphClient';
+import { POL_TOKEN_INFO, BBT_TOKEN_INFO } from '../organisms/TokenInput';
 
 export const PoolStatus = () => {
   const {
     TotalLiquidity,
     BBTAmount: bbtAmount,
     POLAmount: polAmount,
+    exchangeRate,
   } = usePoolStatus();
+
+  const { price } = usePOLPrice();
+  // //the graph subgraph에 쿼리
+  const GET_24H_VOLUME = gql`
+    query Get24hVolume($since: BigInt!) {
+      tradedTokens(where: { blockTimestamp_gt: $since }) {
+        id
+        _ethTraded
+        tokenTraded
+      }
+    }
+  `;
+  const timestamp24hAgo = Math.floor(Date.now() / 1000) - 86400;
+  //현재 시간 기준 24시간 전의 타임스탬프
+  const { data, loading, error } = useQuery(GET_24H_VOLUME, {
+    client: graphClient, // <-- 요게 핵심
+    variables: { since: timestamp24hAgo },
+  });
+  console.log(data, error);
 
   //x*y=k
   //1bbt = pol/bbt
-  const bbtPrice = polAmount / bbtAmount;
-  const polPrice = bbtAmount / polAmount;
 
   console.log(
     TotalLiquidity,
     bbtAmount.toLocaleString(),
     polAmount.toLocaleString(),
-    bbtPrice,
-    polPrice,
+    exchangeRate,
   );
 
   //2.001401956472791e+22 -> 20,014,019,564,727,910,000,000 toLocaleString()
@@ -61,9 +82,8 @@ export const PoolStatus = () => {
           </h3>
           <div className="flex justify-between items-center mb-4">
             <div>
-              <p className="text-3xl font-bold">
-                ${TotalLiquidity.toLocaleString()}
-              </p>
+              <p className="text-1xl font-bold">{TotalLiquidity} POL</p>
+              <p className="text-3xl font-bold">${price}</p>
               <p className="text-gray-400 text-sm">총 유동성</p>
             </div>
             {/*
@@ -74,29 +94,44 @@ export const PoolStatus = () => {
           </div>
 
           <div className="mb-6">
-            {/* <PoolCompositionChart bbtAmount={bbtAmount} polAmount={polAmount} /> */}
+            <PoolCompositionChart bbtAmount={bbtAmount} polAmount={polAmount} />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-gray-700 rounded-lg p-3">
-              <div className="flex items-center mb-1">
-                <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
-                <span className="text-sm">BBT</span>
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-sm">BBT </span>
+                <img src={BBT_TOKEN_INFO.icon} className="h-10 w-10 rounded" />
               </div>
               <p className="text-lg font-medium">
                 {bbtAmount?.toLocaleString()}
               </p>
+              <p className="text-xs text-gray-400 flex">
+                <a
+                  href={`https://amoy.polygonscan.com/address/${BBT_TOKEN_INFO.address}`}
+                >
+                  {' '}
+                  View Contract
+                </a>
+              </p>
             </div>
+
             <div className="bg-gray-700 rounded-lg p-3">
-              <div className="flex items-center mb-1">
-                <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
-                <span className="text-sm">POL</span>
+              <div className="flex items-center mb-1 justify-between ">
+                <span className="text-sm">POL </span>
+                <img src={POL_TOKEN_INFO.icon} className="h-10 w-10 rounded" />
               </div>
+
               <p className="text-lg font-medium">
                 {polAmount?.toLocaleString()}
               </p>
-              <p className="text-xs text-gray-400">
-                ${(polAmount * polPrice)?.toLocaleString()}
+              <p className="text-xs text-gray-400 flex">
+                <a
+                  href={`https://amoy.polygonscan.com/address/${POL_TOKEN_INFO.address}`}
+                >
+                  {' '}
+                  View Contract
+                </a>
               </p>
             </div>
           </div>
@@ -144,9 +179,9 @@ export const PoolStatus = () => {
                 <span>현재 교환 비율</span>
               </div>
               <div className="text-right">
-                <div className="font-medium">1 BBT = {bbtPrice} POL</div>
+                <div className="font-medium">1 BBT = {exchangeRate} POL</div>
                 <div className="text-sm text-gray-400">
-                  1 POL = {(1 / bbtPrice)} BBT
+                  1 POL = {1 / exchangeRate} BBT
                 </div>
               </div>
             </div>

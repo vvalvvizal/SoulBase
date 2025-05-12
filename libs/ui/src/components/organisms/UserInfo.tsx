@@ -8,8 +8,8 @@ import { Contract } from 'ethers';
 export const UserInfo = ({ className }: BaseComponent) => {
   const { account, balance, isConnected, initializeWeb3Provider } =
     useAccount();
-    
-  const { LPcontract }= useContracts(account, isConnected);
+
+  const { LPcontract } = useContracts(account, isConnected);
   const [isOwner, setIsOwner] = useState<boolean>(false);
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import {
   IconBook,
   IconCoin,
   IconExchange,
+  IconCylinderPlus,
 } from '@tabler/icons-react';
 import { Container } from '../../components/atmos/Container';
 import { useLocation, Link } from 'react-router-dom';
@@ -41,6 +42,7 @@ export const Header = () => {
       ? [{ label: 'SBT Mint', href: `/sbtmint`, Icon: IconCoin }]
       : []),
     { label: 'Swap', href: `/swap`, Icon: IconExchange },
+    { label: 'Pool', href: `/pool`, Icon: IconCylinderPlus },
   ];
 
   return (
