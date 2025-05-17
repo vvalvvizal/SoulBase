@@ -9,12 +9,12 @@ import {
 } from '../organisms/TokenInput';
 import { ArrowDown, RefreshCw } from 'lucide-react';
 import { FormError } from '../atmos/FormError';
-import { useTokenBalance } from '@soulBase/util/src/hooks/useTokenBalance';
 import { swap } from '../../../utils/actions/swap';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import Badge from '../atmos/Badge';
 import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
+import { useTokenBalance } from '@soulBase/util/src/hooks/useTokenBalance';
 
 export const Swap = () => {
   const [loading, setLoading] = useState(false);
@@ -24,13 +24,14 @@ export const Swap = () => {
   const [outputAmount, setOutputAmount] = useState('');
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [slippageError, setSlippageError] = useState(null);
-  const { account, initializeWeb3Provider, isConnected } = useAccount();
+  const { account, initializeWeb3Provider, isConnected, balance:POLbalance} = useAccount();
   const [minimumReceived, setMinimumReceived] = useState('');
   const { BBTRouterContract, BBTContract, LPcontract } = useContracts(
     account,
     isConnected,
   );
   const { exchangeRate, swapTAX, fetchPoolStatus } = usePoolStatus(); //   x * y = k, y = k/x 처럼 pol = pol*bbt/bbt 계산
+  const BBTbalance = useTokenBalance(BBT_TOKEN_INFO.address);
   useEffect(() => {
     initializeWeb3Provider();
   }, [account]);
@@ -83,9 +84,6 @@ export const Swap = () => {
     setOutputAmount('');
     setMinimumReceived('');
   };
-
-  const BBTbalance = useTokenBalance(BBT_TOKEN_INFO.address);
-  const POLbalance = useTokenBalance(POL_TOKEN_INFO.address);
 
   const inputToken = isReversed ? BBT_TOKEN_INFO : POL_TOKEN_INFO;
   const outputToken = isReversed ? POL_TOKEN_INFO : BBT_TOKEN_INFO;

@@ -3,51 +3,39 @@ import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
 import { usePOLPrice } from '@soulBase/util/src/hooks/useCoingecko';
 import { Link } from 'react-router-dom';
 import { PoolCompositionChart } from '../organisms/Composition';
-import { useContracts } from '@soulBase/util/src/hooks/useContracts';
-import { useQuery, gql } from '@apollo/client';
-import { graphClient } from '@soulBase/network/src/config/graphClient';
+import {useUserPoolStatus} from'@soulBase/util/src/hooks/useUserPoolStatus';
 import { POL_TOKEN_INFO, BBT_TOKEN_INFO } from '../organisms/TokenInput';
+import { useEffect, useState } from 'react';
+import Button from '../atmos/Button';
+import LiquidityModal from '../organisms/LPModal';
+import { usePoolEvent} from '@soulBase/util/src/hooks/usePoolEvent';
+import { useAccount } from '@soulBase/util/src/hooks/useAccount';
+import {useTokenBalance} from '@soulBase/util/src/hooks/useTokenBalance';
 
 export const PoolStatus = () => {
+   const [showModal, setShowModal] = useState(false)
+   const {balance, initializeWeb3Provider } = useAccount();
+   const tokenBalance = useTokenBalance(BBT_TOKEN_INFO.address);
   const {
     TotalLiquidity,
     BBTAmount: bbtAmount,
     POLAmount: polAmount,
-    exchangeRate,
+    exchangeRate
   } = usePoolStatus();
-
+  const {userLPAmount,userLiquidityShare} = useUserPoolStatus();
   const { price } = usePOLPrice();
-  // //the graph subgraph에 쿼리
-  const GET_24H_VOLUME = gql`
-    query Get24hVolume($since: BigInt!) {
-      tradedTokens(where: { blockTimestamp_gt: $since }) {
-        id
-        _ethTraded
-        tokenTraded
-      }
-    }
-  `;
-  const timestamp24hAgo = Math.floor(Date.now() / 1000) - 86400;
-  //현재 시간 기준 24시간 전의 타임스탬프
-  const { data, loading, error } = useQuery(GET_24H_VOLUME, {
-    client: graphClient, // <-- 요게 핵심
-    variables: { since: timestamp24hAgo },
-  });
-  console.log(data, error);
 
-  //x*y=k
-  //1bbt = pol/bbt
-
-  console.log(
-    TotalLiquidity,
-    bbtAmount.toLocaleString(),
-    polAmount.toLocaleString(),
-    exchangeRate,
-  );
 
   //2.001401956472791e+22 -> 20,014,019,564,727,910,000,000 toLocaleString()
   //₩20,014,019,564,727,910,000,000
+  const {recent_events, liquidity_add_events} = usePoolEvent();
+  console.log(recent_events, liquidity_add_events);
 
+  useEffect(()=>{
+    initializeWeb3Provider();
+  },)
+
+  
   return (
     <div className="w-full max-w-4xl mx-auto bg-gray-900 rounded-2xl shadow-xl p-6 text-white">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
@@ -57,13 +45,10 @@ export const PoolStatus = () => {
         </div>
         <div className="flex gap-2 mt-2 md:mt-0">
           {/* 현재 flex 컨테이너 내부 기본 정렬이 raw, 이상태에서 주축(가로)을 중앙으로 */}
-          <Link
-            to="/HandleLiquidity"
-            className="flex items-center gap-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium"
-          >
-            <Droplets className="w-4 h-4 mr-1" />
-            유동성 추가 및 제거
-          </Link>
+            <Button size="medium"className="mt-4 md:mt-0" onClick={() => setShowModal(true)}>
+            <Droplets className="w-4 h-4 mr-1" onClick={() => setShowModal(true)} />         
+              유동성 추가/제거   
+          </Button>
           <Link
             to="/swap"
             className="flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors text-sm font-medium"
@@ -110,7 +95,6 @@ export const PoolStatus = () => {
                 <a
                   href={`https://amoy.polygonscan.com/address/${BBT_TOKEN_INFO.address}`}
                 >
-                  {' '}
                   View Contract
                 </a>
               </p>
@@ -129,7 +113,6 @@ export const PoolStatus = () => {
                 <a
                   href={`https://amoy.polygonscan.com/address/${POL_TOKEN_INFO.address}`}
                 >
-                  {' '}
                   View Contract
                 </a>
               </p>
@@ -189,7 +172,7 @@ export const PoolStatus = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div className="bg-gray-800 rounded-xl p-5 md:col-span-2">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-medium">가격 히스토리</h3>
@@ -214,32 +197,20 @@ export const PoolStatus = () => {
         <div className="bg-gray-800 rounded-xl p-5">
           <h3 className="text-lg font-medium mb-4">내 유동성</h3>
 
-          {/* {myLiquidity > 0 ? (
+           {userLPAmount > 0 ? (
               <>
                 <div className="mb-4">
-                  <p className="text-2xl font-bold">${myLiquidity.toLocaleString()}</p>
-                  <p className="text-gray-400 text-sm">총 유동성 제공량</p>
+                  <p className="text-2xl font-bold">{userLPAmount.toLocaleString()}</p>
+                  <p className="text-gray-400 text-sm">LP 보유량</p>
                 </div>
   
                 <div className="mb-4">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-sm text-gray-400">풀 점유율</span>
-                    <span className="text-sm">{myShare}%</span>
+                    <span className="text-sm text-gray-400">풀 점유율 (유저 보유 LP 수량 / 총 LP 발행량)</span>
+                    <span className="text-sm">{userLiquidityShare.toLocaleString()}%</span>
+                    
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${myShare}%` }}></div>
-                  </div>
-                </div>
-  
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">예상 일일 수익</span>
-                    <span className="font-medium">${(fees24h * (myShare / 100)).toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">예상 월간 수익</span>
-                    <span className="font-medium">${(fees24h * 30 * (myShare / 100)).toFixed(2)}</span>
-                  </div>
+     
                 </div>
   
                 <button className="w-full mt-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium">
@@ -249,11 +220,13 @@ export const PoolStatus = () => {
             ) : (
               <div className="flex flex-col items-center justify-center h-48 text-center">
                 <p className="text-gray-400 mb-4">아직 이 풀에 유동성을 제공하지 않았습니다.</p>
-                <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium">
+ 
+                <button  onClick={() => setShowModal(true)} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium">
                   유동성 추가하기
                 </button>
+       
               </div>
-            )} */}
+            )} 
         </div>
       </div>
 
@@ -331,6 +304,14 @@ export const PoolStatus = () => {
           </button>
         </div>
       </div>
+        {showModal && (
+        <LiquidityModal
+          onClose={() => setShowModal(false)}
+          userBbtBalance={tokenBalance} //string
+          userPolBalance={balance}
+          userLpTokens={userLPAmount}
+        />
+      )}
     </div>
   );
 };

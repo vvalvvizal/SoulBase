@@ -27,3 +27,14 @@ export type BBTActionType<T = string> = {
   BBTRouterContract: BaseballTokenRouter;
   payload: T;
 };
+
+type LPTransactionType = 'SWAP' | 'ADD_LIQUIDITY' | 'REMOVE_LIQUIDITY';
+
+export interface LPTransaction {
+  type: LPTransactionType;
+  amount: string;
+  amountUsd: string;
+  account: string;
+  timestamp: number;
+  txHash: string;
+}

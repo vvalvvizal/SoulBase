@@ -15,6 +15,7 @@ import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useEffect, useState } from 'react';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 import { checkOwner } from '@soulBase/util/src/checkOwner';
+import { Contract } from 'ethers';
 
 export const Header = () => {
   const { initializeWeb3Provider, isConnected, account } = useAccount();

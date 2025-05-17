@@ -1,7 +1,6 @@
 import { Header } from '@soulBase/ui/src/components/organisms/Header';
 import { Container } from '@soulBase/ui/src/components/atmos/Container';
 import { Route, Routes } from 'react-router-dom';
-import { TailwindTagCollector } from './TailwindTagCollector';
 import SBTbyPlayerpage from './pages/SBTbyPlayerpage';
 import SBTItempage from './pages/SBTItempage';
 import SBTMintpage from './pages/SBTMintpage';
@@ -15,10 +14,10 @@ function App() {
   return (
     <main>
       <Header />
-      <TailwindTagCollector />
-
+    
       <Container>
         <Routes>
+          
           <Route path="/" element={<Mainpage />} />
           <Route path="/sbts" element={<SBTListpage />} />
           <Route path="/user" element={<SBTbyPlayerpage />} />
