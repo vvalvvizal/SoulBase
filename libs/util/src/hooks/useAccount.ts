@@ -35,6 +35,7 @@ export const useAccount = () => {
               rpcUrls: [
                 `https://polygon-amoy.infura.io/v3/${import.meta.env.VITE_INFURA_KEY}`,
               ],
+              // rpcUrls:[`https://wild-dimensional-snow.matic-amoy.quiknode.pro/${import.meta.env.VITE_QUICKNODE_KEY}/`],
               blockExplorerUrls: ['https://amoy.polygonscan.com/'],
             },
           ],

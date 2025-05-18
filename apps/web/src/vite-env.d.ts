@@ -2,6 +2,7 @@
 interface ImportMetaEnv {
   readonly VITE_PUBLIC_API_URL: string;
   readonly VITE_INFURA_KEY: string;
+  readonly VITE_QUICKNODE_KEY:string;
 }
 
 interface ImportMeta {

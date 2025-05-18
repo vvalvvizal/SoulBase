@@ -3,6 +3,7 @@ import { Icon as IconType } from '@tabler/icons-react';
 import {
   BaseballToken,
   BaseballTokenRouter,
+  LiquidityPool,
   SBTRouter,
 } from '../../../standalone/soulBase-contract/typechain-types';
 
@@ -23,10 +24,15 @@ export type SBTActionType<T = string> = {
 };
 
 export type BBTActionType<T = string> = {
-  BBTContract: BaseballToken;
-  BBTRouterContract: BaseballTokenRouter;
+  BBTContract?: BaseballToken;
+  BBTRouterContract?: BaseballTokenRouter;//라우터
   payload: T;
 };
+
+export type LPActionType<T=string>={ //풀에 직접 접근
+  contract : LiquidityPool;
+  payload: T;
+}
 
 type LPTransactionType = 'SWAP' | 'ADD_LIQUIDITY' | 'REMOVE_LIQUIDITY';
 

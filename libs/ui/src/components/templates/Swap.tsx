@@ -7,7 +7,7 @@ import {
   POL_TOKEN_INFO,
   TokenInput,
 } from '../organisms/TokenInput';
-import { ArrowDown, RefreshCw } from 'lucide-react';
+import { ArrowDown, RefreshCw, Wallet } from 'lucide-react';
 import { FormError } from '../atmos/FormError';
 import { swap } from '../../../utils/actions/swap';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
@@ -24,7 +24,12 @@ export const Swap = () => {
   const [outputAmount, setOutputAmount] = useState('');
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [slippageError, setSlippageError] = useState(null);
-  const { account, initializeWeb3Provider, isConnected, balance:POLbalance} = useAccount();
+  const {
+    account,
+    initializeWeb3Provider,
+    isConnected,
+    balance: POLbalance,
+  } = useAccount();
   const [minimumReceived, setMinimumReceived] = useState('');
   const { BBTRouterContract, BBTContract, LPcontract } = useContracts(
     account,
@@ -146,13 +151,22 @@ export const Swap = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
+      <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold text-center mb-2">SWAP</h1>
         <p className="text-gray-600 text-center mb-6">
           BBT와 POL을 DEX에서 Swap하세요 <br />
         </p>
+         {!isConnected && (
+          <div className="mt-4 flex justify-center">
+            <Button onClick={initializeWeb3Provider} className="flex items-center gap-2">
+              <Wallet className="h-4 w-4" />
+              지갑 연결
+            </Button>
+          </div>
+        )}
       </div>
       <div className="flex justify-center">
+           
         <div className="w-full max-w-md mx-auto bg-gray-900 rounded-2xl shadow-xl p-4 text-white">
           <div className="flex justify-between items-center mb-4">
             <Link to="/pool" aria-label="liquidityPool" className="w-auto z-50">

@@ -9,6 +9,7 @@ const config: HardhatUserConfig = {
   networks: {
     polygonAmoy: {
       url: `https://polygon-amoy.infura.io/v3/${process.env.INFURA_KEY}`,
+      //url : `https://wild-dimensional-snow.matic-amoy.quiknode.pro/${process.env.QUICKNODE_KEY}/`,
       accounts: [process.env.PRIVATE_KEY || ''],
     },
   },

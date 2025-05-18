@@ -13,7 +13,6 @@ export const usePoolStatus = () => {
   const [swapTAX, setSwapTAX] = useState<number>(0);
   const [totalLPSupply, setTotalLPSupply] = useState<number>(0);
 
-
   useEffect(() => {
     const init = async () => {
       //초기화 함수
@@ -36,7 +35,6 @@ export const usePoolStatus = () => {
           setTotalLiquidity(polNum);
           setSwapTAX(taxNum);
           setTotalLPSupply(totalLPNum); //지분 증명 토큰 LP
-         
         } catch (err) {
           console.error('Error initializing pool status:', err);
         }
@@ -46,7 +44,8 @@ export const usePoolStatus = () => {
     init();
   }, [account, LPcontract]);
 
-  const fetchPoolStatus = async () => { //유저가 직접 최신 상태 새로고침
+  const fetchPoolStatus = async () => {
+    //유저가 직접 최신 상태 새로고침
     try {
       if (LPcontract) {
         const bbt = await LPcontract.tokenReserve();

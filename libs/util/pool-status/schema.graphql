@@ -37,6 +37,8 @@ type LiquidityAdded @entity(immutable: true) {
   id: Bytes!
   _account: Bytes! # address
   _liquidity: BigInt! # uint256
+  _ethAmount: BigInt!
+  _tokenAmount: BigInt! 
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
@@ -46,6 +48,8 @@ type LiquidityRemoved @entity(immutable: true) {
   id: Bytes!
   _account: Bytes! # address
   _liquidity: BigInt! # uint256
+  _ethAmount: BigInt!
+  _tokenAmount: BigInt! 
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!

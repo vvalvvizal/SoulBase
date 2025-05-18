@@ -28,9 +28,9 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
 
   async initializeWebSocketProvider() {
     //  Initialize web socket provider
-    const infuraWssUrl = `wss://polygon-amoy.infura.io/ws/v3/${process.env.INFURA_KEY}`;
-    this.provider = new ethers.WebSocketProvider(infuraWssUrl);
-
+    const RPCproviderUrl = `wss://polygon-amoy.infura.io/ws/v3/${process.env.INFURA_KEY}`;
+     //const RPCproviderUrl = `wss://wild-dimensional-snow.matic-amoy.quiknode.pro/${process.env.QUICKNODE_KEY}`
+    this.provider = new ethers.WebSocketProvider(RPCproviderUrl);
     this.contract = AchievementSBT__factory.connect(
       SBTcontractAddress,
       this.provider,

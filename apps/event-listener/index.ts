@@ -6,11 +6,12 @@ import { LiquidityPool__factory } from '../../standalone/soulBase-contract/typec
 import 'dotenv/config';
 
 const main = async () => {
-  const infuraWssUrl = `wss://polygon-amoy.infura.io/ws/v3/${process.env.INFURA_KEY}`;
-  console.log(`Connecting to WebSocket: ${infuraWssUrl}`);
+  const RPCproviderUrl = `wss://polygon-amoy.infura.io/ws/v3/${process.env.INFURA_KEY}`;
+  //const RPCproviderUrl = `wss://wild-dimensional-snow.matic-amoy.quiknode.pro/${process.env.QUICKNODE_KEY}/`
+  console.log(`Connecting to WebSocket: ${RPCproviderUrl}`);
 
-  const provider = new ethers.WebSocketProvider(infuraWssUrl);
-
+  const provider = new ethers.WebSocketProvider(RPCproviderUrl);
+  //const provider = new ethers.WebSocketProvider(RPCproviderUrl);
   //BBT Minted Event
   try {
     await provider.ready;

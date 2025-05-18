@@ -2,7 +2,7 @@ import { MenuItem } from '@soulBase/util/src/types';
 import {
   IconHome,
   IconBook,
-  IconCoin,
+  IconLock,
   IconExchange,
   IconCylinderPlus,
 } from '@tabler/icons-react';
@@ -40,7 +40,7 @@ export const Header = () => {
     { label: 'Home', href: '/', Icon: IconHome },
     { label: 'My Collection', href: `/user`, Icon: IconBook },
     ...(isOwner
-      ? [{ label: 'SBT Mint', href: `/sbtmint`, Icon: IconCoin }]
+      ? [{ label: 'Admin', href: `/sbtmint`, Icon: IconLock }]
       : []),
     { label: 'Swap', href: `/swap`, Icon: IconExchange },
     { label: 'Pool', href: `/pool`, Icon: IconCylinderPlus },

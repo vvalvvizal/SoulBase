@@ -3,39 +3,39 @@ import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
 import { usePOLPrice } from '@soulBase/util/src/hooks/useCoingecko';
 import { Link } from 'react-router-dom';
 import { PoolCompositionChart } from '../organisms/Composition';
-import {useUserPoolStatus} from'@soulBase/util/src/hooks/useUserPoolStatus';
+import { useUserPoolStatus } from '@soulBase/util/src/hooks/useUserPoolStatus';
 import { POL_TOKEN_INFO, BBT_TOKEN_INFO } from '../organisms/TokenInput';
 import { useEffect, useState } from 'react';
 import Button from '../atmos/Button';
-import LiquidityModal from '../organisms/LPModal';
-import { usePoolEvent} from '@soulBase/util/src/hooks/usePoolEvent';
+import LiquidityModal from './LPModal';
+import { usePoolEvent } from '@soulBase/util/src/hooks/usePoolEvent';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
-import {useTokenBalance} from '@soulBase/util/src/hooks/useTokenBalance';
+import { useTokenBalance } from '@soulBase/util/src/hooks/useTokenBalance';
+import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 
 export const PoolStatus = () => {
-   const [showModal, setShowModal] = useState(false)
-   const {balance, initializeWeb3Provider } = useAccount();
-   const tokenBalance = useTokenBalance(BBT_TOKEN_INFO.address);
+  const [showModal, setShowModal] = useState(false);
+  const {account, isConnected, balance, initializeWeb3Provider } = useAccount();
+  const {BBTRouterContract, BBTContract} = useContracts(account, isConnected);
+  const tokenBalance = useTokenBalance(BBT_TOKEN_INFO.address);
   const {
     TotalLiquidity,
     BBTAmount: bbtAmount,
     POLAmount: polAmount,
-    exchangeRate
+    exchangeRate,
   } = usePoolStatus();
-  const {userLPAmount,userLiquidityShare} = useUserPoolStatus();
+  const { userLPAmount, userLiquidityShare } = useUserPoolStatus();
   const { price } = usePOLPrice();
-
 
   //2.001401956472791e+22 -> 20,014,019,564,727,910,000,000 toLocaleString()
   //₩20,014,019,564,727,910,000,000
-  const {recent_events, liquidity_add_events} = usePoolEvent();
+  const { recent_events, liquidity_add_events } = usePoolEvent();
   console.log(recent_events, liquidity_add_events);
 
-  useEffect(()=>{
+  useEffect(() => {
     initializeWeb3Provider();
-  },)
+  });
 
-  
   return (
     <div className="w-full max-w-4xl mx-auto bg-gray-900 rounded-2xl shadow-xl p-6 text-white">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
@@ -45,9 +45,16 @@ export const PoolStatus = () => {
         </div>
         <div className="flex gap-2 mt-2 md:mt-0">
           {/* 현재 flex 컨테이너 내부 기본 정렬이 raw, 이상태에서 주축(가로)을 중앙으로 */}
-            <Button size="medium"className="mt-4 md:mt-0" onClick={() => setShowModal(true)}>
-            <Droplets className="w-4 h-4 mr-1" onClick={() => setShowModal(true)} />         
-              유동성 추가/제거   
+          <Button
+            size="medium"
+            className="mt-4 md:mt-0"
+            onClick={() => setShowModal(true)}
+          >
+            <Droplets
+              className="w-4 h-4 mr-1"
+              onClick={() => setShowModal(true)}
+            />
+            유동성 추가/제거
           </Button>
           <Link
             to="/swap"
@@ -197,36 +204,44 @@ export const PoolStatus = () => {
         <div className="bg-gray-800 rounded-xl p-5">
           <h3 className="text-lg font-medium mb-4">내 유동성</h3>
 
-           {userLPAmount > 0 ? (
-              <>
-                <div className="mb-4">
-                  <p className="text-2xl font-bold">{userLPAmount.toLocaleString()}</p>
-                  <p className="text-gray-400 text-sm">LP 보유량</p>
-                </div>
-  
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-sm text-gray-400">풀 점유율 (유저 보유 LP 수량 / 총 LP 발행량)</span>
-                    <span className="text-sm">{userLiquidityShare.toLocaleString()}%</span>
-                    
-                  </div>
-     
-                </div>
-  
-                <button className="w-full mt-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium">
-                  유동성 관리
-                </button>
-              </>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-48 text-center">
-                <p className="text-gray-400 mb-4">아직 이 풀에 유동성을 제공하지 않았습니다.</p>
- 
-                <button  onClick={() => setShowModal(true)} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium">
-                  유동성 추가하기
-                </button>
-       
+          {userLPAmount > 0 ? (
+            <>
+              <div className="mb-4">
+                <p className="text-2xl font-bold">
+                  {userLPAmount.toLocaleString()}
+                </p>
+                <p className="text-gray-400 text-sm">LP 보유량</p>
               </div>
-            )} 
+
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-sm text-gray-400">
+                    풀 점유율 (유저 보유 LP 수량 / 총 LP 발행량)
+                  </span>
+                  <span className="text-sm">
+                    {userLiquidityShare.toLocaleString()}%
+                  </span>
+                </div>
+              </div>
+
+              <button className="w-full mt-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium">
+                유동성 관리
+              </button>
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-48 text-center">
+              <p className="text-gray-400 mb-4">
+                아직 이 풀에 유동성을 제공하지 않았습니다.
+              </p>
+
+              <button
+                onClick={() => setShowModal(true)}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm font-medium"
+              >
+                유동성 추가하기
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -304,12 +319,14 @@ export const PoolStatus = () => {
           </button>
         </div>
       </div>
-        {showModal && (
+      {showModal && (
         <LiquidityModal
           onClose={() => setShowModal(false)}
           userBbtBalance={tokenBalance} //string
           userPolBalance={balance}
           userLpTokens={userLPAmount}
+          BBTRouterContract={BBTRouterContract}
+          BBTContract={BBTContract}
         />
       )}
     </div>

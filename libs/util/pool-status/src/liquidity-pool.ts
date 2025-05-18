@@ -84,6 +84,8 @@ export function handleLiquidityAdded(event: LiquidityAddedEvent): void {
   );
   entity._account = event.params._account;
   entity._liquidity = event.params._liquidity;
+  entity._ethAmount = event.params._ethAmount;
+  entity._tokenAmount = event.params._tokenAmount;
 
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
@@ -98,6 +100,9 @@ export function handleLiquidityRemoved(event: LiquidityRemovedEvent): void {
   );
   entity._account = event.params._account;
   entity._liquidity = event.params._liquidity;
+  entity._ethAmount = event.params._ethAmount;
+  entity._tokenAmount = event.params._tokenAmount;
+
 
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
