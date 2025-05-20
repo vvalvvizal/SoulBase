@@ -1,6 +1,5 @@
 import { IconExclamationCircle } from '@tabler/icons-react';
 import { cva } from 'class-variance-authority';
-import { ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
 
 export interface IFormErrorProps {

@@ -35,7 +35,7 @@ export default function Mainpage() {
     {
       id: 1,
       tokenId: 1,
-      image_url: null,
+      image_url: '',
       name: 'test',
       description: 'test sbt',
     },

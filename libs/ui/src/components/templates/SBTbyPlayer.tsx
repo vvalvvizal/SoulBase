@@ -3,7 +3,7 @@ import {
   UserByAddressDocument,
   SbTsByPlayerDocument,
 } from '@soulBase/network/src/gql/generated';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../organisms/Card';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useEffect } from 'react';
@@ -17,7 +17,7 @@ export const SBTbyPlayer = () => {
     initializeWeb3Provider();
   }, [account]);
 
-  const { data: userData, error: userError } = useQuery(UserByAddressDocument, {
+  const { data: userData } = useQuery(UserByAddressDocument, {
     variables: {
       where: {
         address: account?.toLowerCase(), //소문자로
@@ -30,7 +30,7 @@ export const SBTbyPlayer = () => {
   const userId = user?.id;
   const isPlayer = user?.isPlayer ?? false;
 
-  const { data: sbtData, error: sbtError } = useQuery(SbTsByPlayerDocument, {
+  const { data: sbtData } = useQuery(SbTsByPlayerDocument, {
     variables: {
       where: {
         id: userId,

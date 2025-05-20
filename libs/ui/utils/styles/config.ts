@@ -1,4 +1,4 @@
-import colors = require('tailwindcss/colors');
+import colors from 'tailwindcss/colors';
 
 const yellowPallete = {
   DEFAULT: 'hsl(52,100%,50%)',

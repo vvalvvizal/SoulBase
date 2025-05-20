@@ -1,6 +1,7 @@
-import { BaseContract } from 'ethers';
-
-export const checkOwner = async (contract: BaseContract, account: string) => {
+export const checkOwner = async (
+  contract: { owner: () => Promise<string> },
+  account: string,
+) => {
   if (contract && account) {
     const owner = await contract.owner();
     return owner.toLowerCase() === account.toLowerCase();

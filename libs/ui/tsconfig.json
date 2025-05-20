@@ -1,7 +1,4 @@
+// apps/web/tsconfig.json
 {
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "esModuleInterop": true,
-    "baseUrl": "."
-  }
+  "extends": "../../apps/web/tsconfig.json"
 }

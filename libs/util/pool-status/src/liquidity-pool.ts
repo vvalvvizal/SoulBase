@@ -103,7 +103,6 @@ export function handleLiquidityRemoved(event: LiquidityRemovedEvent): void {
   entity._ethAmount = event.params._ethAmount;
   entity._tokenAmount = event.params._tokenAmount;
 
-
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;

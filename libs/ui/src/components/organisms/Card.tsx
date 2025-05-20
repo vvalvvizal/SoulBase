@@ -1,6 +1,11 @@
-import { Trophy, Medal, Award, Star } from 'lucide-react';
+import { Trophy, Medal, Star } from 'lucide-react';
+import { Sbt } from '@soulBase/network/src/gql/generated';
 
-export const Card = ({ sbt, onClick }) => {
+interface ICardProps {
+  sbt: Pick<Sbt, 'id' | 'tokenId' | 'name' | 'description' | 'image_url'>;
+  onClick: (arg0: number) => void;
+}
+export const Card = ({ sbt, onClick }: ICardProps) => {
   return (
     <div
       className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"

@@ -4,7 +4,6 @@ import {
   type ChartConfiguration,
   type ChartTypeRegistry,
 } from 'chart.js/auto';
-import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
 interface PoolCompositionChartProps {
   bbtAmount: number;
   polAmount: number;
@@ -14,7 +13,6 @@ export function PoolCompositionChart({
   bbtAmount,
   polAmount,
 }: PoolCompositionChartProps) {
-  const { exchangeRate } = usePoolStatus();
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<Chart | null>(null);
 
@@ -79,6 +77,7 @@ export function PoolCompositionChart({
             },
           },
           tooltip: {
+            //마우스 올렸을 때 텍스트
             callbacks: {
               label: (context) => {
                 const label = context.label || '';
@@ -88,7 +87,6 @@ export function PoolCompositionChart({
             },
           },
         },
-        cutout: '70%', //도넛 만느는 비율. 중간 빈 부분
       },
     };
 

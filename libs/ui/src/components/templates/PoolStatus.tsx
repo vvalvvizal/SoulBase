@@ -1,4 +1,4 @@
-import { ArrowUpRight, Droplets, Repeat } from 'lucide-react';
+import { ArrowUpRight, Clock, Droplets, Info, Repeat } from 'lucide-react';
 import { usePoolStatus } from '@soulBase/util/src/hooks/usePoolStatus';
 import { usePOLPrice } from '@soulBase/util/src/hooks/useCoingecko';
 import { Link } from 'react-router-dom';
@@ -12,29 +12,31 @@ import { usePoolEvent } from '@soulBase/util/src/hooks/usePoolEvent';
 import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useTokenBalance } from '@soulBase/util/src/hooks/useTokenBalance';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
+import { shortenAddress } from '@soulBase/util/src/shortenAddress';
 
 export const PoolStatus = () => {
   const [showModal, setShowModal] = useState(false);
-  const {account, isConnected, balance, initializeWeb3Provider } = useAccount();
-  const {BBTRouterContract, BBTContract} = useContracts(account, isConnected);
-  const tokenBalance = useTokenBalance(BBT_TOKEN_INFO.address);
+  const { account, isConnected, balance, initializeWeb3Provider } =
+    useAccount(); //balance string
+  const { BBTRouterContract, BBTContract } = useContracts(account, isConnected);
+  const tokenBalance = useTokenBalance(BBT_TOKEN_INFO.address); //string
   const {
     TotalLiquidity,
     BBTAmount: bbtAmount,
     POLAmount: polAmount,
     exchangeRate,
   } = usePoolStatus();
-  const { userLPAmount, userLiquidityShare } = useUserPoolStatus();
+  const { userProvided, LPTransaction } = usePoolEvent(account);
+  const { userLPAmount, userLiquidityShare, polYieldPercent } =
+    useUserPoolStatus(userProvided);
   const { price } = usePOLPrice();
 
   //2.001401956472791e+22 -> 20,014,019,564,727,910,000,000 toLocaleString()
   //₩20,014,019,564,727,910,000,000
-  const { recent_events, liquidity_add_events } = usePoolEvent();
-  console.log(recent_events, liquidity_add_events);
 
   useEffect(() => {
     initializeWeb3Provider();
-  });
+  }, []);
 
   return (
     <div className="w-full max-w-4xl mx-auto bg-gray-900 rounded-2xl shadow-xl p-6 text-white">
@@ -50,10 +52,7 @@ export const PoolStatus = () => {
             className="mt-4 md:mt-0"
             onClick={() => setShowModal(true)}
           >
-            <Droplets
-              className="w-4 h-4 mr-1"
-              onClick={() => setShowModal(true)}
-            />
+            <Droplets className="w-4 h-4 mr-1" />
             유동성 추가/제거
           </Button>
           <Link
@@ -70,7 +69,7 @@ export const PoolStatus = () => {
         <div className="bg-gray-800 rounded-xl p-5">
           <h3 className="text-lg font-medium mb-4 flex items-center">
             풀 구성
-            {/* <Info size={16} className="ml-2 text-gray-500" /> */}
+            <Info size={16} className="ml-2 text-gray-500" />
           </h3>
           <div className="flex justify-between items-center mb-4">
             <div>
@@ -141,23 +140,17 @@ export const PoolStatus = () => {
 
             <div className="flex justify-between items-center pb-2 border-b border-gray-700">
               <div className="flex items-center">
-                {/* <DollarSign size={16} className="mr-2 text-gray-400" /> */}
-                <span>24시간 수수료</span>
-              </div>
-              {/* <span className="font-medium">${fees24h.toLocaleString()}</span> */}
-            </div>
-
-            <div className="flex justify-between items-center pb-2 border-b border-gray-700">
-              <div className="flex items-center">
                 {/* <Percent size={16} className="mr-2 text-gray-400" /> */}
-                <span>연간 수익률 (APR)</span>
+                <span>수익률</span>
               </div>
-              {/* <span className="font-medium text-green-500">{apr}%</span> */}
+              <span className="font-medium text-green-500">
+                {polYieldPercent.toFixed(2)}%
+              </span>
             </div>
 
             <div className="flex justify-between items-center pb-2 border-b border-gray-700">
               <div className="flex items-center">
-                {/* <Clock size={16} className="mr-2 text-gray-400" /> */}
+                <Clock size={16} className="mr-2 text-gray-400" />
                 <span>24시간 트랜잭션</span>
               </div>
               {/* <span className="font-medium">{transactions24h}</span> */}
@@ -254,61 +247,55 @@ export const PoolStatus = () => {
               <tr className="text-left text-gray-400 text-sm">
                 <th className="pb-2">유형</th>
                 <th className="pb-2">금액</th>
-                <th className="pb-2">금액 (USD)</th>
                 <th className="pb-2">계정</th>
                 <th className="pb-2">시간</th>
                 <th className="pb-2"></th>
               </tr>
             </thead>
-            <tbody className="text-sm">
-              <tr className="border-t border-gray-700">
-                <td className="py-3 text-green-500">스왑</td>
-                <td className="py-3">234.5 BBT → 8.1 POL</td>
-                <td className="py-3">$9.87</td>
-                <td className="py-3">0x1a2b...3c4d</td>
-                <td className="py-3">3분 전</td>
-                <td className="py-3">
-                  <a href="#" className="text-blue-500 hover:text-blue-400">
-                    <ArrowUpRight size={16} />
-                  </a>
-                </td>
-              </tr>
-              <tr className="border-t border-gray-700">
-                <td className="py-3 text-blue-500">유동성 추가</td>
-                <td className="py-3">1,000 BBT + 34.5 POL</td>
-                <td className="py-3">$76.54</td>
-                <td className="py-3">0x5e6f...7g8h</td>
-                <td className="py-3">12분 전</td>
-                <td className="py-3">
-                  <a href="#" className="text-blue-500 hover:text-blue-400">
-                    <ArrowUpRight size={16} />
-                  </a>
-                </td>
-              </tr>
-              <tr className="border-t border-gray-700">
-                <td className="py-3 text-red-500">유동성 제거</td>
-                <td className="py-3">500 BBT + 17.2 POL</td>
-                <td className="py-3">$38.27</td>
-                <td className="py-3">0x9i0j...1k2l</td>
-                <td className="py-3">27분 전</td>
-                <td className="py-3">
-                  <a href="#" className="text-blue-500 hover:text-blue-400">
-                    <ArrowUpRight size={16} />
-                  </a>
-                </td>
-              </tr>
-              <tr className="border-t border-gray-700">
-                <td className="py-3 text-green-500">스왑</td>
-                <td className="py-3">12.3 POL → 356.7 BBT</td>
-                <td className="py-3">$15.13</td>
-                <td className="py-3">0x3m4n...5o6p</td>
-                <td className="py-3">42분 전</td>
-                <td className="py-3">
-                  <a href="#" className="text-blue-500 hover:text-blue-400">
-                    <ArrowUpRight size={16} />
-                  </a>
-                </td>
-              </tr>
+            <tbody className="text-sm text-white ">
+              {LPTransaction.map((tx, idx) => {
+                const isAdd = tx.type === 'ADD_LIQUIDITY';
+                const isRemove = tx.type === 'REMOVE_LIQUIDITY';
+                //const isSwap = tx.type === 'SWAP';
+
+                const typeLabel = isAdd
+                  ? '유동성 추가'
+                  : isRemove
+                    ? '유동성 제거'
+                    : '스왑';
+
+                const typeColor = isAdd
+                  ? 'text-blue-500'
+                  : isRemove
+                    ? 'text-red-500'
+                    : 'text-green-500';
+
+                const amountDisplay = `${tx.tokenAmount} BBT + ${tx.ethAmount} POL`;
+
+                return (
+                  <tr key={idx} className="border-t border-gray-700 ">
+                    <td className={`py-3 text-center ${typeColor}`}>
+                      {typeLabel}
+                    </td>
+                    <td className="py-3 text-center">{amountDisplay}</td>
+
+                    <td className="py-3 text-center">
+                      {shortenAddress(tx.account)}
+                    </td>
+                    <td className="py-3 text-center">{tx.timestamp}</td>
+                    <td className="py-3">
+                      <a
+                        href={`https://polygonscan.com/tx/${tx.txHash.slice(0, 66)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:text-blue-400"
+                      >
+                        <ArrowUpRight size={16} />
+                      </a>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -319,7 +306,7 @@ export const PoolStatus = () => {
           </button>
         </div>
       </div>
-      {showModal && (
+      {showModal && BBTRouterContract && BBTContract && (
         <LiquidityModal
           onClose={() => setShowModal(false)}
           userBbtBalance={tokenBalance} //string

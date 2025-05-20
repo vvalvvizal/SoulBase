@@ -14,8 +14,8 @@ function App() {
   return (
     <main>
       <Header />
-      
-    <TailwindTagCollector/>
+
+      <TailwindTagCollector />
       <Container>
         <Routes>
           <Route path="/" element={<Mainpage />} />

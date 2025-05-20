@@ -1,5 +1,4 @@
 import { MenuItem } from '@soulBase/util/src/types';
-import { useState } from 'react';
 import { useDialogState } from '@soulBase/util/src/hooks/dialog';
 import { Sidebar } from './Sidebar';
 import { UserInfo } from './UserInfo';

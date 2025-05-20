@@ -6,11 +6,13 @@ import { Trophy, Medal, Award, Star } from 'lucide-react';
 export const SBTItem = () => {
   const { sbt } = useParams();
   const { data } = useQuery(SbtDocument, {
-    variables: {
-      where: {
-        id: sbt ? parseInt(sbt) : undefined,
-      },
-    },
+    variables: sbt
+      ? {
+          where: {
+            id: parseInt(sbt),
+          },
+        }
+      : undefined,
     skip: !sbt,
   });
 

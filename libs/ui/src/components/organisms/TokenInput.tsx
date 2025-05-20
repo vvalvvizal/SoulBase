@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import path from 'path';
 
 interface TokenInfo {
   name: string;

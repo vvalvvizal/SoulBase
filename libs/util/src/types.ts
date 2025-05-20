@@ -25,22 +25,30 @@ export type SBTActionType<T = string> = {
 
 export type BBTActionType<T = string> = {
   BBTContract?: BaseballToken;
-  BBTRouterContract?: BaseballTokenRouter;//라우터
+  BBTRouterContract?: BaseballTokenRouter; //라우터
   payload: T;
 };
 
-export type LPActionType<T=string>={ //풀에 직접 접근
-  contract : LiquidityPool;
+export type LPActionType<T = string> = {
+  //풀에 직접 접근
+  contract: LiquidityPool;
   payload: T;
-}
+};
 
 type LPTransactionType = 'SWAP' | 'ADD_LIQUIDITY' | 'REMOVE_LIQUIDITY';
 
 export interface LPTransaction {
   type: LPTransactionType;
-  amount: string;
-  amountUsd: string;
+  tokenAmount: string;
+  ethAmount: string;
   account: string;
   timestamp: number;
   txHash: string;
 }
+
+export type UserProvided = {
+  polSum: string;
+  bbtSum: string;
+  rawPolSum: bigint;
+  rawBbtSum: bigint;
+};

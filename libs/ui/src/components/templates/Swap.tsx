@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import Button from '../atmos/Button';
-import { IconServer, IconSettings } from '@tabler/icons-react';
+import { IconSettings } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import {
   BBT_TOKEN_INFO,
   POL_TOKEN_INFO,
   TokenInput,
 } from '../organisms/TokenInput';
-import { ArrowDown, RefreshCw, Wallet } from 'lucide-react';
+import { ArrowDown, RefreshCw } from 'lucide-react';
 import { FormError } from '../atmos/FormError';
 import { swap } from '../../../utils/actions/swap';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
@@ -21,9 +21,9 @@ export const Swap = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [slippage, setSlippage] = useState('0.5');
   const [inputAmount, setInputAmount] = useState('');
-  const [outputAmount, setOutputAmount] = useState('');
+  const [outputAmount, setOutputAmount] = useState<string>('');
   const [isReversed, setIsReversed] = useState<boolean>(false);
-  const [slippageError, setSlippageError] = useState(null);
+  const [slippageError, setSlippageError] = useState<string>('');
   const {
     account,
     initializeWeb3Provider,
@@ -42,7 +42,7 @@ export const Swap = () => {
   }, [account]);
 
   useEffect(() => {
-    const calMinimumReceive = async (outputAmount) => {
+    const calMinimumReceive = async (outputAmount: string) => {
       if (!LPcontract) return;
       const outputAmountFloat = parseFloat(outputAmount); // 문자열을 float형으로 변환
 
@@ -103,7 +103,7 @@ export const Swap = () => {
       return false;
     }
     setSlippage(value);
-    setSlippageError(null);
+    setSlippageError('');
     return true;
   };
 
@@ -111,6 +111,7 @@ export const Swap = () => {
     //console.log("handleSwap", isReversed, inputToken, outputToken);
     setLoading(true);
     //SWAP_TAX 컨트랙트 public 변수 가져옴
+    if (!LPcontract || !BBTRouterContract || !BBTContract) return false;
     const swapFeeBN = await LPcontract.SWAP_TAX(); //BigNumber
     const swapFee = Number(swapFeeBN); //number
 
@@ -156,17 +157,8 @@ export const Swap = () => {
         <p className="text-gray-600 text-center mb-6">
           BBT와 POL을 DEX에서 Swap하세요 <br />
         </p>
-         {!isConnected && (
-          <div className="mt-4 flex justify-center">
-            <Button onClick={initializeWeb3Provider} className="flex items-center gap-2">
-              <Wallet className="h-4 w-4" />
-              지갑 연결
-            </Button>
-          </div>
-        )}
       </div>
       <div className="flex justify-center">
-           
         <div className="w-full max-w-md mx-auto bg-gray-900 rounded-2xl shadow-xl p-4 text-white">
           <div className="flex justify-between items-center mb-4">
             <Link to="/pool" aria-label="liquidityPool" className="w-auto z-50">

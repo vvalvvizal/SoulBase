@@ -7,7 +7,7 @@ import {
   IconCylinderPlus,
 } from '@tabler/icons-react';
 import { Container } from '../../components/atmos/Container';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Logo } from './Logo';
 import { Menus } from './Menu';
 import { NavSidebar } from './NavSidebar';
@@ -15,7 +15,6 @@ import { useAccount } from '@soulBase/util/src/hooks/useAccount';
 import { useEffect, useState } from 'react';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 import { checkOwner } from '@soulBase/util/src/checkOwner';
-import { Contract } from 'ethers';
 
 export const Header = () => {
   const { initializeWeb3Provider, isConnected, account } = useAccount();
@@ -39,9 +38,7 @@ export const Header = () => {
   const MENUITEMS: MenuItem[] = [
     { label: 'Home', href: '/', Icon: IconHome },
     { label: 'My Collection', href: `/user`, Icon: IconBook },
-    ...(isOwner
-      ? [{ label: 'Admin', href: `/sbtmint`, Icon: IconLock }]
-      : []),
+    ...(isOwner ? [{ label: 'Admin', href: `/sbtmint`, Icon: IconLock }] : []),
     { label: 'Swap', href: `/swap`, Icon: IconExchange },
     { label: 'Pool', href: `/pool`, Icon: IconCylinderPlus },
   ];

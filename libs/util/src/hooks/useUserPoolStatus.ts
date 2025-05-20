@@ -2,14 +2,15 @@ import { useEffect, useState, useMemo } from 'react';
 import { useAccount } from './useAccount';
 import { useContracts } from './useContracts';
 import { usePoolStatus } from './usePoolStatus';
-import { usePoolEvent } from './usePoolEvent';
 import { formatEther } from 'ethers';
+import { UserProvided } from '../types';
 
-export const useUserPoolStatus = () => {
+export const useUserPoolStatus = (userProvided: UserProvided) => {
   const [userLPAmount, setUserLPAmount] = useState<number>(0);
   const [userLiquidityShare, setUserLiquidityShare] = useState<number>(0);
 
-  const { userPOLprovided, userBBTprovided } = usePoolEvent();
+  const { rawBbtSum: userBBTprovided, rawPolSum: userPOLprovided } =
+    userProvided;
   const { account, isConnected, initializeWeb3Provider } = useAccount();
   const { LPcontract } = useContracts(account, isConnected);
   const { totalLPSupply, POLAmount, BBTAmount, fetchPoolStatus } =
@@ -39,40 +40,57 @@ export const useUserPoolStatus = () => {
   }, [account, LPcontract, totalLPSupply]);
 
   // 파생값은 useMemo로 관리
+  const formattedUserBBTProvided = useMemo(
+    () => Number(formatEther(userBBTprovided)),
+    [userBBTprovided],
+  );
 
+  const formattedUserPOLProvided = useMemo(
+    () => Number(formatEther(userPOLprovided)),
+    [userPOLprovided],
+  );
+
+  //user가 실제 인출 가능한 POL
   const userWithdrawablePOL = useMemo(() => {
     if (!totalLPSupply) return 0;
     return (POLAmount * userLPAmount) / totalLPSupply; //user가 실제 인출 가능한 POL, 풀의 pol 수량에서 내 지분만큼
   }, [POLAmount, userLPAmount, totalLPSupply]);
 
-  //user가 실제 인출 가능한 BBT
   const userWithdrawableToken = useMemo(() => {
     if (!totalLPSupply) return 0;
     return (BBTAmount * userLPAmount) / totalLPSupply;
   }, [BBTAmount, userLPAmount, totalLPSupply]);
 
+  //수익
   const polProfit = useMemo(
-    () => userWithdrawablePOL - userPOLprovided,
-    [userWithdrawablePOL, userPOLprovided],
+    () => userWithdrawablePOL - formattedUserPOLProvided,
+    [userWithdrawablePOL, formattedUserPOLProvided],
   );
+
   const bbtProfit = useMemo(
-    () => userWithdrawableToken - userBBTprovided,
-    [userWithdrawableToken, userBBTprovided],
+    () => userWithdrawableToken - formattedUserBBTProvided,
+    [userWithdrawableToken, formattedUserBBTProvided],
   );
 
   const polYieldPercent = useMemo(() => {
-    return userPOLprovided > 0 ? (polProfit / userPOLprovided) * 100 : 0;
-  }, [polProfit, userPOLprovided]);
+    return formattedUserPOLProvided > 0
+      ? (polProfit / formattedUserPOLProvided) * 100
+      : 0;
+  }, [polProfit, formattedUserPOLProvided]);
 
   const bbtYieldPercent = useMemo(() => {
-    return userBBTprovided > 0 ? (bbtProfit / userBBTprovided) * 100 : 0;
-  }, [bbtProfit, userBBTprovided]);
+    return formattedUserBBTProvided > 0
+      ? (bbtProfit / formattedUserBBTProvided) * 100
+      : 0;
+  }, [bbtProfit, formattedUserBBTProvided]);
 
   return {
     userWithdrawablePOL,
     userWithdrawableToken,
     userLPAmount,
     userLiquidityShare,
+    polProfit,
+    bbtProfit,
     polYieldPercent,
     bbtYieldPercent,
   };

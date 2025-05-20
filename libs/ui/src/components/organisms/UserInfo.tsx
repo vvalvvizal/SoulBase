@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { BaseComponent } from '@soulBase/util/src/types';
 import { useContracts } from '@soulBase/util/src/hooks/useContracts';
 import { checkOwner } from '@soulBase/util/src/checkOwner';
-import { Contract } from 'ethers';
 
 export const UserInfo = ({ className }: BaseComponent) => {
   const { account, balance, isConnected, initializeWeb3Provider } =
