@@ -52,3 +52,14 @@ export type UserProvided = {
   rawPolSum: bigint;
   rawBbtSum: bigint;
 };
+
+export type MetadataType = {
+  name: string;
+  description: string;
+  image: string;
+  player: string;
+  team: string;
+  season: string;
+  achievement: string;
+  imgsource: string;
+};

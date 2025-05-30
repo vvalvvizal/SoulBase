@@ -9,6 +9,8 @@ import { sbtMinter } from '@soulBase/ui/utils/actions/sbtMinter';
 import Button from '@soulBase/ui/src/components/atmos/Button';
 import { HtmlInput } from '@soulBase/ui/src/components/atmos/HtmlInput';
 import Badge from '@soulBase/ui/src/components/atmos/Badge';
+import { Form } from '@soulBase/ui/src/components/atmos/Form';
+import { FileUploader } from '@soulBase/ui/src/components/molecules/FileUploader';
 
 export const SBTMint = () => {
   const {
@@ -98,7 +100,7 @@ export const SBTMint = () => {
                 CID를 가져옵니다.
               </p>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <Form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
                 <Badge variant="gray">수신 주소</Badge>
                 <HtmlInput
@@ -166,7 +168,7 @@ export const SBTMint = () => {
                   </span>
                 )}
               </Button>
-            </form>
+            </Form>
           </div>
         )}
 
@@ -177,9 +179,7 @@ export const SBTMint = () => {
               <p className="text-sm text-gray-500">
                 이미지와 메타데이터를 IPFS에 업로드합니다.
               </p>
-            </div>
-            <div className="flex justify-center">
-              <Upload className="h-4 w-4 mr-2" />
+              <FileUploader />
             </div>
           </div>
         )}
